@@ -1,11 +1,11 @@
+import "./index.css"
 
 function App() {
-  
+
   return (
     <>
-      
       <h1>My Travel Palette</h1>
-     
+    
     </>
   )
 }
