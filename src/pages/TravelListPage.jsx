@@ -1,7 +1,3 @@
-import Header from "../components/Header";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import ImageSlider from "../components/ImageSlider";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../config/api";
@@ -28,15 +24,21 @@ function TravelListPage() {
 
   return (
     <div>
-      <Header />
-      <Navbar />
-      <ImageSlider />
+      
       <h1>Travels</h1>
       {travelList.map((travel) => {
-        return(<div key={travel.id}> <img src={travel.imageUrl}></img>
-        <Link to={"/my-travels/" + travel.id}>{travel.title}</Link></div>) 
+        return (
+          <div key={travel.id}>
+            <Link to={`/my-travels/${travel.id}`}>
+              <img 
+                src={travel.imageUrl} 
+              />
+            </Link>
+            <div>{travel.title}</div>
+          </div>
+        );
       })}
-      <Footer />
+      
     </div>
   );
 }
