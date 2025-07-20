@@ -4,12 +4,11 @@ import Footer from "../components/Footer";
 import ImageSlider from "../components/ImageSlider";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { BASE_URL } from "../config/api";
+import Link from "daisyui/components/link";
 
 function TravelListPage() {
   const [travelList, setTravelList] = useState([]);
-
-  const BASE_URL =
-    "https://my-travel-palette-default-rtdb.europe-west1.firebasedatabase.app/";
 
   useEffect(() => {
     axios
@@ -34,8 +33,10 @@ function TravelListPage() {
       <ImageSlider />
       <h1>Travels</h1>
       {travelList.map((travel) => {
-        return <div key={travel.id}>{travel.title} <img src={travel.imageUrl}></img></div>;
+        return <div key={travel.id}> <img src={travel.imageUrl}></img></div>;
       })}
+
+
       <Footer />
     </div>
   );
