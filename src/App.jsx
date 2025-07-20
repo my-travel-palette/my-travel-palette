@@ -1,10 +1,18 @@
 import "./index.css"
+import { Route, Routes } from "react-router-dom"; 
+import HomePage from "./pages/HomePage";
+import TravelListPage from "./pages/TravelListPage";
+import AboutMePage from "./pages/AboutMePage";
 
 function App() {
 
   return (
     <>
-      <h1>My Travel Palette</h1>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/my-travels" element={<TravelListPage />} />
+        <Route path="/about-me" element={<AboutMePage />} />
+      </Routes>
     
     </>
   )
