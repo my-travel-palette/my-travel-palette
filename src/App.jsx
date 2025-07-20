@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import BlogDetailPage from "./pages/BlogDetailPage";
 import Header from "./components/Header";
+import AddTravelPage from "./pages/AddTravelPage";
 
 
 function App() {
@@ -16,8 +17,9 @@ function App() {
     <>
 
 
-      <Navbar />
-      <Header />
+       <Header />
+       <Navbar />
+     
 
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -25,6 +27,7 @@ function App() {
         <Route path="/my-travels/:travelId" element={<BlogListPage />} />
         <Route path="/about-me" element={<AboutMePage />} />
         <Route path="/blogs/:blogId" element={<BlogDetailPage />} />
+        <Route path="/new-travel" element={<AddTravelPage />} />
       </Routes>
 
       <Footer />

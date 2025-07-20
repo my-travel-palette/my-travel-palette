@@ -23,7 +23,7 @@ function TravelListPage() {
         setTravelList(travelsArr);
       })
       .catch((error) =>
-        console.log("Error getting project details from the API...", error)
+        console.log("Error getting travel list page from the API...", error)
       );
   }, []);
 
@@ -31,9 +31,14 @@ function TravelListPage() {
     navigate(`/my-travels/${travelId}`);
   };
 
+  const handleAddNewCountry = ()=>{
+    navigate(`/new-travel`)
+  }
+
   return (
     <div>
       <h1>Travels</h1>
+      <button onClick={handleAddNewCountry}>Add New Country</button>
       {travelList.map((travel) => {
         return (
           <div key={travel.id}>
