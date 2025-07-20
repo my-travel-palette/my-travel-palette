@@ -21,7 +21,6 @@ function TravelListPage() {
           ...response.data[id],
         }));
         setTravelList(travelsArr);
-
       })
       .catch((error) =>
         console.log("Error getting project details from the API...", error)
@@ -34,8 +33,8 @@ function TravelListPage() {
       <Navbar />
       <ImageSlider />
       <h1>Travels</h1>
-      {travelList.map((travel)=>{
-        return <div key={travel.id}>{travel.title}</div>
+      {travelList.map((travel) => {
+        return <div key={travel.id}>{travel.title} <img src={travel.imageUrl}></img></div>;
       })}
       <Footer />
     </div>
