@@ -1,10 +1,15 @@
+import Header from "../components/Header";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import ImageSlider from "../components/ImageSlider";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../config/api";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function TravelListPage() {
   const [travelList, setTravelList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -22,18 +27,20 @@ function TravelListPage() {
       );
   }, []);
 
+  const handleTravelClick = (travelId) => {
+    navigate(`/my-travels/${travelId}`);
+  };
+
   return (
     <div>
-      
       <h1>Travels</h1>
       {travelList.map((travel) => {
         return (
           <div key={travel.id}>
-            <Link to={`/my-travels/${travel.id}`}>
-              <img 
-                src={travel.imageUrl} 
-              />
-            </Link>
+            <img 
+              src={travel.imageUrl} 
+              onClick={() => handleTravelClick(travel.id)}
+            />
             <div>{travel.title}</div>
           </div>
         );

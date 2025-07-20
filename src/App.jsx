@@ -6,6 +6,8 @@ import AboutMePage from "./pages/AboutMePage";
 import BlogListPage from "./pages/BlogListPage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import BlogDetailPage from "./pages/BlogDetailPage";
+import Header from "./components/Header";
 
 
 function App() {
@@ -13,14 +15,16 @@ function App() {
   return (
     <>
 
-     
+
       <Navbar />
-      
+      <Header />
+
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/my-travels/" element={<TravelListPage />} />
-        <Route path="/my-travels/:id" element={<BlogListPage />} />
+        <Route path="/my-travels/:travelId" element={<BlogListPage />} />
         <Route path="/about-me" element={<AboutMePage />} />
+        <Route path="/blogs/:blogId" element={<BlogDetailPage />} />
       </Routes>
 
       <Footer />
