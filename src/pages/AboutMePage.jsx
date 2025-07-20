@@ -1,14 +1,9 @@
-import Header from "../components/Header";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import ImageSlider from "../components/ImageSlider";
+
 
 function AboutMePage() {
   return (
     <div>
-      <Header />
-      <Navbar />
-      <ImageSlider />
+            
       <h1>About me</h1>
       <div>
         <p>About Me: </p>
@@ -17,7 +12,6 @@ function AboutMePage() {
         Corrupti ipsam quia accusamus quis consequatur. Laboriosam voluptatem
         pariatur eos eaque?
       </div>
-      <Footer />
     </div>
   );
 }
