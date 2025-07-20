@@ -30,7 +30,7 @@ function BlogDetailPage() {
     axios
       .delete(`${BASE_URL}/blogs/${blogId}.json`)
       .then(() => {
-        navigate("./blogs");
+        navigate("/blogs");
       })
       .catch((error) =>
         console.log("Error deleting blog from the API...", error)
@@ -71,7 +71,7 @@ function BlogDetailPage() {
 
       <button onClick={deleteBlog}>Delete</button>
 
-      <Link to="./blogs">
+      <Link to={`/my-travels/${blog.travelId}`}>
         <button>Back to blogs</button>
       </Link>
     </div>

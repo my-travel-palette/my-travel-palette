@@ -1,10 +1,8 @@
-import Header from "../components/Header";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../config/api";
 import { useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function BlogListPage() {
   const [blogList, setBlogList] = useState([]);
@@ -36,6 +34,17 @@ function BlogListPage() {
     navigate(`/blogs/${blogId}`);
   };
 
+  const deleteTravel = () => {
+    axios
+      .delete(`${BASE_URL}/travels/${travelId}.json`)
+      .then(() => {
+        navigate("/my-travels");
+      })
+      .catch((error) =>
+        console.log("Error deleting travels from the API...", error)
+      );
+  };
+
   return (
     <div>
       <h1>Blogs</h1>
@@ -47,6 +56,17 @@ function BlogListPage() {
           </div>
         );
       })}
+      {/* Buttons */}
+
+      <Link to={`/blog/edit/${travelId}`}>
+        <button>Edit</button>
+      </Link>
+
+      <button onClick={deleteTravel}>Delete</button>
+
+      <Link to={`/my-travels`}>
+        <button>Back to my travels</button>
+      </Link>
     </div>
   );
 }
