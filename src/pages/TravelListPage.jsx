@@ -1,7 +1,3 @@
-import Header from "../components/Header";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import ImageSlider from "../components/ImageSlider";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../config/api";
@@ -31,26 +27,33 @@ function TravelListPage() {
     navigate(`/my-travels/${travelId}`);
   };
 
-  const handleAddNewCountry = ()=>{
-    navigate(`/new-travel`)
-  }
+  const handleAddNewCountry = () => {
+    navigate(`/new-travel`);
+  };
 
   return (
     <div>
-      <h1>Travels</h1>
-      <button onClick={handleAddNewCountry}>Add New Country</button>
-      {travelList.map((travel) => {
-        return (
-          <div key={travel.id}>
-            <img 
-              src={travel.imageUrl} 
-              onClick={() => handleTravelClick(travel.id)}
-            />
-            <div>{travel.title}</div>
-          </div>
-        );
-      })}
-      
+      <h1 className="text-3xl font-bold mb-4 text-center text-teal-700 ">Visited places</h1>
+      <button onClick={handleAddNewCountry} className="btn bg-teal-700 mb-6 text-white">
+        Add New Country
+      </button>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {travelList.map((travel) => {
+          return (
+            <div key={travel.id} className="card bg-base-100 w-96 shadow-sm">
+              <figure>
+                <img
+                  src={travel.imageUrl}
+                  onClick={() => handleTravelClick(travel.id)}
+                />
+              </figure>
+              <div className="absolute bottom-0 left-1/2 p-6 bg-teal-800 bg-opacity-90 text-white text-center py-3 font-semibold text-sm transform -translate-x-1/2">
+                {travel.title}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

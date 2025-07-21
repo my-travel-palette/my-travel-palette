@@ -4,7 +4,6 @@ import HomePage from "./pages/HomePage";
 import TravelListPage from "./pages/TravelListPage";
 import AboutMePage from "./pages/AboutMePage";
 import BlogListPage from "./pages/BlogListPage";
-import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import BlogDetailPage from "./pages/BlogDetailPage";
 import Header from "./components/Header";
@@ -16,7 +15,6 @@ function App() {
   return (
     <>
       <Header />
-      <Navbar />
 
       <Routes>
         <Route path="/" element={<HomePage />} />
