@@ -28,6 +28,7 @@ function AddBlogPage() {
   const [newTravelImage, setNewTravelImage] = useState("");
   const [addingTravel, setAddingTravel] = useState(false);
   const [publishing, setPublishing] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const navigate = useNavigate();
 
@@ -210,6 +211,32 @@ function AddBlogPage() {
     .finally(() => {
       setAddingTravel(false);
     });
+  };
+
+  const handleDelete = () => {
+    if (!blogId) return;
+    
+    if (window.confirm("Are you sure you want to delete this blog?")) {
+      setDeleting(true);
+      
+      // Delete the blog using PUT /blogs.json
+      axios.get(`${BASE_URL}/blogs.json`).then((response) => {
+        const allBlogs = response.data || {};
+        delete allBlogs[blogId];
+        
+        axios.put(`${BASE_URL}/blogs.json`, allBlogs)
+          .then(() => {
+            navigate("/blogs");
+          })
+          .catch((error) => {
+            console.log("Error deleting blog:", error);
+            alert("Error deleting blog. Please try again.");
+          })
+          .finally(() => {
+            setDeleting(false);
+          });
+      });
+    }
   };
 
   return (
@@ -501,6 +528,16 @@ function AddBlogPage() {
 
               {/* Submit Button */}
               <div className="flex justify-end gap-4 pt-4">
+                {blogId && (
+                  <button
+                    type="button"
+                    onClick={handleDelete}
+                    className="btn btn-error"
+                    disabled={deleting}
+                  >
+                    {deleting ? "Deleting..." : "Delete Blog"}
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() => navigate("/blogs")}
