@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav className="flex justify-center gap-8 py-6 text-lg font-mono font-large text-neutral">
+    <nav className="flex justify-center gap-8 py-2 text-lg font-mono font-large text-neutral">
       <NavLink to="/about-me">ABOUT US</NavLink>
       <NavLink to="/my-travels">MY TRAVELS</NavLink>
     </nav>

@@ -540,7 +540,7 @@ function AddBlogPage() {
                 )}
                 <button
                   type="button"
-                  onClick={() => navigate("/blogs")}
+                  onClick={() => navigate(`/my-travels/${selectedTravel}`)}
                   className="btn btn-ghost"
                 >
                   Cancel

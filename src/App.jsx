@@ -9,12 +9,15 @@ import BlogDetailPage from "./pages/BlogDetailPage";
 import Header from "./components/Header";
 import AddTravelPage from "./pages/AddTravelPage";
 import AddBlogPage from "./pages/AddBlogPage";
+import Navbar from "./components/Navbar";
 
 function App() {
   
   return (
     <>
       <Header />
+      <Navbar />
+      <hr/>
 
       <Routes>
         <Route path="/" element={<HomePage />} />

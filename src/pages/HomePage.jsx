@@ -1,10 +1,9 @@
 import ImageSlider from "../components/ImageSlider";
-import Navbar from "../components/Navbar";
+
 
 function HomePage() {
   return (
     <div>
-      <Navbar />
       <ImageSlider />
       <div className="bg-base-200 p-6 rounded-lg shadow-md text-base-content font-sans leading-relaxed text-lg">
         <p className="mb-4">

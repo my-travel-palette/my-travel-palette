@@ -56,19 +56,24 @@ function BlogListPage() {
   };
 
   return (
-    <div>
+    <div className="p-3">
       <h1 className="text-3xl font-bold mb-4 text-center text-teal-700 ">
         {title}
       </h1>
-      <Link to={`/my-travels`} className="text-xl">
-        <i className="fa fa-chevron-left p-2" aria-hidden="true"></i>Back
-      </Link>
+      <div className="p-2">
+        <Link to={`/my-travels`} className="text-xl link">
+          <i className="fa fa-chevron-left p-2" aria-hidden="true"></i>Back
+        </Link>
+        <Link to={`/add-blog`} className="text-xl p-5 link link-accent">
+          <i className="fa fa-plus p-2" aria-hidden="true"></i>Add New Blog
+        </Link>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-1 p-5">
         {blogList.map((blog) => {
           return (
             <div key={blog.id} className="card bg-base-300 w-96 shadow-sm">
               <button
-                className="btn btn-circle btn-sm absolute top-2 right-2 text-error"
+                className="btn btn-circle btn-sm absolute top-2 right-2 text-emerald-800"
                 onClick={() => {
                   deleteBlog(blog.id);
                 }}
@@ -76,7 +81,7 @@ function BlogListPage() {
                 <i className="fa fa-trash-o" aria-hidden="true"></i>
               </button>
               <button
-                className="btn btn-circle btn-sm absolute top-12 right-2 text-error"
+                className="btn btn-circle btn-sm absolute top-12 right-2 text-emerald-800"
                 onClick={() => {
                   navigate(`/blog/edit/${blog.id}`);
                 }}
@@ -84,7 +89,7 @@ function BlogListPage() {
                 <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
               </button>
 
-              <Link to={`/my-travels`}>
+              <Link to={`/blogs/${blog.id}`}>
                 <figure className="w-full h-48 overflow-hidden">
                   <img
                     src={blog.imageUrl}
