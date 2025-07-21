@@ -8,7 +8,7 @@ function Footer() {
           className="footer-link"
         >
           <span className="text-2xl p-4">
-            <i class="fa fa-github" aria-hidden="true"></i>
+            <i className="fa fa-github" aria-hidden="true"></i>
           </span>
           View our project on Github
         </a>

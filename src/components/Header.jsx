@@ -16,7 +16,7 @@ function Header() {
       <div className="w-full bg-emerald-800 p-4 flex justify-end">
         <div className="flex-1 text-3xl text-stone-300">
           <NavLink to="/">
-            <i class="fa fa-home"></i>
+            <i className="fa fa-home"></i>
           </NavLink>
         </div>
         <div className="flex-none">

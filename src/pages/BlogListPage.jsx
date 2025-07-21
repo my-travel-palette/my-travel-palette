@@ -44,14 +44,14 @@ function BlogListPage() {
     navigate(`/blogs/${blogId}`);
   };
 
-  const deleteTravel = () => {
+  const deleteBlog = (blogId) => {
     axios
-      .delete(`${BASE_URL}/travels/${travelId}.json`)
+      .delete(`${BASE_URL}/blogs/${blogId}.json`)
       .then(() => {
-        navigate("/my-travels");
+        setBlogList(blogList.filter((e) => e.id !== blogId));
       })
       .catch((error) =>
-        console.log("Error deleting travels from the API...", error)
+        console.log("Error deleting blogs from the API...", error)
       );
   };
 
@@ -60,34 +60,46 @@ function BlogListPage() {
       <h1 className="text-3xl font-bold mb-4 text-center text-teal-700 ">
         {title}
       </h1>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-5">
+      <Link to={`/my-travels`} className="text-xl">
+        <i className="fa fa-chevron-left p-2" aria-hidden="true"></i>Back
+      </Link>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-1 p-5">
         {blogList.map((blog) => {
           return (
-            <div key={blog.id} className="card bg-base-100 w-96 shadow-sm">
-              <div className="text-black font-semibold text-sm">
-                {blog.title}{" "}
-              </div>
-              <figure className="w-full h-48 overflow-hidden">
-                <img
-                  src={blog.imageUrl}
-                  className="w-full h-full object-cover"
-                  onClick={() => handleBlogClick(blog.id)}
-                />
-              </figure>
-              <Link to={`/blog/edit/${blog.id}`}>
-                <button>Edit Blog</button>
+            <div key={blog.id} className="card bg-base-300 w-96 shadow-sm">
+              <button
+                className="btn btn-circle btn-sm absolute top-2 right-2 text-error"
+                onClick={() => {
+                  deleteBlog(blog.id);
+                }}
+              >
+                <i className="fa fa-trash-o" aria-hidden="true"></i>
+              </button>
+              <button
+                className="btn btn-circle btn-sm absolute top-12 right-2 text-error"
+                onClick={() => {
+                  navigate(`/blog/edit/${blog.id}`);
+                }}
+              >
+                <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
+              </button>
+
+              <Link to={`/my-travels`}>
+                <figure className="w-full h-48 overflow-hidden">
+                  <img
+                    src={blog.imageUrl}
+                    className="w-full h-full object-cover"
+                    onClick={() => handleBlogClick(blog.id)}
+                  />
+                </figure>
+                <div className="card-body">
+                  <h2 className="card-title">{blog.title}</h2>
+                  <p>{blog.description}</p>
+                </div>
               </Link>
             </div>
           );
         })}
-        {/* Buttons */}
-
-        <button onClick={deleteTravel}>Delete</button>
-
-        <Link to={`/my-travels`}>
-          <button>Back to my travels</button>
-        </Link>
       </div>
     </div>
   );
