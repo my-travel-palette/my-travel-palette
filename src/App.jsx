@@ -1,4 +1,4 @@
-import "./index.css"
+import "./index.css";
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import TravelListPage from "./pages/TravelListPage";
@@ -11,16 +11,12 @@ import Header from "./components/Header";
 import AddTravelPage from "./pages/AddTravelPage";
 import AddBlogPage from "./pages/AddBlogPage";
 
-
 function App() {
-
+  
   return (
     <>
-
-
-       <Header />
-       <Navbar />
-     
+      <Header />
+      <Navbar />
 
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -35,7 +31,7 @@ function App() {
 
       <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

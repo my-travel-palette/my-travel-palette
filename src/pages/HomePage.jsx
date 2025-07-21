@@ -4,9 +4,7 @@ import ImageSlider from "../components/ImageSlider";
 function HomePage() {
   return (
     <div>
-      
       <ImageSlider />
-      <h1>Home Page</h1>
       <div>
         <p>About Project: </p>
         Lorem ipsum dolor sit, amet consectetur adipisicing elit.
