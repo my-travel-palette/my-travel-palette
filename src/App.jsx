@@ -30,6 +30,7 @@ function App() {
         <Route path="/blogs/:blogId" element={<BlogDetailPage />} />
         <Route path="/new-travel" element={<AddTravelPage />} />
         <Route path="/add-blog" element={<AddBlogPage />} />
+        <Route path="/blog/edit/:blogId" element={<AddBlogPage />} />
       </Routes>
 
       <Footer />

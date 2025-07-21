@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../config/api";
 import { useEditor, EditorContent } from '@tiptap/react';
@@ -15,6 +16,7 @@ import Highlight from '@tiptap/extension-highlight';
 import { Bold, Italic, List, ListOrdered, Quote, Undo, Redo, AlignLeft, AlignCenter, AlignRight, Link as LinkIcon, Image as ImageIcon } from 'lucide-react';
 
 function AddBlogPage() {
+  const { blogId } = useParams();
   const [title, setTitle] = useState("");
   const [selectedTravel, setSelectedTravel] = useState("");
   const [image, setImage] = useState("");
@@ -85,6 +87,35 @@ function AddBlogPage() {
       .catch((error) => console.log("Error fetching travels:", error));
   }, []);
 
+  // Fetch blog data if editing
+  useEffect(() => {
+    if (blogId && editor) {
+      axios.get(`${BASE_URL}/blogs/${blogId}.json`)
+        .then((response) => {
+          const blog = response.data;
+          
+          if (blog) {
+            setTitle(blog.title || "");
+            setSelectedTravel(blog.travelId || "");
+            setImage(blog.imageUrl || "");
+            setAuthor(Array.isArray(blog.author) ? blog.author.join(" & ") : blog.author || "");
+            setDate(blog.date || "");
+            setResources(blog.resources || [{ link: "", description: "" }]);
+            
+            // Set editor content after a small delay to ensure editor is ready
+            setTimeout(() => {
+              if (editor && !editor.isDestroyed) {
+                editor.commands.setContent(blog.content || "");
+              }
+            }, 100);
+          }
+        })
+        .catch((error) => {
+          console.log("Error fetching blog data:", error);
+        });
+    }
+  }, [blogId, editor]);
+
   if (!editor) {
     return <div className="min-h-screen bg-base-200 py-8 flex items-center justify-center">
       <div className="text-center">
@@ -98,29 +129,49 @@ function AddBlogPage() {
     e.preventDefault();
     setPublishing(true);
 
-    const newBlog = {
+    const blogData = {
       title: title,
       travelId: selectedTravel,
-      image: image,
-      author: author,
+      imageUrl: image,
+      author: author.split("&").map(a => a.trim()),
       date: date,
       content: editor.getHTML(),
       resources: resources.filter(resource => resource.link.trim() !== ""),
     };
-
-    axios
-      .post(`${BASE_URL}/blogs.json`, newBlog)
-      .then((response) => {
-        console.log("Blog added successfully:", response.data);
-        navigate("/blogs");
-      })
-      .catch((error) => {
-        console.log("Error adding blog:", error);
-        alert("Error adding blog. Please try again.");
-      })
-      .finally(() => {
-        setPublishing(false);
+    if (blogId) {
+      // Edit mode: update existing blog with PUT /blogs.json
+      axios.get(`${BASE_URL}/blogs.json`).then((response) => {
+        const allBlogs = response.data || {};
+        allBlogs[blogId] = blogData;
+        axios
+          .put(`${BASE_URL}/blogs.json`, allBlogs)
+          .then(() => {
+            navigate(`/blogs/${blogId}`);
+          })
+          .catch((error) => {
+            console.log("Error updating blog:", error);
+            alert("Error updating blog. Please try again.");
+          })
+          .finally(() => {
+            setPublishing(false);
+          });
       });
+    } else {
+      // Add mode: create new blog
+      axios
+        .post(`${BASE_URL}/blogs.json`, blogData)
+        .then((response) => {
+          console.log("Blog added successfully:", response.data);
+          navigate("/blogs");
+        })
+        .catch((error) => {
+          console.log("Error adding blog:", error);
+          alert("Error adding blog. Please try again.");
+        })
+        .finally(() => {
+          setPublishing(false);
+        });
+    }
   };
 
   const addResource = () => {
@@ -167,7 +218,7 @@ function AddBlogPage() {
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body">
             <h2 className="card-title text-3xl font-bold text-center mb-8">
-              Add New Blog Post
+              {blogId ? "Edit Blog Post" : "Add New Blog Post"}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -462,7 +513,7 @@ function AddBlogPage() {
                   className="btn btn-primary"
                   disabled={publishing}
                 >
-                  {publishing ? "Publishing..." : "Publish Blog"}
+                  {publishing ? (blogId ? "Saving..." : "Publishing...") : (blogId ? "Save Changes" : "Publish Blog")}
                 </button>
               </div>
             </form>

@@ -65,7 +65,7 @@ function BlogDetailPage() {
 
       {/* Buttons */}
 
-      <Link to={`/blog/edit/${blog.id}`}>
+      <Link to={`/blog/edit/${blogId}`}>
         <button>Edit</button>
       </Link>
 

@@ -53,14 +53,13 @@ function BlogListPage() {
           <div key={blog.id}>
             {blog.title}{" "}
             <img src={blog.imageUrl} onClick={() => handleBlogClick(blog.id)} />
+            <Link to={`/blog/edit/${blog.id}`}>
+              <button>Edit Blog</button>
+            </Link>
           </div>
         );
       })}
       {/* Buttons */}
-
-      <Link to={`/blog/edit/${travelId}`}>
-        <button>Edit</button>
-      </Link>
 
       <button onClick={deleteTravel}>Delete</button>
 
