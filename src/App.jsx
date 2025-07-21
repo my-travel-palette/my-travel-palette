@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import BlogDetailPage from "./pages/BlogDetailPage";
 import Header from "./components/Header";
 import AddTravelPage from "./pages/AddTravelPage";
+import AddBlogPage from "./pages/AddBlogPage";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/about-me" element={<AboutMePage />} />
         <Route path="/blogs/:blogId" element={<BlogDetailPage />} />
         <Route path="/new-travel" element={<AddTravelPage />} />
+        <Route path="/add-blog" element={<AddBlogPage />} />
       </Routes>
 
       <Footer />
