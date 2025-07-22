@@ -16,8 +16,8 @@ function BlogDetailPage() {
   const [error, setError] = useState(null);
 
   const { blogId } = useParams();
-  const { currentUser, loading: loadingAuth } = useAuth();
-  const isAdmin = currentUser?.role === "user";
+  const { currentUser } = useAuth();
+  const isAdmin = currentUser?.role === "admin";
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,7 +56,7 @@ function BlogDetailPage() {
     }
   };
 
-  if (loading || loadingAuth) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-base-200 flex items-center justify-center">
         <div className="text-center">
@@ -146,11 +146,11 @@ function BlogDetailPage() {
       {/* Buttons */}
       {isAdmin && (
         <div className="pl-40 pr-40 pt-6 text-lg text-right flex justify-end gap-4 pt-4">
-          <button className="btn btn-error" onClick={deleteBlog}>
+          <button className="btn bg-red-600 hover:bg-red-700 text-white border-none" onClick={deleteBlog}>
             Delete
           </button>
           <button
-            className="btn btn-success"
+            className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
             onClick={() => navigate(`/blog/edit/${blogId}`)}
           >
             Edit

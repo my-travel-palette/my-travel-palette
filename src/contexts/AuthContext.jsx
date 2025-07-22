@@ -1,6 +1,6 @@
-// src/contexts/AuthContext.js
+
 import { createContext, useContext, useEffect, useState } from "react";
-import { auth, db } from "../firebase";
+import { auth, db } from "../config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
@@ -12,21 +12,29 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      try {
-        if (user) {
-          // Optional: Fetch user role from Firestore
+      if (user) {
+        try {
+          // Get user role from Firestore
           const userDoc = await getDoc(doc(db, "users", user.uid));
           const role = userDoc.exists() ? userDoc.data().role : "user";
-          setCurrentUser({ ...user, role });
-        } else {
-          setCurrentUser(null);
+          
+          setCurrentUser({ 
+            uid: user.uid,
+            email: user.email,
+            role
+          });
+        } catch (error) {
+          console.error("Error fetching user role:", error);
+          setCurrentUser({ 
+            uid: user.uid,
+            email: user.email,
+            role: "user"
+          });
         }
-      } catch (error) {
-        console.error("Error fetching user document:", error);
-        setCurrentUser({ ...user, role: "user" }); // default fallback
-      } finally {
-        setLoading(false); // ✅ Always stop loading
+      } else {
+        setCurrentUser(null);
       }
+      setLoading(false);
     });
 
     return () => unsubscribe();

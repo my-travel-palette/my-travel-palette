@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../firebase";
+import { setDoc, doc } from "firebase/firestore";
+import { auth, db } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("user"); // default role
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,10 +25,10 @@ function SignUp() {
       );
       const user = userCredential.user;
 
-      // Save user info with default role
+      // Save user info with default "user" role
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
-        role: role, // "user"
+        role: "user", // Always "user" for new registrations
       });
 
       setSuccessMsg("Account created successfully!");
@@ -81,22 +80,9 @@ function SignUp() {
             />
           </div>
 
-          <fieldset className="fieldset">
-            <legend className="fieldset-legend">Role:</legend>
-            <select
-              className="select select-bordered w-full"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              required
-            >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
-            </select>
-          </fieldset>
-
           <button
             type="submit"
-            className="btn btn-primary w-full"
+            className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none w-full"
             disabled={loading}
           >
             {loading ? "Creating..." : "Create Account"}

@@ -1,10 +1,10 @@
-import { auth } from "../firebase";
+import { auth } from "../config/firebase";
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 function LogIn() {
-  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ function LogIn() {
     setLoading(true);
     setError("");
 
-    signInWithEmailAndPassword(auth, login, password)
+    signInWithEmailAndPassword(auth, email, password)
       .then((response) => {
         console.log(response);
         navigate("/");
@@ -33,33 +33,39 @@ function LogIn() {
   return (
     <div className="card w-full max-w-md bg-base-100 shadow-md p-5 mx-auto mt-10">
       <div className="card-body">
-        <h2 className="card-title">Login</h2>
+        <h2 className="card-title text-xl">Login</h2>
 
         {error && <div className="text-red-500 text-center mb-2">{error}</div>}
 
         <form onSubmit={handleLogin} className="space-y-4">
-          <fieldset className="fieldset">
-            <legend className="fieldset-legend">Login:</legend>
+          <div>
+            <label className="label">Email</label>
             <input
-              type="text"
-              className="input"
-              placeholder="Login"
-              value={login}
-              onChange={(e) => setLogin(e.target.value)}
+              type="email"
+              className="input input-bordered w-full"
+              placeholder="email@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
-          </fieldset>
+          </div>
 
-          <fieldset className="fieldset">
-            <legend className="fieldset-legend">Password:</legend>
+          <div>
+            <label className="label">Password</label>
             <input
-              type="text"
-              className="input"
+              type="password"
+              className="input input-bordered w-full"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
-          </fieldset>
-          <button className="btn btn-primary w-full" disabled={loading}>
+          </div>
+
+          <button 
+            className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none w-full" 
+            disabled={loading}
+          >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>

@@ -22,10 +22,10 @@ function Header() {
           </NavLink>
         </div>
         <div className="flex-none">
-          <button className="btn btn-neutral bg-stone-300 text-success-content font-semibold" onClick={()=>navigate('/log-in')}>
+          <button className="btn bg-white text-emerald-800 hover:bg-gray-100 border-none font-semibold px-6 py-2 mr-2" onClick={()=>navigate('/log-in')}>
             Login
           </button>
-          <button className="btn btn-neutral bg-stone-300 text-success-content font-semibold"  onClick={()=>navigate('/sign-up')}>
+          <button className="btn bg-white text-emerald-800 hover:bg-gray-100 border-none font-semibold px-6 py-2"  onClick={()=>navigate('/sign-up')}>
             Register
           </button>
         </div>
