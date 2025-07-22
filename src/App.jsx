@@ -10,6 +10,8 @@ import Header from "./components/Header";
 import AddTravelPage from "./pages/AddTravelPage";
 import AddBlogPage from "./pages/AddBlogPage";
 import Navbar from "./components/Navbar";
+import SignUp from "./pages/SignUp";
+import LogIn from "./pages/LogIn";
 
 function App() {
   
@@ -28,6 +30,8 @@ function App() {
         <Route path="/new-travel" element={<AddTravelPage />} />
         <Route path="/add-blog" element={<AddBlogPage />} />
         <Route path="/blog/edit/:blogId" element={<AddBlogPage />} />
+         <Route path="/sign-up" element={<SignUp />} />
+         <Route path="/log-in" element={<LogIn />} />
       </Routes>
 
       <Footer />
