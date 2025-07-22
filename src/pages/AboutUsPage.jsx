@@ -188,7 +188,7 @@ function AboutUsPage() {
 
             {/* Back to Home */}
             <div className="text-center">
-              <Link to="/" className="btn btn-primary">
+              <Link to="/" className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none">
                 Back to Home
               </Link>
             </div>
