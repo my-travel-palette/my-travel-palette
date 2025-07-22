@@ -2,7 +2,7 @@ import "./index.css";
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import TravelListPage from "./pages/TravelListPage";
-import AboutUsPage from "./pages/AboutMePage";
+import AboutUsPage from "./pages/AboutUsPage";
 import BlogListPage from "./pages/BlogListPage";
 import Footer from "./components/Footer";
 import BlogDetailPage from "./pages/BlogDetailPage";

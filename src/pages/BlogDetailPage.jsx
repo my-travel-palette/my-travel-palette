@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../config/api";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import CommentSection from "../components/CommentSection";
 
 function HtmlRenderer({ content }) {
   return <div dangerouslySetInnerHTML={{ __html: content }} />;
@@ -77,6 +78,9 @@ function BlogDetailPage() {
           </a>
         ))}
       </div>
+
+      {/* Comments Section */}
+      <CommentSection blogId={blogId} />
 
       {/* Buttons */}
       <div className="pl-40 pr-40 pt-6 text-lg text-right flex justify-end gap-4 pt-4">
