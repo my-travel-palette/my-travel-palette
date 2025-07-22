@@ -38,12 +38,12 @@ function TravelListPage() {
       <h1 className="text-3xl font-bold mb-4 text-center text-teal-700 ">
         Visited countries
       </h1>
-      <div className="p-2">
-        <Link to={`/`} className="text-xl link">
+      <div className="p-2 flex justify-between items-center">
+        <Link to={`/`} className="btn btn-ghost text-xl">
           <i className="fa fa-chevron-left p-2" aria-hidden="true"></i>Back
         </Link>
-        <Link to={`/new-travel`} className="text-xl p-5 link link-accent">
-          <i className="fa fa-plus p-2" aria-hidden="true"></i>Add New Country
+        <Link to={`/new-travel`} className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none text-base px-4 py-2">
+          <i className="fa fa-plus mr-2" aria-hidden="true"></i>Add New Country
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-1 p-5">
