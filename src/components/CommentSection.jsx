@@ -8,12 +8,18 @@ function CommentSection({ blogId }) {
   const [commentAuthor, setCommentAuthor] = useState("");
   const [editingComment, setEditingComment] = useState(null);
   const [editContent, setEditContent] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     getComments();
   }, [blogId]);
 
   const getComments = () => {
+    setLoading(true);
+    setError(null);
+    
     axios
       .get(`${BASE_URL}/comments.json`)
       .then((response) => {
@@ -28,9 +34,13 @@ function CommentSection({ blogId }) {
           setComments(blogComments);
         }
       })
-      .catch((error) =>
-        console.log("Error getting comments from the API...", error)
-      );
+      .catch((error) => {
+        console.log("Error getting comments from the API...", error);
+        setError("Failed to load comments. Please try again.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const addComment = () => {
@@ -38,6 +48,8 @@ function CommentSection({ blogId }) {
       alert("Please fill in both name and comment!");
       return;
     }
+
+    setSubmitting(true);
 
     const commentData = {
       blogId: blogId,
@@ -53,9 +65,13 @@ function CommentSection({ blogId }) {
         setCommentAuthor("");
         getComments(); // Refresh comments
       })
-      .catch((error) =>
-        console.log("Error adding comment to the API...", error)
-      );
+      .catch((error) => {
+        console.log("Error adding comment to the API...", error);
+        alert("Failed to add comment. Please try again.");
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   };
 
   const deleteComment = (commentId) => {
@@ -65,9 +81,10 @@ function CommentSection({ blogId }) {
         .then(() => {
           getComments(); // Refresh comments
         })
-        .catch((error) =>
-          console.log("Error deleting comment from the API...", error)
-        );
+        .catch((error) => {
+          console.log("Error deleting comment from the API...", error);
+          alert("Failed to delete comment. Please try again.");
+        });
     }
   };
 
@@ -99,9 +116,10 @@ function CommentSection({ blogId }) {
         setEditContent("");
         getComments(); // Refresh comments
       })
-      .catch((error) =>
-        console.log("Error updating comment in the API...", error)
-      );
+      .catch((error) => {
+        console.log("Error updating comment in the API...", error);
+        alert("Failed to update comment. Please try again.");
+      });
   };
 
   return (
@@ -124,6 +142,7 @@ function CommentSection({ blogId }) {
               className="input input-bordered"
               value={commentAuthor}
               onChange={(e) => setCommentAuthor(e.target.value)}
+              disabled={submitting}
             />
           </div>
           <div className="form-control">
@@ -135,11 +154,23 @@ function CommentSection({ blogId }) {
               placeholder="Write your comment here..."
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
+              disabled={submitting}
             ></textarea>
           </div>
           <div className="card-actions justify-end">
-            <button className="btn btn-primary" onClick={addComment}>
-              Post Comment
+            <button 
+              className="btn btn-primary" 
+              onClick={addComment}
+              disabled={submitting}
+            >
+              {submitting ? (
+                <>
+                  <span className="loading loading-spinner loading-xs"></span>
+                  Posting...
+                </>
+              ) : (
+                "Post Comment"
+              )}
             </button>
           </div>
         </div>
@@ -147,8 +178,29 @@ function CommentSection({ blogId }) {
 
       {/* Comments List */}
       <div className="space-y-4">
-        {comments.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-8">
+            <span className="loading loading-spinner loading-md text-teal-700"></span>
+            <p className="mt-2 text-gray-600">Loading comments...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center py-8">
+            <div className="alert alert-error max-w-md mx-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" /></svg>
+              <span>{error}</span>
+            </div>
+            <button 
+              className="btn btn-primary mt-4"
+              onClick={getComments}
+            >
+              Try Again
+            </button>
+          </div>
+        ) : comments.length === 0 ? (
           <div className="text-center text-gray-500 py-8">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
             <p>No comments yet. Be the first to comment!</p>
           </div>
         ) : (

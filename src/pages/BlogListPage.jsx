@@ -8,27 +8,29 @@ import { useAuth } from "../contexts/AuthContext";
 function BlogListPage() {
   const [blogList, setBlogList] = useState([]);
   const [title, setTitle] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { travelId } = useParams();
   const navigate = useNavigate();
 
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/travels/${travelId}.json`)
-      .then((response) => {
-        console.log(response.data);
-        setTitle(response.data.title);
-      })
-      .catch((error) =>
-        console.log("Error getting travel list page from the API...", error)
-      );
-    axios
-      .get(`${BASE_URL}/blogs.json`)
-      .then((response) => {
-        const blogsArr = Object.keys(response.data).map((id) => ({
+    setLoading(true);
+    setError(null);
+    
+    // Fetch travel title and blogs in parallel
+    Promise.all([
+      axios.get(`${BASE_URL}/travels/${travelId}.json`),
+      axios.get(`${BASE_URL}/blogs.json`)
+    ])
+      .then(([travelResponse, blogsResponse]) => {
+        console.log(travelResponse.data);
+        setTitle(travelResponse.data.title);
+        
+        const blogsArr = Object.keys(blogsResponse.data).map((id) => ({
           id,
-          ...response.data[id],
+          ...blogsResponse.data[id],
         }));
 
         // Filter blogs by travelId from URL
@@ -38,9 +40,13 @@ function BlogListPage() {
 
         setBlogList(filteredBlogs);
       })
-      .catch((error) =>
-        console.log("Error getting project details from the API...", error)
-      );
+      .catch((error) => {
+        console.log("Error getting data from the API...", error);
+        setError("Failed to load blogs. Please try again later.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [travelId]);
 
   const handleBlogClick = (blogId) => {
@@ -53,10 +59,41 @@ function BlogListPage() {
       .then(() => {
         setBlogList(blogList.filter((e) => e.id !== blogId));
       })
-      .catch((error) =>
-        console.log("Error deleting blogs from the API...", error)
-      );
+      .catch((error) => {
+        console.log("Error deleting blogs from the API...", error);
+        alert("Failed to delete blog. Please try again.");
+      });
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-base-200 flex items-center justify-center">
+        <div className="text-center">
+          <span className="loading loading-spinner loading-lg text-teal-700"></span>
+          <p className="mt-4 text-lg">Loading blogs...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-base-200 flex items-center justify-center">
+        <div className="text-center">
+          <div className="alert alert-error max-w-md">
+            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" /></svg>
+            <span>{error}</span>
+          </div>
+          <button 
+            className="btn btn-primary mt-4"
+            onClick={() => window.location.reload()}
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-3">
@@ -73,44 +110,69 @@ function BlogListPage() {
           </Link>
         )}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-1 p-5">
-        {blogList.map((blog) => {
-          return (
-            <div key={blog.id} className="card bg-base-300 w-96 shadow-sm">
-              <button
-                className="btn btn-circle btn-sm absolute top-2 right-2 text-emerald-800"
-                onClick={() => {
-                  deleteBlog(blog.id);
-                }}
-              >
-                <i className="fa fa-trash-o" aria-hidden="true"></i>
-              </button>
-              <button
-                className="btn btn-circle btn-sm absolute top-12 right-2 text-emerald-800"
-                onClick={() => {
-                  navigate(`/blog/edit/${blog.id}`);
-                }}
-              >
-                <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
-              </button>
-
-              <Link to={`/blogs/${blog.id}`}>
-                <figure className="w-full h-48 overflow-hidden">
-                  <img
-                    src={blog.imageUrl}
-                    className="w-full h-full object-cover"
-                    onClick={() => handleBlogClick(blog.id)}
-                  />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title">{blog.title}</h2>
-                  <p>{blog.description}</p>
-                </div>
-              </Link>
+      
+      {blogList.length === 0 ? (
+        <div className="text-center py-12">
+          <div className="max-w-md mx-auto">
+            <div className="card bg-base-100 shadow-xl">
+              <div className="card-body text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                </svg>
+                <h3 className="text-xl font-semibold text-gray-600 mb-2">No blogs found</h3>
+                <p className="text-gray-500 mb-4">Start sharing your travel experiences by adding your first blog post!</p>
+                {currentUser?.role === "admin" && (
+                  <Link to="/add-blog" className="btn btn-primary">
+                    <i className="fa fa-plus mr-2" aria-hidden="true"></i>Add Your First Blog
+                  </Link>
+                )}
+              </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-1 p-5">
+          {blogList.map((blog) => {
+            return (
+              <div key={blog.id} className="card bg-base-300 w-96 shadow-sm">
+                <button
+                  className="btn btn-circle btn-sm absolute top-2 right-2 text-emerald-800"
+                  onClick={() => {
+                    deleteBlog(blog.id);
+                  }}
+                >
+                  <i className="fa fa-trash-o" aria-hidden="true"></i>
+                </button>
+                <button
+                  className="btn btn-circle btn-sm absolute top-12 right-2 text-emerald-800"
+                  onClick={() => {
+                    navigate(`/blog/edit/${blog.id}`);
+                  }}
+                >
+                  <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </button>
+
+                <Link to={`/blogs/${blog.id}`}>
+                  <figure className="w-full h-48 overflow-hidden">
+                    <img
+                      src={blog.imageUrl}
+                      className="w-full h-full object-cover"
+                      onClick={() => handleBlogClick(blog.id)}
+                      onError={(e) => {
+                        e.target.src = "https://via.placeholder.com/400x200?text=Image+Not+Found";
+                      }}
+                    />
+                  </figure>
+                  <div className="card-body">
+                    <h2 className="card-title">{blog.title}</h2>
+                    <p>{blog.description}</p>
+                  </div>
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

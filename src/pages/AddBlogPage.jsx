@@ -122,7 +122,7 @@ function AddBlogPage() {
   if (!editor) {
     return <div className="min-h-screen bg-base-200 py-8 flex items-center justify-center">
       <div className="text-center">
-        <span className="loading loading-spinner loading-lg"></span>
+        <span className="loading loading-spinner loading-lg text-teal-700"></span>
         <p className="mt-4">Loading editor...</p>
       </div>
     </div>;
