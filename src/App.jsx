@@ -2,7 +2,7 @@ import "./index.css";
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import TravelListPage from "./pages/TravelListPage";
-import AboutMePage from "./pages/AboutMePage";
+import AboutUsPage from "./pages/AboutMePage";
 import BlogListPage from "./pages/BlogListPage";
 import Footer from "./components/Footer";
 import BlogDetailPage from "./pages/BlogDetailPage";
@@ -25,7 +25,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/my-travels/" element={<TravelListPage />} />
         <Route path="/my-travels/:travelId" element={<BlogListPage />} />
-        <Route path="/about-me" element={<AboutMePage />} />
+        <Route path="/about-me" element={<AboutUsPage />} />
         <Route path="/blogs/:blogId" element={<BlogDetailPage />} />
         <Route path="/new-travel" element={<AddTravelPage />} />
         <Route path="/add-blog" element={<AddBlogPage />} />
