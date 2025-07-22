@@ -74,16 +74,9 @@ function BookmarkButton({ blogId, blogTitle, blogImageUrl, blogAuthor, blogDate 
     }
   };
 
+  // Only show bookmark button for logged-in users
   if (!currentUser) {
-    return (
-      <button
-        className="btn btn-ghost btn-sm"
-        onClick={() => navigate('/log-in')}
-        title="Log in to bookmark"
-      >
-        <i className="fa fa-bookmark-o text-gray-400"></i>
-      </button>
-    );
+    return null;
   }
 
   return (
