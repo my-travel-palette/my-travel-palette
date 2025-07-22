@@ -286,32 +286,50 @@ function AddBlogPage() {
                     ))}
                   </select>
                 </div>
-                <div className="space-y-2 mt-2">
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      className="input input-bordered input-sm flex-1"
-                      placeholder="New travel title"
-                      value={newTravelTitle}
-                      onChange={e => setNewTravelTitle(e.target.value)}
-                    />
-                    <button
-                      type="button"
-                      className="btn btn-primary btn-sm"
-                      disabled={addingTravel || !newTravelTitle.trim()}
-                      onClick={handleAddTravel}
-                    >
-                      {addingTravel ? "Adding..." : "Add"}
-                    </button>
+                
+                {/* Add New Travel Accordion */}
+                <div className="collapse collapse-arrow bg-base-200 mt-2">
+                  <input type="checkbox" /> 
+                  <div className="collapse-title text-sm font-medium">
+                    <i className="fa fa-plus mr-2" aria-hidden="true"></i>
+                    Add New Travel
                   </div>
-                  <div className="flex gap-2">
-                    <input
-                      type="url"
-                      className="input input-bordered input-sm flex-1"
-                      placeholder="Travel image URL (optional)"
-                      value={newTravelImage}
-                      onChange={e => setNewTravelImage(e.target.value)}
-                    />
+                  <div className="collapse-content"> 
+                    <div className="space-y-3 pt-2">
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          className="input input-bordered input-sm flex-1"
+                          placeholder="New travel title"
+                          value={newTravelTitle}
+                          onChange={e => setNewTravelTitle(e.target.value)}
+                        />
+                        <button
+                          type="button"
+                          className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none btn-sm"
+                          disabled={addingTravel || !newTravelTitle.trim()}
+                          onClick={handleAddTravel}
+                        >
+                          {addingTravel ? (
+                            <>
+                              <span className="loading loading-spinner loading-xs"></span>
+                              Adding...
+                            </>
+                          ) : (
+                            "Add Travel"
+                          )}
+                        </button>
+                      </div>
+                      <div className="flex gap-2">
+                        <input
+                          type="url"
+                          className="input input-bordered input-sm flex-1"
+                          placeholder="Travel image URL (optional)"
+                          value={newTravelImage}
+                          onChange={e => setNewTravelImage(e.target.value)}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -521,7 +539,7 @@ function AddBlogPage() {
                   <button
                     type="button"
                     onClick={addResource}
-                    className="btn btn-outline btn-sm"
+                    className="btn btn-outline btn-sm border-emerald-800 text-emerald-800 hover:bg-emerald-800 hover:text-white"
                   >
                     Add Resource
                   </button>
@@ -549,7 +567,7 @@ function AddBlogPage() {
                 </button>
                 <button 
                   type="submit" 
-                  className="btn btn-primary"
+                  className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
                   disabled={publishing}
                 >
                   {publishing ? (blogId ? "Saving..." : "Publishing...") : (blogId ? "Save Changes" : "Publish Blog")}
