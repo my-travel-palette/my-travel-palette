@@ -3,7 +3,6 @@ import axios from "axios";
 import { BASE_URL } from "../config/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
 
 function BlogListPage() {
   const [blogList, setBlogList] = useState([]);
@@ -12,8 +11,6 @@ function BlogListPage() {
   const [error, setError] = useState(null);
   const { travelId } = useParams();
   const navigate = useNavigate();
-
-  const { currentUser } = useAuth();
 
   useEffect(() => {
     setLoading(true);
@@ -100,15 +97,14 @@ function BlogListPage() {
       <h1 className="text-3xl font-bold mb-4 text-center text-teal-700 ">
         {title}
       </h1>
-      <div className="p-2">
-        <Link to={`/my-travels`} className="text-xl link">
+      
+      <div className="p-2 flex justify-between items-center">
+        <Link to={`/my-travels`} className="btn btn-ghost text-xl">
           <i className="fa fa-chevron-left p-2" aria-hidden="true"></i>Back
         </Link>
-        {currentUser?.role === "admin" && (
-          <Link to={`/add-blog`} className="text-xl p-5 link link-accent">
-            <i className="fa fa-plus p-2" aria-hidden="true"></i>Add New Blog
-          </Link>
-        )}
+        <Link to={`/add-blog/${travelId}`} className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none text-base px-4 py-2">
+          <i className="fa fa-plus mr-2" aria-hidden="true"></i>Add New Blog
+        </Link>
       </div>
       
       {blogList.length === 0 ? (
@@ -121,11 +117,6 @@ function BlogListPage() {
                 </svg>
                 <h3 className="text-xl font-semibold text-gray-600 mb-2">No blogs found</h3>
                 <p className="text-gray-500 mb-4">Start sharing your travel experiences by adding your first blog post!</p>
-                {currentUser?.role === "admin" && (
-                  <Link to="/add-blog" className="btn btn-primary">
-                    <i className="fa fa-plus mr-2" aria-hidden="true"></i>Add Your First Blog
-                  </Link>
-                )}
               </div>
             </div>
           </div>

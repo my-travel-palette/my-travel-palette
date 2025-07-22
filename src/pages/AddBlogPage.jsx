@@ -16,9 +16,9 @@ import Highlight from '@tiptap/extension-highlight';
 import { Bold, Italic, List, ListOrdered, Quote, Undo, Redo, AlignLeft, AlignCenter, AlignRight, Link as LinkIcon, Image as ImageIcon } from 'lucide-react';
 
 function AddBlogPage() {
-  const { blogId } = useParams();
+  const { blogId, travelId } = useParams();
   const [title, setTitle] = useState("");
-  const [selectedTravel, setSelectedTravel] = useState("");
+  const [selectedTravel, setSelectedTravel] = useState(travelId || "");
   const [image, setImage] = useState("");
   const [author, setAuthor] = useState("");
   const [date, setDate] = useState("");
