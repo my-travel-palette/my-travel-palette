@@ -26,7 +26,7 @@ function LogIn() {
           value={login}
           onChange={(e) => setLogin(e.target.value)}
         />
-        <label htmlFor="password">Email</label>
+        <label htmlFor="password">Password</label>
         <input
           type="text"
           name="password"
