@@ -3,12 +3,15 @@ import axios from "axios";
 import { BASE_URL } from "../config/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 function BlogListPage() {
   const [blogList, setBlogList] = useState([]);
   const [title, setTitle] = useState("");
   const { travelId } = useParams();
   const navigate = useNavigate();
+
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     axios
@@ -64,9 +67,11 @@ function BlogListPage() {
         <Link to={`/my-travels`} className="text-xl link">
           <i className="fa fa-chevron-left p-2" aria-hidden="true"></i>Back
         </Link>
-        <Link to={`/add-blog`} className="text-xl p-5 link link-accent">
-          <i className="fa fa-plus p-2" aria-hidden="true"></i>Add New Blog
-        </Link>
+        {currentUser?.role === "admin" && (
+          <Link to={`/add-blog`} className="text-xl p-5 link link-accent">
+            <i className="fa fa-plus p-2" aria-hidden="true"></i>Add New Blog
+          </Link>
+        )}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-1 p-5">
         {blogList.map((blog) => {
