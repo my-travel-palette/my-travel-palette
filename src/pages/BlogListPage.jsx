@@ -4,6 +4,7 @@ import { BASE_URL } from "../config/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import BookmarkButton from "../components/BookmarkButton";
 
 function BlogListPage() {
   const [blogList, setBlogList] = useState([]);
@@ -52,7 +53,7 @@ function BlogListPage() {
   if (loading) {
     return <p>Loading...</p>;
   }
-  //console.log(JSON.stringify(currentUser))
+  
 
   const handleBlogClick = (blogId) => {
     navigate(`/blogs/${blogId}`);
@@ -129,8 +130,7 @@ function BlogListPage() {
           </Link>
         )}
 
-        {/* Users can comment 
-        {currentUser?.role === "user" && <CommentSection blogId={blogId} />}*/}
+      
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-1 p-5">
         {blogList.length === 0 ? (
@@ -152,44 +152,54 @@ function BlogListPage() {
           blogList.map((blog) => {
             return (
               <div key={blog.id} className="card bg-base-300 w-96 shadow-sm">
-                {isAdmin && (
-                  <>
-                    <button
-                      className="btn btn-circle btn-sm absolute top-2 right-2 text-emerald-800"
-                      onClick={() => {
-                        deleteBlog(blog.id);
-                      }}
-                    >
-                      <i className="fa fa-trash-o" aria-hidden="true"></i>
-                    </button>
+                <div className="relative">
+                  {isAdmin && (
+                    <>
+                      <button
+                        className="btn btn-circle btn-sm absolute top-2 right-2 text-emerald-800"
+                        onClick={() => {
+                          deleteBlog(blog.id);
+                        }}
+                      >
+                        <i className="fa fa-trash-o" aria-hidden="true"></i>
+                      </button>
 
-                    <button
-                      className="btn btn-circle btn-sm absolute top-12 right-2 text-emerald-800"
-                      onClick={() => {
-                        navigate(`/blog/edit/${blog.id}`);
-                      }}
-                    >
-                      <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </button>
-                  </>
-                )}
+                      <button
+                        className="btn btn-circle btn-sm absolute top-12 right-2 text-emerald-800"
+                        onClick={() => {
+                          navigate(`/blog/edit/${blog.id}`);
+                        }}
+                      >
+                        <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
+                      </button>
+                    </>
+                  )}
+                  
+                  <BookmarkButton 
+                    blogId={blog.id}
+                    blogTitle={blog.title}
+                    blogImageUrl={blog.imageUrl}
+                    blogAuthor={blog.author}
+                    blogDate={blog.date}
+                  />
 
-                <Link to={`/blogs/${blog.id}`}>
-                  <figure className="w-full h-48 overflow-hidden">
-                    <img
-                      src={blog.imageUrl}
-                      className="w-full h-full object-cover"
-                      onClick={() => handleBlogClick(blog.id)}
-                      onError={(e) => {
-                        e.target.src = "https://via.placeholder.com/400x200?text=Image+Not+Found";
-                      }}
-                    />
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">{blog.title}</h2>
-                    <p>{blog.description}</p>
-                  </div>
-                </Link>
+                  <Link to={`/blogs/${blog.id}`}>
+                    <figure className="w-full h-48 overflow-hidden">
+                      <img
+                        src={blog.imageUrl}
+                        className="w-full h-full object-cover"
+                        onClick={() => handleBlogClick(blog.id)}
+                        onError={(e) => {
+                          e.target.src = "https://via.placeholder.com/400x200?text=Image+Not+Found";
+                        }}
+                      />
+                    </figure>
+                    <div className="card-body">
+                      <h2 className="card-title">{blog.title}</h2>
+                      <p>{blog.description}</p>
+                    </div>
+                  </Link>
+                </div>
               </div>
             );
           })

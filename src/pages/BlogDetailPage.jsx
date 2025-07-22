@@ -4,6 +4,7 @@ import { BASE_URL } from "../config/api";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import CommentSection from "../components/CommentSection";
+import BookmarkButton from "../components/BookmarkButton";
 import { useAuth } from "../contexts/AuthContext";
 
 function HtmlRenderer({ content }) {
@@ -104,7 +105,17 @@ function BlogDetailPage() {
 
   return (
     <div className="p-3">
-      <h1 className="text-3xl mb-4 text-center text-teal-700">{blog.title}</h1>
+      <div className="flex justify-between items-start mb-4">
+        <h1 className="text-3xl mb-4 text-center text-teal-700 flex-1">{blog.title}</h1>
+        <BookmarkButton 
+          blogId={blogId}
+          blogTitle={blog.title}
+          blogImageUrl={blog.imageUrl}
+          blogAuthor={blog.author}
+          blogDate={blog.date}
+        />
+      </div>
+      
       <div className="text-sm mb-4 text-center text-teal-700">
         by {" " + blog.author.join(" & ") + " • "}
         <span>{new Date(blog.date).toDateString()}</span>

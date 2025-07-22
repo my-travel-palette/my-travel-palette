@@ -1,6 +1,7 @@
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function ProfilePage() {
     const { currentUser } = useAuth();
@@ -35,6 +36,22 @@ function ProfilePage() {
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Role</label>
                         <p className="mt-1 text-sm text-gray-900 capitalize">{currentUser.role}</p>
+                    </div>
+                </div>
+                
+                <div className="mt-8 pt-6 border-t border-gray-200">
+                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h2>
+                    <div className="space-y-3">
+                        <Link 
+                            to="/bookmarks"
+                            className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                        >
+                            <i className="fa fa-bookmark text-emerald-600 mr-3"></i>
+                            <div>
+                                <p className="font-medium text-gray-900">My Bookmarks</p>
+                                <p className="text-sm text-gray-500">View your saved blog posts</p>
+                            </div>
+                        </Link>
                     </div>
                 </div>
                 
