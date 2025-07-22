@@ -4,6 +4,7 @@ import { BASE_URL } from "../config/api";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import CommentSection from "../components/CommentSection";
+import { useAuth } from "../contexts/AuthContext";
 
 function HtmlRenderer({ content }) {
   return <div dangerouslySetInnerHTML={{ __html: content }} />;
@@ -15,7 +16,8 @@ function BlogDetailPage() {
   const [error, setError] = useState(null);
 
   const { blogId } = useParams();
-
+  const { currentUser, loading: loadingAuth } = useAuth();
+  const isAdmin = currentUser?.role === "user";
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,7 +56,7 @@ function BlogDetailPage() {
     }
   };
 
-  if (loading) {
+  if (loading || loadingAuth) {
     return (
       <div className="min-h-screen bg-base-200 flex items-center justify-center">
         <div className="text-center">
@@ -142,17 +144,19 @@ function BlogDetailPage() {
       <CommentSection blogId={blogId} />
 
       {/* Buttons */}
-      <div className="pl-40 pr-40 pt-6 text-lg text-right flex justify-end gap-4 pt-4">
-        <button className="btn bg-red-600 hover:bg-red-700 text-white border-none" onClick={deleteBlog}>
-          Delete
-        </button>
-        <button
-          className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
-          onClick={() => navigate(`/blog/edit/${blogId}`)}
-        >
-          Edit
-        </button>
-      </div>
+      {isAdmin && (
+        <div className="pl-40 pr-40 pt-6 text-lg text-right flex justify-end gap-4 pt-4">
+          <button className="btn btn-error" onClick={deleteBlog}>
+            Delete
+          </button>
+          <button
+            className="btn btn-success"
+            onClick={() => navigate(`/blog/edit/${blogId}`)}
+          >
+            Edit
+          </button>
+        </div>
+      )}
     </div>
   );
 }

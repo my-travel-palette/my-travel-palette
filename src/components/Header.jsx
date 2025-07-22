@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+    const navigate = useNavigate();
   return (
     <header>
       {/* Top bar with Home icon on the left and buttons on the right
@@ -20,10 +22,10 @@ function Header() {
           </NavLink>
         </div>
         <div className="flex-none">
-          <button className="btn btn-neutral bg-stone-300 text-success-content font-semibold">
+          <button className="btn btn-neutral bg-stone-300 text-success-content font-semibold" onClick={()=>navigate('/log-in')}>
             Login
           </button>
-          <button className="btn btn-neutral bg-stone-300 text-success-content font-semibold">
+          <button className="btn btn-neutral bg-stone-300 text-success-content font-semibold"  onClick={()=>navigate('/sign-up')}>
             Register
           </button>
         </div>

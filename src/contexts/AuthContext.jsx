@@ -6,26 +6,26 @@ import { doc, getDoc } from "firebase/firestore";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const userRef = doc(db, "users", user.uid);
-        getDoc(userRef).then((userDoc) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      try {
+        if (user) {
+          // Optional: Fetch user role from Firestore
+          const userDoc = await getDoc(doc(db, "users", user.uid));
           const role = userDoc.exists() ? userDoc.data().role : "user";
-          setCurrentUser({
-            uid: user.uid,
-            email: user.email,
-            role: role,
-          });
-          setLoading(false);
-        });
-      } else {
-        setCurrentUser(null);
-        setLoading(false);
+          setCurrentUser({ ...user, role });
+        } else {
+          setCurrentUser(null);
+        }
+      } catch (error) {
+        console.error("Error fetching user document:", error);
+        setCurrentUser({ ...user, role: "user" }); // default fallback
+      } finally {
+        setLoading(false); // ✅ Always stop loading
       }
     });
 
@@ -33,11 +33,11 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser }}>
-      {!loading && children}
+    <AuthContext.Provider value={{ currentUser, loading }}>
+      {children}
     </AuthContext.Provider>
   );
-};
+}
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);
-
