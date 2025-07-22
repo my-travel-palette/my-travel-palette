@@ -1,16 +1,19 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../config/api";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function CommentSection({ blogId }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [commentAuthor, setCommentAuthor] = useState("");
   const [editingComment, setEditingComment] = useState(null);
   const [editContent, setEditContent] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getComments();
@@ -44,8 +47,13 @@ function CommentSection({ blogId }) {
   };
 
   const addComment = () => {
-    if (!newComment.trim() || !commentAuthor.trim()) {
-      alert("Please fill in both name and comment!");
+    if (!newComment.trim()) {
+      alert("Please write a comment!");
+      return;
+    }
+
+    if (!currentUser) {
+      alert("Please log in to comment!");
       return;
     }
 
@@ -53,7 +61,8 @@ function CommentSection({ blogId }) {
 
     const commentData = {
       blogId: blogId,
-      author: commentAuthor,
+      author: currentUser.name,
+      authorId: currentUser.uid,
       content: newComment,
       date: new Date().toISOString()
     };
@@ -62,7 +71,6 @@ function CommentSection({ blogId }) {
       .post(`${BASE_URL}/comments.json`, commentData)
       .then(() => {
         setNewComment("");
-        setCommentAuthor("");
         getComments(); // Refresh comments
       })
       .catch((error) => {
@@ -132,47 +140,58 @@ function CommentSection({ blogId }) {
       <div className="card bg-base-100 shadow-xl mb-6">
         <div className="card-body">
           <h3 className="card-title text-lg">Add a Comment</h3>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Your Name</span>
-            </label>
-            <input
-              type="text"
-              placeholder="Enter your name"
-              className="input input-bordered"
-              value={commentAuthor}
-              onChange={(e) => setCommentAuthor(e.target.value)}
-              disabled={submitting}
-            />
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Comment</span>
-            </label>
-            <textarea
-              className="textarea textarea-bordered h-24"
-              placeholder="Write your comment here..."
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              disabled={submitting}
-            ></textarea>
-          </div>
-          <div className="card-actions justify-end">
-            <button 
-              className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none" 
-              onClick={addComment}
-              disabled={submitting}
-            >
-              {submitting ? (
-                <>
-                  <span className="loading loading-spinner loading-xs"></span>
-                  Posting...
-                </>
-              ) : (
-                "Post Comment"
-              )}
-            </button>
-          </div>
+          
+          {currentUser ? (
+            // User is logged in - show comment form
+            <>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Comment</span>
+                </label>
+                <textarea
+                  className="textarea textarea-bordered h-24"
+                  placeholder="Write your comment here..."
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  disabled={submitting}
+                ></textarea>
+              </div>
+              <div className="card-actions justify-end">
+                <button 
+                  className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none" 
+                  onClick={addComment}
+                  disabled={submitting}
+                >
+                  {submitting ? (
+                    <>
+                      <span className="loading loading-spinner loading-xs"></span>
+                      Posting...
+                    </>
+                  ) : (
+                    "Post Comment"
+                  )}
+                </button>
+              </div>
+            </>
+          ) : (
+            // User is not logged in - show login prompt
+            <div className="text-center py-6">
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 max-w-md mx-auto">
+                <div className="flex items-center justify-center mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                </div>
+                <p className="text-gray-600 text-sm mb-4">Please log in to comment</p>
+                <button 
+                  className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
+                  onClick={() => navigate('/log-in')}
+                >
+                  Log In
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
