@@ -100,7 +100,9 @@ function AddBlogPage() {
             setSelectedTravel(blog.travelId || "");
             setImage(blog.imageUrl || "");
             setAuthor(Array.isArray(blog.author) ? blog.author.join(" & ") : blog.author || "");
-            setDate(blog.date || "");
+            // Convert date to YYYY-MM-DD format for HTML date input
+            const dateValue = blog.date ? new Date(blog.date).toISOString().split('T')[0] : "";
+            setDate(dateValue);
             setResources(blog.resources || [{ link: "", description: "" }]);
             
             // Set editor content after a small delay to ensure editor is ready
