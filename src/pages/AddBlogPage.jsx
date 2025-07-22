@@ -530,7 +530,7 @@ function AddBlogPage() {
                       <button
                         type="button"
                         onClick={() => removeResource(index)}
-                        className="btn btn-error btn-sm"
+                        className="btn bg-red-600 hover:bg-red-700 text-white border-none btn-sm"
                       >
                         Remove
                       </button>
@@ -552,7 +552,7 @@ function AddBlogPage() {
                   <button
                     type="button"
                     onClick={handleDelete}
-                    className="btn btn-error"
+                    className="btn bg-red-600 hover:bg-red-700 text-white border-none"
                     disabled={deleting}
                   >
                     {deleting ? "Deleting..." : "Delete Blog"}

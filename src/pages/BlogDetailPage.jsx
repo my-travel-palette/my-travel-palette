@@ -74,7 +74,7 @@ function BlogDetailPage() {
             <span>{error}</span>
           </div>
           <button 
-            className="btn btn-primary mt-4"
+            className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none mt-4"
             onClick={() => window.location.reload()}
           >
             Try Again
@@ -92,7 +92,7 @@ function BlogDetailPage() {
             <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" /></svg>
             <span>Blog not found</span>
           </div>
-          <Link to="/my-travels" className="btn btn-primary mt-4">
+          <Link to="/my-travels" className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none mt-4">
             Go Back to Travels
           </Link>
         </div>
@@ -143,11 +143,11 @@ function BlogDetailPage() {
 
       {/* Buttons */}
       <div className="pl-40 pr-40 pt-6 text-lg text-right flex justify-end gap-4 pt-4">
-        <button className="btn btn-error" onClick={deleteBlog}>
+        <button className="btn bg-red-600 hover:bg-red-700 text-white border-none" onClick={deleteBlog}>
           Delete
         </button>
         <button
-          className="btn btn-success"
+          className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
           onClick={() => navigate(`/blog/edit/${blogId}`)}
         >
           Edit

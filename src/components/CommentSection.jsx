@@ -159,7 +159,7 @@ function CommentSection({ blogId }) {
           </div>
           <div className="card-actions justify-end">
             <button 
-              className="btn btn-primary" 
+              className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none" 
               onClick={addComment}
               disabled={submitting}
             >
@@ -190,7 +190,7 @@ function CommentSection({ blogId }) {
               <span>{error}</span>
             </div>
             <button 
-              className="btn btn-primary mt-4"
+              className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none mt-4"
               onClick={getComments}
             >
               Try Again
@@ -219,14 +219,14 @@ function CommentSection({ blogId }) {
                         onClick={() => startEdit(comment)}
                         title="Edit comment"
                       >
-                        <i className="fa fa-edit text-blue-500"></i>
+                        <i className="fa fa-edit text-emerald-600"></i>
                       </button>
                       <button
                         className="btn btn-ghost btn-xs"
                         onClick={() => deleteComment(comment.id)}
                         title="Delete comment"
                       >
-                        <i className="fa fa-trash text-red-500"></i>
+                        <i className="fa fa-trash text-red-600"></i>
                       </button>
                     </div>
                   </div>
@@ -242,7 +242,7 @@ function CommentSection({ blogId }) {
                     ></textarea>
                     <div className="flex gap-2 mt-2">
                       <button
-                        className="btn btn-success btn-xs"
+                        className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none btn-xs"
                         onClick={() => saveEdit(comment.id)}
                       >
                         Save
