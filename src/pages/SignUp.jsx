@@ -5,6 +5,7 @@ import { auth, db } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 
 function SignUp() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -25,13 +26,15 @@ function SignUp() {
       );
       const user = userCredential.user;
 
-      // Save user info with default "user" role
+      // Save user info with name and default "user" role
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
+        name: name,
         role: "user", // Always "user" for new registrations
       });
 
       setSuccessMsg("Account created successfully!");
+      setName("");
       setEmail("");
       setPassword("");
 
@@ -55,6 +58,18 @@ function SignUp() {
         {successMsg && <p className="text-green-600">{successMsg}</p>}
 
         <form onSubmit={handleSignUp} className="space-y-4">
+          <div>
+            <label className="label">Name</label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              placeholder="Your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+
           <div>
             <label className="label">Email</label>
             <input

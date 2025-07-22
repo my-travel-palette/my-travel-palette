@@ -12,6 +12,7 @@ import AddBlogPage from "./pages/AddBlogPage";
 import Navbar from "./components/Navbar";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   
@@ -33,6 +34,7 @@ function App() {
         <Route path="/blog/edit/:blogId" element={<AddBlogPage />} />
          <Route path="/sign-up" element={<SignUp />} />
          <Route path="/log-in" element={<LogIn />} />
+         <Route path="/profile" element={<ProfilePage />} />
       </Routes>
 
       <Footer />

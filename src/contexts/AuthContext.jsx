@@ -1,7 +1,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../config/firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
 const AuthContext = createContext();
@@ -10,25 +10,37 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const logout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
-          // Get user role from Firestore
+          // Get user data from Firestore
           const userDoc = await getDoc(doc(db, "users", user.uid));
-          const role = userDoc.exists() ? userDoc.data().role : "user";
+          const userData = userDoc.exists() ? userDoc.data() : {};
+          const role = userData.role || "user";
+          const name = userData.name || "";
           
           setCurrentUser({ 
             uid: user.uid,
             email: user.email,
-            role
+            role,
+            name
           });
         } catch (error) {
-          console.error("Error fetching user role:", error);
+          console.error("Error fetching user data:", error);
           setCurrentUser({ 
             uid: user.uid,
             email: user.email,
-            role: "user"
+            role: "user",
+            name: ""
           });
         }
       } else {
@@ -41,7 +53,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser, loading }}>
+    <AuthContext.Provider value={{ currentUser, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );
