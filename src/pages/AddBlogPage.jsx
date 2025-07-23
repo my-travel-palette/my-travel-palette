@@ -14,6 +14,7 @@ import { Color } from '@tiptap/extension-color';
 import { TextStyle } from '@tiptap/extension-text-style';
 import Highlight from '@tiptap/extension-highlight';
 import { Bold, Italic, List, ListOrdered, Quote, Undo, Redo, AlignLeft, AlignCenter, AlignRight, Link as LinkIcon, Image as ImageIcon } from 'lucide-react';
+import ImageUpload from "../components/ImageUpload";
 
 function AddBlogPage() {
   const { blogId, travelId } = useParams();
@@ -58,13 +59,6 @@ function AddBlogPage() {
     content: '',
   });
 
-  const addImage = () => {
-    const url = window.prompt('Enter image URL:');
-    if (url && editor) {
-      editor.chain().focus().setImage({ src: url }).run();
-    }
-  };
-
   const setLink = () => {
     const url = window.prompt('Enter URL:');
     if (url && editor) {
@@ -94,7 +88,7 @@ function AddBlogPage() {
       axios.get(`${BASE_URL}/blogs/${blogId}.json`)
         .then((response) => {
           const blog = response.data;
-          
+
           if (blog) {
             setTitle(blog.title || "");
             setSelectedTravel(blog.travelId || "");
@@ -104,7 +98,7 @@ function AddBlogPage() {
             const dateValue = blog.date ? new Date(blog.date).toISOString().split('T')[0] : "";
             setDate(dateValue);
             setResources(blog.resources || [{ link: "", description: "" }]);
-            
+
             // Set editor content after a small delay to ensure editor is ready
             setTimeout(() => {
               if (editor && !editor.isDestroyed) {
@@ -195,37 +189,37 @@ function AddBlogPage() {
   const handleAddTravel = () => {
     if (!newTravelTitle.trim()) return;
     setAddingTravel(true);
-    
-    axios.post(`${BASE_URL}/travels.json`, { 
+
+    axios.post(`${BASE_URL}/travels.json`, {
       title: newTravelTitle,
-      imageUrl: newTravelImage 
+      imageUrl: newTravelImage
     })
-    .then((response) => {
-      const newTravelId = response.data.name;
-      setTravels(prev => [...prev, { id: newTravelId, title: newTravelTitle, imageUrl: newTravelImage }]);
-      setSelectedTravel(newTravelId);
-      setNewTravelTitle("");
-      setNewTravelImage("");
-    })
-    .catch(() => {
-      alert("Error adding new travel.");
-    })
-    .finally(() => {
-      setAddingTravel(false);
-    });
+      .then((response) => {
+        const newTravelId = response.data.name;
+        setTravels(prev => [...prev, { id: newTravelId, title: newTravelTitle, imageUrl: newTravelImage }]);
+        setSelectedTravel(newTravelId);
+        setNewTravelTitle("");
+        setNewTravelImage("");
+      })
+      .catch(() => {
+        alert("Error adding new travel.");
+      })
+      .finally(() => {
+        setAddingTravel(false);
+      });
   };
 
   const handleDelete = () => {
     if (!blogId) return;
-    
+
     if (window.confirm("Are you sure you want to delete this blog?")) {
       setDeleting(true);
-      
+
       // Delete the blog using PUT /blogs.json
       axios.get(`${BASE_URL}/blogs.json`).then((response) => {
         const allBlogs = response.data || {};
         delete allBlogs[blogId];
-        
+
         axios.put(`${BASE_URL}/blogs.json`, allBlogs)
           .then(() => {
             navigate("/blogs");
@@ -286,15 +280,15 @@ function AddBlogPage() {
                     ))}
                   </select>
                 </div>
-                
+
                 {/* Add New Travel Accordion */}
                 <div className="collapse collapse-arrow bg-base-200 mt-2">
-                  <input type="checkbox" /> 
+                  <input type="checkbox" />
                   <div className="collapse-title text-sm font-medium">
                     <i className="fa fa-plus mr-2" aria-hidden="true"></i>
                     Add New Travel
                   </div>
-                  <div className="collapse-content"> 
+                  <div className="collapse-content">
                     <div className="space-y-3 pt-2">
                       <div className="flex gap-2">
                         <input
@@ -321,33 +315,18 @@ function AddBlogPage() {
                         </button>
                       </div>
                       <div className="flex gap-2">
-                        <input
-                          type="url"
-                          className="input input-bordered input-sm flex-1"
-                          placeholder="Travel image URL (optional)"
-                          value={newTravelImage}
-                          onChange={e => setNewTravelImage(e.target.value)}
-                        />
+                        {/* Image Upload */}
+                        <ImageUpload onUploadSuccess={(url) => setImage(url)} />
+
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Image */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text font-semibold">Image URL</span>
-                </label>
-                <input
-                  type="url"
-                  placeholder="Enter image URL"
-                  className="input input-bordered w-full"
-                  value={image}
-                  onChange={(e) => setImage(e.target.value)}
-                  required
-                />
-              </div>
+              {/* Image Upload */}
+              <ImageUpload onUploadSuccess={(url) => setImage(url)} />
+
 
               {/* Author and Date */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -396,7 +375,7 @@ function AddBlogPage() {
                       >
                         <Bold className="w-4 h-4" />
                       </button>
-                      
+
                       <button
                         type="button"
                         onClick={() => editor.chain().focus().toggleItalic().run()}
@@ -405,7 +384,7 @@ function AddBlogPage() {
                       >
                         <Italic className="w-4 h-4" />
                       </button>
-                      
+
                       <button
                         type="button"
                         onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -414,7 +393,7 @@ function AddBlogPage() {
                       >
                         <List className="w-4 h-4" />
                       </button>
-                      
+
                       <button
                         type="button"
                         onClick={() => editor.chain().focus().toggleOrderedList().run()}
@@ -423,7 +402,7 @@ function AddBlogPage() {
                       >
                         <ListOrdered className="w-4 h-4" />
                       </button>
-                      
+
                       <button
                         type="button"
                         onClick={() => editor.chain().focus().toggleBlockquote().run()}
@@ -432,7 +411,7 @@ function AddBlogPage() {
                       >
                         <Quote className="w-4 h-4" />
                       </button>
-                      
+
                       <button
                         type="button"
                         onClick={() => editor.chain().focus().setTextAlign('left').run()}
@@ -441,7 +420,7 @@ function AddBlogPage() {
                       >
                         <AlignLeft className="w-4 h-4" />
                       </button>
-                      
+
                       <button
                         type="button"
                         onClick={() => editor.chain().focus().setTextAlign('center').run()}
@@ -450,7 +429,7 @@ function AddBlogPage() {
                       >
                         <AlignCenter className="w-4 h-4" />
                       </button>
-                      
+
                       <button
                         type="button"
                         onClick={() => editor.chain().focus().setTextAlign('right').run()}
@@ -459,7 +438,7 @@ function AddBlogPage() {
                       >
                         <AlignRight className="w-4 h-4" />
                       </button>
-                      
+
                       <button
                         type="button"
                         onClick={setLink}
@@ -468,16 +447,15 @@ function AddBlogPage() {
                       >
                         <LinkIcon className="w-4 h-4" />
                       </button>
-                      
-                      <button
-                        type="button"
-                        onClick={addImage}
-                        className="btn btn-sm btn-ghost"
-                        title="Add Image"
-                      >
-                        <ImageIcon className="w-4 h-4" />
-                      </button>
-                      
+
+                      <ImageUpload
+                        onUploadSuccess={(url) => {
+                          if (editor) {
+                            editor.chain().focus().setImage({ src: url }).run();
+                          }
+                        }}
+                      />
+
                       <button
                         type="button"
                         onClick={() => editor.chain().focus().undo().run()}
@@ -487,7 +465,7 @@ function AddBlogPage() {
                       >
                         <Undo className="w-4 h-4" />
                       </button>
-                      
+
                       <button
                         type="button"
                         onClick={() => editor.chain().focus().redo().run()}
@@ -565,8 +543,8 @@ function AddBlogPage() {
                 >
                   Cancel
                 </button>
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
                   disabled={publishing}
                 >
