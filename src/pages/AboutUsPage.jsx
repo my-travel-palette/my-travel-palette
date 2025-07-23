@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function AboutUsPage() {
   return (
     <div className="min-h-screen bg-base-200 py-8">
-      <div className="mx-8 lg:mx-16 xl:mx-24">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-6xl">
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body">
             <h1 className="text-4xl font-bold text-center mb-8 text-teal-700">
@@ -19,13 +19,17 @@ function AboutUsPage() {
                 <div className="card bg-base-200">
                   <div className="card-body">
                     <h3 className="card-title text-lg">Sevda Kahraman</h3>
-                    <p className="text-sm text-gray-600">Full Stack Developer</p>
+                    <p className="text-sm text-gray-600">
+                      Full Stack Developer
+                    </p>
                   </div>
                 </div>
                 <div className="card bg-base-200">
                   <div className="card-body">
                     <h3 className="card-title text-lg">Kateryna Soloviova</h3>
-                    <p className="text-sm text-gray-600">Full Stack Developer</p>
+                    <p className="text-sm text-gray-600">
+                      Full Stack Developer
+                    </p>
                   </div>
                 </div>
               </div>
@@ -37,14 +41,16 @@ function AboutUsPage() {
                 About My Travel Palette
               </h2>
               <p className="text-lg leading-relaxed mb-4">
-                My Travel Palette is a personal travel blog platform where we share our journeys, 
-                experiences, and memories from around the world. It's more than just a blog - it's 
-                a digital canvas where we paint the stories of our adventures, the colors of different 
+                My Travel Palette is a personal travel blog platform where we
+                share our journeys, experiences, and memories from around the
+                world. It's more than just a blog - it's a digital canvas where
+                we paint the stories of our adventures, the colors of different
                 cultures, and the moments that have shaped our perspectives.
               </p>
               <p className="text-lg leading-relaxed">
-                Through this platform, we invite you to travel with us, see what we see, feel what 
-                we feel, and perhaps be inspired to create your own travel palette.
+                Through this platform, we invite you to travel with us, see what
+                we see, feel what we feel, and perhaps be inspired to create
+                your own travel palette.
               </p>
             </div>
 
@@ -84,7 +90,9 @@ function AboutUsPage() {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Backend & Services</h3>
+                  <h3 className="text-lg font-semibold mb-2">
+                    Backend & Services
+                  </h3>
                   <ul className="space-y-2">
                     <li className="flex items-center">
                       <span className="w-2 h-2 bg-teal-500 rounded-full mr-3"></span>
@@ -173,22 +181,26 @@ function AboutUsPage() {
               </h2>
               <div className="bg-base-200 p-6 rounded-lg">
                 <p className="text-lg leading-relaxed mb-4">
-                  Our goal with My Travel Palette is to create a platform that goes beyond 
-                  traditional travel blogging. We wanted to build something that captures 
-                  not just the destinations, but the emotions, colors, and personal growth 
-                  that comes with travel.
+                  Our goal with My Travel Palette is to create a platform that
+                  goes beyond traditional travel blogging. We wanted to build
+                  something that captures not just the destinations, but the
+                  emotions, colors, and personal growth that comes with travel.
                 </p>
                 <p className="text-lg leading-relaxed">
-                  This project demonstrates our skills in modern web development, from 
-                  frontend design to backend integration, while creating a meaningful 
-                  platform for sharing travel stories and inspiring others to explore the world.
+                  This project demonstrates our skills in modern web
+                  development, from frontend design to backend integration,
+                  while creating a meaningful platform for sharing travel
+                  stories and inspiring others to explore the world.
                 </p>
               </div>
             </div>
 
             {/* Back to Home */}
             <div className="text-center">
-              <Link to="/" className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none">
+              <Link
+                to="/"
+                className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
+              >
                 Back to Home
               </Link>
             </div>
