@@ -37,9 +37,9 @@ function AddTravelPage() {
 
   return (
     <div className="min-h-screen bg-base-200 py-8">
-      <div className="container mx-auto px-4 max-w-2xl">
+      <div className="container mx-auto px-4 max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-4xl">
         <div className="card bg-base-100 shadow-xl">
-          <div className="card-body">
+          <div className="card-body p-6 md:p-8">
             <h2 className="card-title text-3xl font-bold text-center mb-8">
               Add New Travel
             </h2>
@@ -91,17 +91,17 @@ function AddTravelPage() {
               )}
 
               {/* Submit Buttons */}
-              <div className="flex justify-end gap-4 pt-4">
+              <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
                 <button
                   type="button"
                   onClick={() => navigate("/my-travels")}
-                  className="btn btn-ghost"
+                  className="btn btn-ghost w-full sm:w-auto"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
+                  className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none w-full sm:w-auto"
                   disabled={adding}
                 >
                   {adding ? "Adding..." : "Add Travel"}
