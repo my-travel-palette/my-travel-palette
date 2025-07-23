@@ -4,7 +4,7 @@ function HomePage() {
   return (
     <div className="px-4 md:px-8">
         <ImageSlider />
-        <div className="bg-base-200 p-6 rounded-lg shadow-md text-base-content font-sans leading-relaxed text-lg max-w-3xl mx-auto mt-8">
+        <div className="bg-base-200 p-6 rounded-lg shadow-md text-base-content font-sans leading-relaxed text-lg mt-8">
           <p className="mb-4">
             Welcome to{" "}
             <span className="font-bold text-emerald-800">
