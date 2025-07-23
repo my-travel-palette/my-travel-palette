@@ -77,11 +77,11 @@ function TravelListPage() {
   }
 
   return (
-    <div className="p-3">
-      <h1 className="text-3xl font-bold mb-4 text-center text-teal-700 ">
+    <div className="container mx-auto px-4 py-6">
+      <h1 className="text-3xl font-bold mb-6 text-center text-teal-700">
         Visited countries
       </h1>
-      <div className="p-2 flex justify-between items-center">
+      <div className="flex justify-between items-center px-2 sm:px-0 mb-6">
         <Link to={`/`} className="btn btn-ghost text-xl">
           <i className="fa fa-chevron-left p-2" aria-hidden="true"></i>Back
         </Link>
@@ -91,7 +91,7 @@ function TravelListPage() {
           </Link>
         )}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-1 p-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-2 sm:px-0">
         {travelList.length === 0 ? (
           <div className="col-span-full flex items-center justify-center min-h-[400px]">
             <div className="text-center">
@@ -112,11 +112,11 @@ function TravelListPage() {
             return (
               <div
                 key={travel.id}
-                className="card bg-base-300 w-96 shadow-sm m-5"
+                className="card bg-base-300 max-w-sm w-full shadow-sm m-auto md:m-5 relative"
               >
                 {isAdmin && (
                   <button
-                    className="btn btn-circle btn-sm absolute top-2 right-2 text-emerald-800"
+                    className="btn btn-circle btn-sm absolute top-2 right-2 text-emerald-800 z-10"
                     onClick={() => deleteTravel(travel.id)}
                   >
                     <i className="fa fa-trash-o" aria-hidden="true"></i>
