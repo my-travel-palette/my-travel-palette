@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const images = [
   "https://cdn.outsideonline.com/wp-content/uploads/2023/09/foliage-crestedbutte-caleb-jack-unsplash_h.jpg",
@@ -9,6 +9,15 @@ const images = [
 function ImageSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
+
+  // Auto-slide functionality
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % images.length);
@@ -27,11 +36,11 @@ function ImageSlider() {
   return (
     <div className="relative w-full">
       {imageError ? (
-        <div className="rounded-xl w-full h-[60vh] bg-gray-200 flex items-center justify-center">
+        <div className="rounded-xl w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] bg-gray-200 flex items-center justify-center">
           <div className="text-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-16 w-16 mx-auto text-gray-400 mb-4"
+              className="h-12 w-12 sm:h-16 sm:w-16 mx-auto text-gray-400 mb-4"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -40,32 +49,55 @@ function ImageSlider() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
               />
             </svg>
-            <p className="text-gray-500">Image not available</p>
+            <p className="text-gray-500 text-sm sm:text-base">Image not available</p>
           </div>
         </div>
       ) : (
-        <img
-          src={images[currentIndex]}
-          alt="Travel"
-          className="rounded-xl w-full h-[40vh] md:h-[60vh] object-cover"
-          onError={handleImageError}
-        />
+        <div className="relative">
+          <img
+            src={images[currentIndex]}
+            alt="Travel"
+            className="rounded-xl w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[85vh] object-cover"
+            onError={handleImageError}
+          />
+
+          {/* Quote overlay at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#9d7636]/90 via-[#9d7636]/70 to-transparent p-4 sm:p-6 lg:p-8">
+            <div className="text-center text-white">
+              <div className="flex items-center justify-center mb-2 sm:mb-4">
+                <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white mr-2 sm:mr-3" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                </svg>
+              </div>
+              <blockquote className="text-sm sm:text-lg md:text-xl lg:text-2xl font-light italic leading-relaxed mb-2 sm:mb-4 text-white drop-shadow-lg">
+                "These are the colors of my heart – the places I've traveled, the
+                skies I've memorized, and the moments that have stayed in my
+                heart.<br />
+                With each trip I paint a little more of my world."
+              </blockquote>
+              <div className="text-white text-xs sm:text-sm md:text-base font-medium drop-shadow-lg">
+                — Sevda & Kateryna
+              </div>
+            </div>
+          </div>
+        </div>
       )}
-      {/* Left arrow */}
+
+      {/* Navigation arrows */}
       {images.length > 1 && (
         <>
           <button
             onClick={prevSlide}
-            className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white text-gray-700 rounded-full p-1 md:p-2 text-sm md:text-base shadow hover:bg-gray-200"
+            className="absolute top-1/2 left-2 sm:left-4 transform -translate-y-1/2 bg-white text-gray-700 rounded-full p-1 sm:p-2 text-xs sm:text-sm md:text-base shadow hover:bg-gray-200 z-10"
           >
             ❮
           </button>
           <button
             onClick={nextSlide}
-            className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white text-gray-700 rounded-full p-1 md:p-2 text-sm md:text-base shadow hover:bg-gray-200"
+            className="absolute top-1/2 right-2 sm:right-4 transform -translate-y-1/2 bg-white text-gray-700 rounded-full p-1 sm:p-2 text-xs sm:text-sm md:text-base shadow hover:bg-gray-200 z-10"
           >
             ❯
           </button>
