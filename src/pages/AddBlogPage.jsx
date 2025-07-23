@@ -237,8 +237,8 @@ function AddBlogPage() {
 
   return (
     <div className="min-h-screen bg-base-200 py-8">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <div className="card bg-base-100 shadow-xl">
+      <div className="container mx-auto px-4 max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-4xl">
+        <div className="card bg-base-100 shadow-xl w-full">
           <div className="card-body">
             <h2 className="card-title text-3xl font-bold text-center mb-8">
               {blogId ? "Edit Blog Post" : "Add New Blog Post"}
@@ -265,7 +265,7 @@ function AddBlogPage() {
                 <label className="label">
                   <span className="label-text font-semibold">Select Travel</span>
                 </label>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <select
                     className="select select-bordered w-full"
                     value={selectedTravel}
@@ -290,7 +290,7 @@ function AddBlogPage() {
                   </div>
                   <div className="collapse-content">
                     <div className="space-y-3 pt-2">
-                      <div className="flex gap-2">
+                      <div className="flex flex-col sm:flex-row gap-2">
                         <input
                           type="text"
                           className="input input-bordered input-sm flex-1"
@@ -366,7 +366,7 @@ function AddBlogPage() {
                 <div className="border border-base-300 rounded-lg">
                   {/* Toolbar */}
                   <div className="bg-base-200 p-2 border-b border-base-300">
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
                       <button
                         type="button"
                         onClick={() => editor.chain().focus().toggleBold().run()}
@@ -488,7 +488,7 @@ function AddBlogPage() {
                 </label>
                 <div className="space-y-3">
                   {resources.map((resource, index) => (
-                    <div key={index} className="flex gap-2 items-start">
+                    <div key={index} className="flex flex-col sm:flex-row gap-2 items-start">
                       <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-2">
                         <input
                           type="url"
@@ -525,7 +525,7 @@ function AddBlogPage() {
               </div>
 
               {/* Submit Button */}
-              <div className="flex justify-end gap-4 pt-4">
+              <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
                 {blogId && (
                   <button
                     type="button"
