@@ -144,34 +144,34 @@ function CommentSection({ blogId }) {
           {currentUser ? (
             // User is logged in - show comment form
             <>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Comment</span>
-                </label>
-                <textarea
-                  className="textarea textarea-bordered h-24"
-                  placeholder="Write your comment here..."
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
-                  disabled={submitting}
-                ></textarea>
-              </div>
-              <div className="card-actions justify-end">
-                <button 
-                  className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none" 
-                  onClick={addComment}
-                  disabled={submitting}
-                >
-                  {submitting ? (
-                    <>
-                      <span className="loading loading-spinner loading-xs"></span>
-                      Posting...
-                    </>
-                  ) : (
-                    "Post Comment"
-                  )}
-                </button>
-              </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Comment</span>
+            </label>
+            <textarea
+              className="textarea textarea-bordered h-24"
+              placeholder="Write your comment here..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              disabled={submitting}
+            ></textarea>
+          </div>
+          <div className="card-actions justify-end">
+            <button 
+              className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none" 
+              onClick={addComment}
+              disabled={submitting}
+            >
+              {submitting ? (
+                <>
+                  <span className="loading loading-spinner loading-xs"></span>
+                  Posting...
+                </>
+              ) : (
+                "Post Comment"
+              )}
+            </button>
+          </div>
             </>
           ) : (
             // User is not logged in - show login prompt
