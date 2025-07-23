@@ -121,14 +121,14 @@ function BlogDetailPage() {
         <span>{new Date(blog.date).toDateString()}</span>
       </div>
 
-      <div className="pl-10">
+      <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40">
         <Link to={`/my-travels/${blog.travelId}`} className="text-xl link">
           <i className="fa fa-chevron-left p-2" aria-hidden="true"></i>Back
         </Link>
       </div>
 
       <img
-        className="h-180 w-full pl-40 pr-40 rounded-lg object-cover object-center"
+        className="h-80 w-full px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 rounded-lg object-cover object-center"
         src={blog.imageUrl}
         alt={blog.title}
         onError={(e) => {
@@ -136,12 +136,12 @@ function BlogDetailPage() {
         }}
       />
 
-      <div className="pl-40 pr-40 pt-6 text-lg text-justify">
+      <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 pt-6 text-lg text-justify">
         <HtmlRenderer content={blog.content} />
       </div>
 
       {blog.resources && blog.resources.length > 0 && (
-        <div className="pl-40 pr-40 pt-6 text-lg text-justify">
+        <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 pt-6 text-lg text-justify">
           <h1 className="font-bold">Useful links:</h1>
           {blog.resources.map((resourcesObj, index) => (
             <a href={resourcesObj.link} key={index} className="link link-primary">
@@ -156,7 +156,7 @@ function BlogDetailPage() {
 
       {/* Buttons */}
       {isAdmin && (
-        <div className="pl-40 pr-40 pt-6 text-lg text-right flex justify-end gap-4 pt-4">
+        <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 pt-6 flex flex-wrap justify-end gap-4">
           <button className="btn bg-red-600 hover:bg-red-700 text-white border-none" onClick={deleteBlog}>
             Delete
           </button>
