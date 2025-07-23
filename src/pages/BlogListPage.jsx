@@ -115,24 +115,24 @@ function BlogListPage() {
 
 
   return (
-    <div className="p-3">
-      <h1 className="text-3xl font-bold mb-4 text-center text-teal-700 ">
+    <div className="container mx-auto px-4 py-6">
+      <h1 className="text-3xl font-bold mb-6 text-center text-teal-700">
         {title}
       </h1>
-      
-      <div className="p-2 flex justify-between items-center">
+       {/* Navigation bar */}
+      <div className="flex justify-between items-center px-2 sm:px-0 mb-6">
         <Link to={`/my-travels`} className="btn btn-ghost text-xl">
           <i className="fa fa-chevron-left p-2" aria-hidden="true"></i>Back
         </Link>
+
         {isAdmin && (
           <Link to={`/add-blog/${travelId}`} className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none text-base px-4 py-2">
             <i className="fa fa-plus mr-2" aria-hidden="true"></i>Add New Blog
           </Link>
         )}
-
-      
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-1 p-5">
+       {/* Grid for blog cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-2 sm:px-0">
         {blogList.length === 0 ? (
           <div className="col-span-full flex items-center justify-center min-h-[400px]">
             <div className="text-center">
@@ -151,7 +151,7 @@ function BlogListPage() {
         ) : (
           blogList.map((blog) => {
             return (
-              <div key={blog.id} className="card bg-base-300 w-96 shadow-sm">
+              <div key={blog.id} className="card bg-base-300 max-w-sm w-full shadow-sm m-auto md:m-5">
                 <div className="relative">
                   {isAdmin && (
                     <>
@@ -160,6 +160,7 @@ function BlogListPage() {
                         onClick={() => {
                           deleteBlog(blog.id);
                         }}
+                        aria-label={`Delete blog titled ${blog.title}`}
                       >
                         <i className="fa fa-trash-o" aria-hidden="true"></i>
                       </button>
@@ -169,6 +170,7 @@ function BlogListPage() {
                         onClick={() => {
                           navigate(`/blog/edit/${blog.id}`);
                         }}
+                        aria-label={`Edit blog titled ${blog.title}`}
                       >
                         <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
                       </button>
