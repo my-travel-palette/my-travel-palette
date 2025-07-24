@@ -13,6 +13,7 @@ import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import ProfilePage from "./pages/ProfilePage";
 import BookmarksPage from "./pages/BookmarksPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/log-in" element={<LogIn />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/bookmarks" element={<BookmarksPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
 
