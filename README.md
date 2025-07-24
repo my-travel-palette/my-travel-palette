@@ -1,12 +1,79 @@
-# React + Vite
+# 🌍 My Travel Palette
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**My Travel Palette** is a full-stack web application built during the Web Development Bootcamp at [Ironhack](https://www.ironhack.com/). It allows users to document, organize, and share their travel experiences in a modern blog-style interface.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 📌 Add and manage travel destinations  
+- 🖼️ Upload images and categorize trips by countries  
+- 🌟 Favorite blog selection and filtering  
+- 📝 Rich text blog editor with image and link embedding  
+- 🔐 User authentication with Firebase  
+- 🛡️ Role-based access control  
+- 🔄 Password reset via email  
+- 📱 Fully responsive design for all devices  
+- 🎨 Modern and clean UI using Tailwind CSS & DaisyUI  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🚀 Tech Stack
+
+### Frontend
+
+- [React 19.1.0](https://reactjs.org/)
+- [Tailwind CSS 4.1.11](https://tailwindcss.com/)
+- [DaisyUI 5.0.46](https://daisyui.com/)
+- [TipTap Editor](https://tiptap.dev/)
+- [Lucide React Icons](https://lucide.dev/)
+- [Cloudinary](https://cloudinary.com/)
+
+
+### Backend & Services
+
+- [Firebase Authentication](https://firebase.google.com/products/auth)
+- [Firebase Realtime Database](https://firebase.google.com/products/realtime-database)
+- [Firebase Firestore](https://firebase.google.com/products/firestore)
+- [Axios](https://axios-http.com/)
+- [Vite](https://vitejs.dev/)
+
+---
+
+## 🧭 Project Goals
+
+The goal was to design and implement a full-stack web application reflecting real-world development practices. This project demonstrates:
+
+- Full-stack development skills  
+- Responsive frontend design  
+- Clean and maintainable codebase  
+- Integration of modern tools and frameworks  
+
+---
+
+## 👥 Team
+
+### **Sevda Kahraman**  
+_Full Stack Developer_  
+📧 sevda.s.kahraman@gmail.com  
+[LinkedIn](https://www.linkedin.com/in/sevda-kahraman/)
+
+### **Kateryna Soloviova**  
+_Full Stack Developer_  
+📧 soloviova.kateryna@gmail.com  
+[LinkedIn](https://www.linkedin.com/in/kateryna-soloviova-b4629b157/)
+
+---
+
+## 📦 Setup Instructions
+
+```bash
+# Clone the repository
+git clone https://github.com/my-travel-palette/my-travel-palette
+cd my-travel-palette
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
