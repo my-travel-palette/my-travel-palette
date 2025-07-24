@@ -41,7 +41,7 @@ function AddTravelPage() {
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body p-6 md:p-8">
             <h2 className="card-title text-3xl font-bold text-center mb-8">
-              Add New Travel
+              Add New Country
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
