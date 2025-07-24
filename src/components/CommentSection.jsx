@@ -1,12 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { BASE_URL } from "../config/api";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import EmojiPicker from "emoji-picker-react";
+import ReactMarkdown from "react-markdown";
 
 function CommentSection({ blogId }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [editingComment, setEditingComment] = useState(null);
   const [editContent, setEditContent] = useState("");
   const [loading, setLoading] = useState(true);
@@ -14,6 +17,7 @@ function CommentSection({ blogId }) {
   const [submitting, setSubmitting] = useState(false);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+  const contentRef = useRef(null);
 
   useEffect(() => {
     getComments();
@@ -22,17 +26,16 @@ function CommentSection({ blogId }) {
   const getComments = () => {
     setLoading(true);
     setError(null);
-    
+
     axios
       .get(`${BASE_URL}/comments.json`)
       .then((response) => {
         if (response.data) {
-          // Filter comments for this specific blog
           const blogComments = Object.entries(response.data)
             .filter(([, comment]) => comment.blogId === blogId)
             .map(([key, comment]) => ({
               id: key,
-              ...comment
+              ...comment,
             }));
           setComments(blogComments);
         }
@@ -64,14 +67,14 @@ function CommentSection({ blogId }) {
       author: currentUser.name,
       authorId: currentUser.uid,
       content: newComment,
-      date: new Date().toISOString()
+      date: new Date().toISOString(),
     };
 
     axios
       .post(`${BASE_URL}/comments.json`, commentData)
       .then(() => {
         setNewComment("");
-        getComments(); // Refresh comments
+        getComments();
       })
       .catch((error) => {
         console.log("Error adding comment to the API...", error);
@@ -87,7 +90,7 @@ function CommentSection({ blogId }) {
       axios
         .delete(`${BASE_URL}/comments/${commentId}.json`)
         .then(() => {
-          getComments(); // Refresh comments
+          getComments();
         })
         .catch((error) => {
           console.log("Error deleting comment from the API...", error);
@@ -114,7 +117,17 @@ function CommentSection({ blogId }) {
 
     const updatedComment = {
       content: editContent,
-      date: new Date().toISOString()
+      date: new Date().toISOString(),
+    };
+
+    const applyFormat = (command) => {
+      document.execCommand(command, false, null);
+      // Update state with current HTML content
+      setNewComment(contentRef.current.innerHTML);
+    };
+
+    const handleInput = () => {
+      setNewComment(contentRef.current.innerHTML);
     };
 
     axios
@@ -122,7 +135,7 @@ function CommentSection({ blogId }) {
       .then(() => {
         setEditingComment(null);
         setEditContent("");
-        getComments(); // Refresh comments
+        getComments();
       })
       .catch((error) => {
         console.log("Error updating comment in the API...", error);
@@ -130,62 +143,129 @@ function CommentSection({ blogId }) {
       });
   };
 
+  // ✅ FIXED: Moved out of saveEdit
+  const handleLike = (id) => {
+    setComments((prev) =>
+      prev.map((comment) =>
+        comment.id === id
+          ? { ...comment, likes: (comment.likes || 0) + 1 }
+          : comment
+      )
+    );
+  };
+
   return (
-    <div className="pl-40 pr-40 pt-8">
+    <div className="px-4 md:px-40 pt-8">
       <div className="divider">
-        <h2 className="text-2xl font-bold text-teal-700">Comments</h2>
+        <h2 className="text-2xl font-bold text-emerald-800">Comments</h2>
       </div>
 
       {/* Add Comment Form */}
       <div className="card bg-base-100 shadow-xl mb-6">
-        <div className="card-body">
-          <h3 className="card-title text-lg">Add a Comment</h3>
-          
+        <div className="card-body space-y-4">
+          <h3 className="card-title text-lg text-emerald-800">Add a Comment</h3>
+
           {currentUser ? (
-            // User is logged in - show comment form
             <>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Comment</span>
-            </label>
-            <textarea
-              className="textarea textarea-bordered h-24"
-              placeholder="Write your comment here..."
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              disabled={submitting}
-            ></textarea>
-          </div>
-          <div className="card-actions justify-end">
-            <button 
-              className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none" 
-              onClick={addComment}
-              disabled={submitting}
-            >
-              {submitting ? (
-                <>
-                  <span className="loading loading-spinner loading-xs"></span>
-                  Posting...
-                </>
-              ) : (
-                "Post Comment"
-              )}
-            </button>
-          </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Comment</span>
+                </label>
+
+                <div className="relative">
+                  <textarea
+                    className="textarea textarea-bordered w-full min-h-[100px] rounded-md"
+                    placeholder="Write your comment..."
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    disabled={submitting}
+                  ></textarea>
+
+                  {/* Emoji Toggle Button */}
+                  <button
+                    type="button"
+                    className="absolute bottom-2 right-2 text-lg"
+                    onClick={() => setShowEmojiPicker((prev) => !prev)}
+                  >
+                    😊
+                  </button>
+
+                  {/* Emoji Picker (conditionally rendered) */}
+                  {showEmojiPicker && (
+                    <div className="absolute bottom-12 right-0 z-50">
+                      <EmojiPicker
+                        onEmojiClick={(emojiData) =>
+                          setNewComment((prev) => prev + emojiData.emoji)
+                        }
+                        height={320}
+                        width={280}
+                        previewConfig={{ showPreview: false }}
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Optional Formatting Buttons */}
+                <div className="flex gap-2 mt-2">
+                  <button
+                    type="button"
+                    className="btn btn-xs btn-outline"
+                    onClick={() => setNewComment((prev) => prev + "**bold** ")}
+                  >
+                    <b>B</b>
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-xs btn-outline"
+                    onClick={() => setNewComment((prev) => prev + "_italic_ ")}
+                  >
+                    <i>I</i>
+                  </button>
+                </div>
+              </div>
+
+              <div className="card-actions justify-end">
+                <button
+                  className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
+                  onClick={addComment}
+                  disabled={submitting}
+                >
+                  {submitting ? (
+                    <>
+                      <span className="loading loading-spinner loading-xs"></span>
+                      Posting...
+                    </>
+                  ) : (
+                    "Post Comment"
+                  )}
+                </button>
+              </div>
             </>
           ) : (
-            // User is not logged in - show login prompt
             <div className="text-center py-6">
               <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 max-w-md mx-auto">
                 <div className="flex items-center justify-center mb-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
                   </svg>
                 </div>
-                <p className="text-gray-600 text-sm mb-4">Please log in to comment</p>
-                <button 
+                <p className="text-gray-600 text-sm mb-4">
+                  Please log in to comment
+                </p>
+                <button
                   className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
-                  onClick={() => navigate('/log-in')}
+                  onClick={() => navigate("/log-in")}
                 >
                   Log In
                 </button>
@@ -205,10 +285,22 @@ function CommentSection({ blogId }) {
         ) : error ? (
           <div className="text-center py-8">
             <div className="alert alert-error max-w-md mx-auto">
-              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" /></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="stroke-current shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                />
+              </svg>
               <span>{error}</span>
             </div>
-            <button 
+            <button
               className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none mt-4"
               onClick={getComments}
             >
@@ -217,8 +309,19 @@ function CommentSection({ blogId }) {
           </div>
         ) : comments.length === 0 ? (
           <div className="text-center text-gray-500 py-8">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-12 w-12 mx-auto text-gray-400 mb-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+              />
             </svg>
             <p>No comments yet. Be the first to comment!</p>
           </div>
@@ -250,7 +353,7 @@ function CommentSection({ blogId }) {
                     </div>
                   </div>
                 </div>
-                
+
                 {editingComment === comment.id ? (
                   <div className="mt-2">
                     <textarea
@@ -275,7 +378,9 @@ function CommentSection({ blogId }) {
                     </div>
                   </div>
                 ) : (
-                  <p className="text-sm">{comment.content}</p>
+                  <ReactMarkdown>
+                    {comment.content}
+                  </ReactMarkdown>
                 )}
               </div>
             </div>
@@ -286,4 +391,4 @@ function CommentSection({ blogId }) {
   );
 }
 
-export default CommentSection; 
+export default CommentSection;
