@@ -167,6 +167,7 @@ function AddBlogPage() {
           .put(`${BASE_URL}/blogs.json`, allBlogs)
           .then(() => {
             navigate(`/blogs/${blogId}`);
+            window.scrollTo(0, 0);
           })
           .catch((error) => {
             console.log("Error updating blog:", error);
@@ -182,7 +183,9 @@ function AddBlogPage() {
         .post(`${BASE_URL}/blogs.json`, blogData)
         .then((response) => {
           console.log("Blog added successfully:", response.data);
-          navigate("/blogs");
+          const newBlogId = response.data.name;
+          navigate(`/blogs/${newBlogId}`);
+          window.scrollTo(0, 0);
         })
         .catch((error) => {
           console.log("Error adding blog:", error);
