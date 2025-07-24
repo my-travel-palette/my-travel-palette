@@ -6,13 +6,12 @@ function AboutUsPage() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-6xl">
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body">
-            <h1 className="text-4xl font-bold text-center mb-8 text-[#5a7d1a]">
-              About Us
-            </h1>
+            <h1 className="text-3xl font-bold text-center mb-8">About Us</h1>
 
             {/* Project Team */}
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4 text-[#5a7d1a]">
+              <h2 className="text-2xl font-semibold mb-4 text-[#5a7d1a] flex items-center gap-2">
+                <i className="fa fa-users text-base md:text-xl"></i>
                 Project Team
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -37,11 +36,12 @@ function AboutUsPage() {
 
             {/* Project Description */}
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4 text-[#5a7d1a]">
+              <h2 className="text-2xl font-semibold mb-4 text-[#5a7d1a] flex items-center gap-2">
+                <i className="fa fa-map-signs text-base md:text-xl"></i>
                 About My Travel Palette
               </h2>
               <p className="text-lg leading-relaxed mb-4">
-                My Travel Palette is a full-stack web application developed as
+                <span className="text-[#d89d20] font-bold">My Travel Palette</span> is a full-stack web application developed as
                 part of our Web Development Bootcamp at Ironhack. Built with
                 modern technologies, it serves as a digital travel blog platform
                 where users can document, manage, and share their travel
@@ -253,10 +253,11 @@ function AboutUsPage() {
               </h2>
               <div className="bg-base-200 p-6 rounded-lg">
                 <p className="text-lg leading-relaxed mb-4">
-                  Our goal with My Travel Palette is to create a platform that
-                  goes beyond traditional travel blogging. We wanted to build
-                  something that captures not just the destinations, but the
-                  emotions, colors, and personal growth that comes with travel.
+                  At <span className="text-[#d89d20] font-bold">My Travel Palette</span>, our goal was to create a learning
+                  project that would allow us to apply and showcase our growing
+                  skills as full-stack developers. We chose the theme of travel
+                  because it inspires us and provides a creative, meaningful way
+                  to design and build something from scratch.
                 </p>
                 <p className="text-lg leading-relaxed">
                   This project demonstrates our skills in modern web
@@ -271,7 +272,7 @@ function AboutUsPage() {
             <div className="text-center">
               <Link
                 to="/"
-                className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
+                className="btn bg-[#5a7d1a] hover:bg-[#4c6f18] text-white border-none"
               >
                 Back to Home
               </Link>
