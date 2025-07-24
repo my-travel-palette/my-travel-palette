@@ -50,8 +50,34 @@ function AddBlogPage() {
   // TipTap editor setup
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      Image,
+      StarterKit.configure({
+        blockquote: {
+          HTMLAttributes: {
+            class: 'border-l-4 border-[#5A7D1A] pl-4 py-2 bg-base-200/50 italic',
+          },
+        },
+        bulletList: {
+          HTMLAttributes: {
+            class: 'list-disc list-inside space-y-1',
+          },
+        },
+        orderedList: {
+          HTMLAttributes: {
+            class: 'list-decimal list-inside space-y-1',
+          },
+        },
+        listItem: {
+          HTMLAttributes: {
+            class: 'ml-4',
+          },
+        },
+      }),
+      Image.configure({
+        HTMLAttributes: {
+          class: 'max-w-full h-auto rounded-lg shadow-md',
+        },
+        allowBase64: true,
+      }),
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
@@ -62,7 +88,7 @@ function AddBlogPage() {
         placeholder: "Start writing your blog post...",
       }),
       TextAlign.configure({
-        types: ["heading", "paragraph"],
+        types: ["heading", "paragraph", "blockquote"],
         alignments: ["left", "center", "right", "justify"],
       }),
       Underline,
@@ -413,9 +439,10 @@ function AddBlogPage() {
                           onClick={() =>
                             editor.chain().focus().toggleBold().run()
                           }
-                          className={`btn btn-sm ${
-                            editor.isActive("bold") ? "btn-primary" : "btn-ghost"
+                          className={`btn btn-sm transition-all duration-200 ${
+                            editor.isActive("bold") ? "text-white border-none shadow-md" : "btn-ghost hover:bg-base-300"
                           }`}
+                          style={editor.isActive("bold") ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
                           title="Bold"
                         >
                           <Bold className="w-4 h-4" />
@@ -426,11 +453,12 @@ function AddBlogPage() {
                           onClick={() =>
                             editor.chain().focus().toggleItalic().run()
                           }
-                          className={`btn btn-sm ${
+                          className={`btn btn-sm transition-all duration-200 ${
                             editor.isActive("italic")
-                              ? "btn-primary"
-                              : "btn-ghost"
+                              ? "text-white border-none shadow-md"
+                              : "btn-ghost hover:bg-base-300"
                           }`}
+                          style={editor.isActive("italic") ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
                           title="Italic"
                         >
                           <Italic className="w-4 h-4" />
@@ -441,11 +469,12 @@ function AddBlogPage() {
                           onClick={() =>
                             editor.chain().focus().toggleBulletList().run()
                           }
-                          className={`btn btn-sm ${
+                          className={`btn btn-sm transition-all duration-200 ${
                             editor.isActive("bulletList")
-                              ? "btn-primary"
-                              : "btn-ghost"
+                              ? "text-white border-none shadow-md"
+                              : "btn-ghost hover:bg-base-300"
                           }`}
+                          style={editor.isActive("bulletList") ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
                           title="Bullet List"
                         >
                           <List className="w-4 h-4" />
@@ -456,11 +485,12 @@ function AddBlogPage() {
                           onClick={() =>
                             editor.chain().focus().toggleOrderedList().run()
                           }
-                          className={`btn btn-sm ${
+                          className={`btn btn-sm transition-all duration-200 ${
                             editor.isActive("orderedList")
-                              ? "btn-primary"
-                              : "btn-ghost"
+                              ? "text-white border-none shadow-md"
+                              : "btn-ghost hover:bg-base-300"
                           }`}
+                          style={editor.isActive("orderedList") ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
                           title="Numbered List"
                         >
                           <ListOrdered className="w-4 h-4" />
@@ -471,11 +501,12 @@ function AddBlogPage() {
                           onClick={() =>
                             editor.chain().focus().toggleBlockquote().run()
                           }
-                          className={`btn btn-sm ${
+                          className={`btn btn-sm transition-all duration-200 ${
                             editor.isActive("blockquote")
-                              ? "btn-primary"
-                              : "btn-ghost"
+                              ? "text-white border-none shadow-md"
+                              : "btn-ghost hover:bg-base-300"
                           }`}
+                          style={editor.isActive("blockquote") ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
                           title="Quote"
                         >
                           <Quote className="w-4 h-4" />
@@ -486,11 +517,12 @@ function AddBlogPage() {
                           onClick={() =>
                             editor.chain().focus().setTextAlign("left").run()
                           }
-                          className={`btn btn-sm ${
+                          className={`btn btn-sm transition-all duration-200 ${
                             editor.isActive("textAlign", { align: "left" })
-                              ? "btn-primary"
-                              : "btn-ghost"
+                              ? "text-white border-none shadow-md"
+                              : "btn-ghost hover:bg-base-300"
                           }`}
+                          style={editor.isActive("textAlign", { align: "left" }) ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
                           title="Align Left"
                         >
                           <AlignLeft className="w-4 h-4" />
@@ -501,11 +533,12 @@ function AddBlogPage() {
                           onClick={() =>
                             editor.chain().focus().setTextAlign("center").run()
                           }
-                          className={`btn btn-sm ${
+                          className={`btn btn-sm transition-all duration-200 ${
                             editor.isActive("textAlign", { align: "center" })
-                              ? "btn-primary"
-                              : "btn-ghost"
+                              ? "text-white border-none shadow-md"
+                              : "btn-ghost hover:bg-base-300"
                           }`}
+                          style={editor.isActive("textAlign", { align: "center" }) ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
                           title="Align Center"
                         >
                           <AlignCenter className="w-4 h-4" />
@@ -516,11 +549,12 @@ function AddBlogPage() {
                           onClick={() =>
                             editor.chain().focus().setTextAlign("right").run()
                           }
-                          className={`btn btn-sm ${
+                          className={`btn btn-sm transition-all duration-200 ${
                             editor.isActive("textAlign", { align: "right" })
-                              ? "btn-primary"
-                              : "btn-ghost"
+                              ? "text-white border-none shadow-md"
+                              : "btn-ghost hover:bg-base-300"
                           }`}
+                          style={editor.isActive("textAlign", { align: "right" }) ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
                           title="Align Right"
                         >
                           <AlignRight className="w-4 h-4" />
@@ -529,9 +563,10 @@ function AddBlogPage() {
                         <button
                           type="button"
                           onClick={setLink}
-                          className={`btn btn-sm ${
-                            editor.isActive("link") ? "btn-primary" : "btn-ghost"
+                          className={`btn btn-sm transition-all duration-200 ${
+                            editor.isActive("link") ? "text-white border-none shadow-md" : "btn-ghost hover:bg-base-300"
                           }`}
+                          style={editor.isActive("link") ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
                           title="Add Link"
                         >
                           <LinkIcon className="w-4 h-4" />
@@ -566,9 +601,7 @@ function AddBlogPage() {
                                       .focus()
                                       .setImage({
                                         src: url,
-                                        attributes: {
-                                          style: "width: 100%; height: auto;",
-                                        },
+                                        alt: "Uploaded image",
                                       })
                                       .run();
                                   }
@@ -603,7 +636,7 @@ function AddBlogPage() {
                   </div>
                   <EditorContent
                     editor={editor}
-                    className="prose max-w-none p-4 min-h-[400px]"
+                    className="prose max-w-none p-4 min-h-[400px] [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-[400px] [&_.ProseMirror_blockquote]:border-l-4 [&_.ProseMirror_blockquote]:border-[#5A7D1A] [&_.ProseMirror_blockquote]:pl-4 [&_.ProseMirror_blockquote]:py-2 [&_.ProseMirror_blockquote]:bg-base-200/50 [&_.ProseMirror_blockquote]:italic [&_.ProseMirror_blockquote]:my-4 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:list-inside [&_.ProseMirror_ul]:space-y-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:list-inside [&_.ProseMirror_ol]:space-y-1 [&_.ProseMirror_li]:ml-4 [&_.ProseMirror_img]:max-w-full [&_.ProseMirror_img]:h-auto [&_.ProseMirror_img]:rounded-lg [&_.ProseMirror_img]:shadow-md [&_.ProseMirror_img]:my-4"
                   />
                 </div>
               </div>
