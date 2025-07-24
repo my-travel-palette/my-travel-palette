@@ -80,7 +80,7 @@ const ImageUpload = ({ onUploadSuccess, compact = false }) => {
         type="button"
         onClick={uploadImage}
         disabled={uploading}
-        className={`btn btn-sm mt-2 w-full bg-emerald-800 hover:bg-emerald-700 text-white border-none ${compact ? "py-1" : "py-2"}`}
+        className={`px-4 py-2 text-sm font-medium text-white bg-[#d89d20]/80 hover:bg-[#be6406]/90 rounded-lg transition-colors w-full ${compact ? "py-1" : "py-2"}`}
       >
         {uploading ? 'Uploading...' : 'Upload'}
       </button>
