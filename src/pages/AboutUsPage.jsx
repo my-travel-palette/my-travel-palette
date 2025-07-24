@@ -36,7 +36,7 @@ function AboutUsPage() {
                         <span className="flex items-center cursor-default text-gray-700 mb-2 break-words w-full"
                         style={{ wordBreak: 'break-word' }}>
                           <i className="fa fa-envelope mr-2"></i>{" "}
-                          soloviova.kateryna@gmail.com
+                          sevda.s.kahraman@gmail.com
                         </span>
                         <a
                           href="https://github.com/sevdakahraman"
@@ -47,7 +47,7 @@ function AboutUsPage() {
                           <i className="fa fa-github mr-1"></i>GitHub
                         </a>
                         <a
-                          href="https://linkedin.com/in/sevda"
+                          href="https://www.linkedin.com/in/sevda-kahraman/"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="hover:text-[#5a7d1a]"
