@@ -177,13 +177,16 @@ function BlogListPage() {
                     </>
                   )}
                   
-                  <BookmarkButton 
-                    blogId={blog.id}
-                    blogTitle={blog.title}
-                    blogImageUrl={blog.imageUrl}
-                    blogAuthor={blog.author}
-                    blogDate={blog.date}
-                  />
+                  <div className="absolute top-2 left-2">
+                    <BookmarkButton 
+                      blogId={blog.id}
+                      blogTitle={blog.title}
+                      blogImageUrl={blog.imageUrl}
+                      blogAuthor={blog.author}
+                      blogDate={blog.date}
+                      isListPage={true}
+                    />
+                  </div>
 
                   <Link to={`/blogs/${blog.id}`}>
                     <figure className="w-full h-48 overflow-hidden">

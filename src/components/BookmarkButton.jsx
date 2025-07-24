@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../config/api";
 
-function BookmarkButton({ blogId, blogTitle, blogImageUrl, blogAuthor, blogDate }) {
+function BookmarkButton({ blogId, blogTitle, blogImageUrl, blogAuthor, blogDate, isListPage = false }) {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [loading, setLoading] = useState(false);
   const { currentUser } = useAuth();
@@ -81,15 +81,18 @@ function BookmarkButton({ blogId, blogTitle, blogImageUrl, blogAuthor, blogDate 
 
   return (
     <button
-      className={`btn btn-ghost btn-sm ${isBookmarked ? 'text-yellow-500' : 'text-gray-400'}`}
+      className={`${isListPage 
+        ? `btn btn-circle btn-sm ${isBookmarked ? 'text-yellow-500' : 'text-gray-600'} bg-white/90 hover:bg-white/95 shadow-md` 
+        : `btn btn-ghost btn-lg ${isBookmarked ? 'text-yellow-500' : 'text-gray-600'}`
+      }`}
       onClick={toggleBookmark}
       disabled={loading}
       title={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
     >
       {loading ? (
-        <span className="loading loading-spinner loading-xs"></span>
+        <span className={`loading loading-spinner ${isListPage ? 'loading-xs' : 'loading-md'}`}></span>
       ) : (
-        <i className={`fa ${isBookmarked ? 'fa-bookmark' : 'fa-bookmark-o'}`}></i>
+        <i className={`fa ${isListPage ? 'text-sm' : 'text-2xl'} ${isBookmarked ? 'fa-bookmark' : 'fa-bookmark-o'}`}></i>
       )}
     </button>
   );

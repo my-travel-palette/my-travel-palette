@@ -105,8 +105,19 @@ function BlogDetailPage() {
 
   return (
     <div className="p-3">
-      <div className="flex justify-between items-start mb-4">
-        <h1 className="text-3xl mb-4 text-center text-teal-700 flex-1">{blog.title}</h1>
+      <div className="mb-4">
+        <h1 className="text-3xl mb-4 text-center text-teal-700">{blog.title}</h1>
+      </div>
+      
+      <div className="text-sm mb-4 text-center text-teal-700">
+        by {" " + blog.author.join(" & ") + " • "}
+        <span>{new Date(blog.date).toDateString()}</span>
+      </div>
+
+      <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 flex justify-between items-center">
+        <Link to={`/my-travels/${blog.travelId}`} className="text-xl link">
+          <i className="fa fa-chevron-left p-2" aria-hidden="true"></i>Back
+        </Link>
         <BookmarkButton 
           blogId={blogId}
           blogTitle={blog.title}
@@ -115,26 +126,17 @@ function BlogDetailPage() {
           blogDate={blog.date}
         />
       </div>
-      
-      <div className="text-sm mb-4 text-center text-teal-700">
-        by {" " + blog.author.join(" & ") + " • "}
-        <span>{new Date(blog.date).toDateString()}</span>
-      </div>
 
       <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40">
-        <Link to={`/my-travels/${blog.travelId}`} className="text-xl link">
-          <i className="fa fa-chevron-left p-2" aria-hidden="true"></i>Back
-        </Link>
+        <img
+          className="h-80 w-full rounded-lg object-cover object-center"
+          src={blog.imageUrl}
+          alt={blog.title}
+          onError={(e) => {
+            e.target.src = "https://via.placeholder.com/800x400?text=Image+Not+Found";
+          }}
+        />
       </div>
-
-      <img
-        className="h-80 w-full px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 rounded-lg object-cover object-center"
-        src={blog.imageUrl}
-        alt={blog.title}
-        onError={(e) => {
-          e.target.src = "https://via.placeholder.com/800x400?text=Image+Not+Found";
-        }}
-      />
 
       <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 pt-6 text-lg text-justify">
         <HtmlRenderer content={blog.content} />
