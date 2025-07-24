@@ -194,33 +194,16 @@ function CommentSection({ blogId }) {
                   {showEmojiPicker && (
                     <div className="absolute bottom-12 right-0 z-50">
                       <EmojiPicker
-                        onEmojiClick={(emojiData) =>
-                          setNewComment((prev) => prev + emojiData.emoji)
-                        }
+                        onEmojiClick={(emojiData) => {
+                          setNewComment((prev) => prev + emojiData.emoji);
+                          setShowEmojiPicker(false); 
+                        }}
                         height={320}
                         width={280}
                         previewConfig={{ showPreview: false }}
                       />
                     </div>
                   )}
-                </div>
-
-                {/* Optional Formatting Buttons */}
-                <div className="flex gap-2 mt-2">
-                  <button
-                    type="button"
-                    className="btn btn-xs btn-outline"
-                    onClick={() => setNewComment((prev) => prev + "**bold** ")}
-                  >
-                    <b>B</b>
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-xs btn-outline"
-                    onClick={() => setNewComment((prev) => prev + "_italic_ ")}
-                  >
-                    <i>I</i>
-                  </button>
                 </div>
               </div>
 
@@ -378,9 +361,7 @@ function CommentSection({ blogId }) {
                     </div>
                   </div>
                 ) : (
-                  <ReactMarkdown>
-                    {comment.content}
-                  </ReactMarkdown>
+                  <ReactMarkdown>{comment.content}</ReactMarkdown>
                 )}
               </div>
             </div>
