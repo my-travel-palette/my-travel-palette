@@ -102,7 +102,7 @@ function SignUp() {
 
             <button
               type="submit"
-              className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none w-full"
+              className="btn bg-[#5a7d1a] hover:bg-[#5a7d1a] text-white border-none w-full"
               disabled={loading}
             >
               {loading ? "Creating..." : "Create Account"}

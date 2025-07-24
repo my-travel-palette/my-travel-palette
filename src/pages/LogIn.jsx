@@ -66,7 +66,7 @@ function LogIn() {
             </div>
 
             <button
-              className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none w-full"
+              className="btn bg-[#5a7d1a] hover:bg-[#5a7d1a] text-white border-none w-full"
               disabled={loading}
             >
               {loading ? "Logging in..." : "Login"}
