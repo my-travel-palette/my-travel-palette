@@ -3,17 +3,30 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../config/api";
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Image from '@tiptap/extension-image';
-import Link from '@tiptap/extension-link';
-import Placeholder from '@tiptap/extension-placeholder';
-import TextAlign from '@tiptap/extension-text-align';
-import Underline from '@tiptap/extension-underline';
-import { Color } from '@tiptap/extension-color';
-import { TextStyle } from '@tiptap/extension-text-style';
-import Highlight from '@tiptap/extension-highlight';
-import { Bold, Italic, List, ListOrdered, Quote, Undo, Redo, AlignLeft, AlignCenter, AlignRight, Link as LinkIcon, Image as ImageIcon } from 'lucide-react';
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
+import Link from "@tiptap/extension-link";
+import Placeholder from "@tiptap/extension-placeholder";
+import TextAlign from "@tiptap/extension-text-align";
+import Underline from "@tiptap/extension-underline";
+import { Color } from "@tiptap/extension-color";
+import { TextStyle } from "@tiptap/extension-text-style";
+import Highlight from "@tiptap/extension-highlight";
+import {
+  Bold,
+  Italic,
+  List,
+  ListOrdered,
+  Quote,
+  Undo,
+  Redo,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  Link as LinkIcon,
+  Image as ImageIcon,
+} from "lucide-react";
 import ImageUpload from "../components/ImageUpload";
 
 function AddBlogPage() {
@@ -41,26 +54,26 @@ function AddBlogPage() {
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: 'text-blue-500 underline',
+          class: "text-blue-500 underline",
         },
       }),
       Placeholder.configure({
-        placeholder: 'Start writing your blog post...',
+        placeholder: "Start writing your blog post...",
       }),
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
-        alignments: ['left', 'center', 'right', 'justify'],
+        types: ["heading", "paragraph"],
+        alignments: ["left", "center", "right", "justify"],
       }),
       Underline,
       Color,
       TextStyle,
       Highlight,
     ],
-    content: '',
+    content: "",
   });
 
   const setLink = () => {
-    const url = window.prompt('Enter URL:');
+    const url = window.prompt("Enter URL:");
     if (url && editor) {
       editor.chain().focus().setLink({ href: url }).run();
     }
@@ -85,7 +98,8 @@ function AddBlogPage() {
   // Fetch blog data if editing
   useEffect(() => {
     if (blogId && editor) {
-      axios.get(`${BASE_URL}/blogs/${blogId}.json`)
+      axios
+        .get(`${BASE_URL}/blogs/${blogId}.json`)
         .then((response) => {
           const blog = response.data;
 
@@ -93,9 +107,15 @@ function AddBlogPage() {
             setTitle(blog.title || "");
             setSelectedTravel(blog.travelId || "");
             setImage(blog.imageUrl || "");
-            setAuthor(Array.isArray(blog.author) ? blog.author.join(" & ") : blog.author || "");
+            setAuthor(
+              Array.isArray(blog.author)
+                ? blog.author.join(" & ")
+                : blog.author || ""
+            );
             // Convert date to YYYY-MM-DD format for HTML date input
-            const dateValue = blog.date ? new Date(blog.date).toISOString().split('T')[0] : "";
+            const dateValue = blog.date
+              ? new Date(blog.date).toISOString().split("T")[0]
+              : "";
             setDate(dateValue);
             setResources(blog.resources || [{ link: "", description: "" }]);
 
@@ -114,12 +134,14 @@ function AddBlogPage() {
   }, [blogId, editor]);
 
   if (!editor) {
-    return <div className="min-h-screen bg-base-200 py-8 flex items-center justify-center">
-      <div className="text-center">
-        <span className="loading loading-spinner loading-lg text-teal-700"></span>
-        <p className="mt-4">Loading editor...</p>
+    return (
+      <div className="min-h-screen bg-base-200 py-8 flex items-center justify-center">
+        <div className="text-center">
+          <span className="loading loading-spinner loading-lg text-teal-700"></span>
+          <p className="mt-4">Loading editor...</p>
+        </div>
       </div>
-    </div>;
+    );
   }
 
   const handleSubmit = (e) => {
@@ -130,10 +152,10 @@ function AddBlogPage() {
       title: title,
       travelId: selectedTravel,
       imageUrl: image,
-      author: author.split("&").map(a => a.trim()),
+      author: author.split("&").map((a) => a.trim()),
       date: date,
       content: editor.getHTML(),
-      resources: resources.filter(resource => resource.link.trim() !== ""),
+      resources: resources.filter((resource) => resource.link.trim() !== ""),
     };
     if (blogId) {
       // Edit mode: update existing blog with PUT /blogs.json
@@ -190,13 +212,17 @@ function AddBlogPage() {
     if (!newTravelTitle.trim()) return;
     setAddingTravel(true);
 
-    axios.post(`${BASE_URL}/travels.json`, {
-      title: newTravelTitle,
-      imageUrl: newTravelImage
-    })
+    axios
+      .post(`${BASE_URL}/travels.json`, {
+        title: newTravelTitle,
+        imageUrl: newTravelImage,
+      })
       .then((response) => {
         const newTravelId = response.data.name;
-        setTravels(prev => [...prev, { id: newTravelId, title: newTravelTitle, imageUrl: newTravelImage }]);
+        setTravels((prev) => [
+          ...prev,
+          { id: newTravelId, title: newTravelTitle, imageUrl: newTravelImage },
+        ]);
         setSelectedTravel(newTravelId);
         setNewTravelTitle("");
         setNewTravelImage("");
@@ -220,7 +246,8 @@ function AddBlogPage() {
         const allBlogs = response.data || {};
         delete allBlogs[blogId];
 
-        axios.put(`${BASE_URL}/blogs.json`, allBlogs)
+        axios
+          .put(`${BASE_URL}/blogs.json`, allBlogs)
           .then(() => {
             navigate("/blogs");
           })
@@ -263,7 +290,9 @@ function AddBlogPage() {
               {/* Travel Selection + Add New Travel */}
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text font-semibold">Select Travel</span>
+                  <span className="label-text font-semibold">
+                    Select Travel
+                  </span>
                 </label>
                 <div className="flex flex-col sm:flex-row gap-2">
                   <select
@@ -296,7 +325,7 @@ function AddBlogPage() {
                           className="input input-bordered input-sm flex-1"
                           placeholder="New travel title"
                           value={newTravelTitle}
-                          onChange={e => setNewTravelTitle(e.target.value)}
+                          onChange={(e) => setNewTravelTitle(e.target.value)}
                         />
                         <button
                           type="button"
@@ -317,7 +346,6 @@ function AddBlogPage() {
                       <div className="flex gap-2">
                         {/* Image Upload */}
                         <ImageUpload onUploadSuccess={(url) => setImage(url)} />
-
                       </div>
                     </div>
                   </div>
@@ -325,8 +353,7 @@ function AddBlogPage() {
               </div>
 
               {/* Image Upload */}
-              <ImageUpload onUploadSuccess={(url) => setImage(url)} />
-
+              <ImageUpload onUploadSuccess={(url) => setImage(url)} compact={true} />
 
               {/* Author and Date */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -369,8 +396,12 @@ function AddBlogPage() {
                     <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
                       <button
                         type="button"
-                        onClick={() => editor.chain().focus().toggleBold().run()}
-                        className={`btn btn-sm ${editor.isActive('bold') ? 'btn-primary' : 'btn-ghost'}`}
+                        onClick={() =>
+                          editor.chain().focus().toggleBold().run()
+                        }
+                        className={`btn btn-sm ${
+                          editor.isActive("bold") ? "btn-primary" : "btn-ghost"
+                        }`}
                         title="Bold"
                       >
                         <Bold className="w-4 h-4" />
@@ -378,8 +409,14 @@ function AddBlogPage() {
 
                       <button
                         type="button"
-                        onClick={() => editor.chain().focus().toggleItalic().run()}
-                        className={`btn btn-sm ${editor.isActive('italic') ? 'btn-primary' : 'btn-ghost'}`}
+                        onClick={() =>
+                          editor.chain().focus().toggleItalic().run()
+                        }
+                        className={`btn btn-sm ${
+                          editor.isActive("italic")
+                            ? "btn-primary"
+                            : "btn-ghost"
+                        }`}
                         title="Italic"
                       >
                         <Italic className="w-4 h-4" />
@@ -387,8 +424,14 @@ function AddBlogPage() {
 
                       <button
                         type="button"
-                        onClick={() => editor.chain().focus().toggleBulletList().run()}
-                        className={`btn btn-sm ${editor.isActive('bulletList') ? 'btn-primary' : 'btn-ghost'}`}
+                        onClick={() =>
+                          editor.chain().focus().toggleBulletList().run()
+                        }
+                        className={`btn btn-sm ${
+                          editor.isActive("bulletList")
+                            ? "btn-primary"
+                            : "btn-ghost"
+                        }`}
                         title="Bullet List"
                       >
                         <List className="w-4 h-4" />
@@ -396,8 +439,14 @@ function AddBlogPage() {
 
                       <button
                         type="button"
-                        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                        className={`btn btn-sm ${editor.isActive('orderedList') ? 'btn-primary' : 'btn-ghost'}`}
+                        onClick={() =>
+                          editor.chain().focus().toggleOrderedList().run()
+                        }
+                        className={`btn btn-sm ${
+                          editor.isActive("orderedList")
+                            ? "btn-primary"
+                            : "btn-ghost"
+                        }`}
                         title="Numbered List"
                       >
                         <ListOrdered className="w-4 h-4" />
@@ -405,8 +454,14 @@ function AddBlogPage() {
 
                       <button
                         type="button"
-                        onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                        className={`btn btn-sm ${editor.isActive('blockquote') ? 'btn-primary' : 'btn-ghost'}`}
+                        onClick={() =>
+                          editor.chain().focus().toggleBlockquote().run()
+                        }
+                        className={`btn btn-sm ${
+                          editor.isActive("blockquote")
+                            ? "btn-primary"
+                            : "btn-ghost"
+                        }`}
                         title="Quote"
                       >
                         <Quote className="w-4 h-4" />
@@ -414,8 +469,14 @@ function AddBlogPage() {
 
                       <button
                         type="button"
-                        onClick={() => editor.chain().focus().setTextAlign('left').run()}
-                        className={`btn btn-sm ${editor.isActive('textAlign', { align: 'left' }) ? 'btn-primary' : 'btn-ghost'}`}
+                        onClick={() =>
+                          editor.chain().focus().setTextAlign("left").run()
+                        }
+                        className={`btn btn-sm ${
+                          editor.isActive("textAlign", { align: "left" })
+                            ? "btn-primary"
+                            : "btn-ghost"
+                        }`}
                         title="Align Left"
                       >
                         <AlignLeft className="w-4 h-4" />
@@ -423,8 +484,14 @@ function AddBlogPage() {
 
                       <button
                         type="button"
-                        onClick={() => editor.chain().focus().setTextAlign('center').run()}
-                        className={`btn btn-sm ${editor.isActive('textAlign', { align: 'center' }) ? 'btn-primary' : 'btn-ghost'}`}
+                        onClick={() =>
+                          editor.chain().focus().setTextAlign("center").run()
+                        }
+                        className={`btn btn-sm ${
+                          editor.isActive("textAlign", { align: "center" })
+                            ? "btn-primary"
+                            : "btn-ghost"
+                        }`}
                         title="Align Center"
                       >
                         <AlignCenter className="w-4 h-4" />
@@ -432,8 +499,14 @@ function AddBlogPage() {
 
                       <button
                         type="button"
-                        onClick={() => editor.chain().focus().setTextAlign('right').run()}
-                        className={`btn btn-sm ${editor.isActive('textAlign', { align: 'right' }) ? 'btn-primary' : 'btn-ghost'}`}
+                        onClick={() =>
+                          editor.chain().focus().setTextAlign("right").run()
+                        }
+                        className={`btn btn-sm ${
+                          editor.isActive("textAlign", { align: "right" })
+                            ? "btn-primary"
+                            : "btn-ghost"
+                        }`}
                         title="Align Right"
                       >
                         <AlignRight className="w-4 h-4" />
@@ -442,7 +515,9 @@ function AddBlogPage() {
                       <button
                         type="button"
                         onClick={setLink}
-                        className={`btn btn-sm ${editor.isActive('link') ? 'btn-primary' : 'btn-ghost'}`}
+                        className={`btn btn-sm ${
+                          editor.isActive("link") ? "btn-primary" : "btn-ghost"
+                        }`}
                         title="Add Link"
                       >
                         <LinkIcon className="w-4 h-4" />
@@ -451,9 +526,19 @@ function AddBlogPage() {
                       <ImageUpload
                         onUploadSuccess={(url) => {
                           if (editor) {
-                            editor.chain().focus().setImage({ src: url }).run();
+                            editor
+                              .chain()
+                              .focus()
+                              .setImage({
+                                src: url,
+                                attributes: {
+                                  style: "width: 100%; height: auto;",
+                                },
+                              })
+                              .run();
                           }
                         }}
+                        compact={true} 
                       />
 
                       <button
@@ -477,7 +562,10 @@ function AddBlogPage() {
                       </button>
                     </div>
                   </div>
-                  <EditorContent editor={editor} className="prose max-w-none p-4 min-h-[400px]" />
+                  <EditorContent
+                    editor={editor}
+                    className="prose max-w-none p-4 min-h-[400px]"
+                  />
                 </div>
               </div>
 
@@ -488,21 +576,28 @@ function AddBlogPage() {
                 </label>
                 <div className="space-y-3">
                   {resources.map((resource, index) => (
-                    <div key={index} className="flex flex-col sm:flex-row gap-2 items-start">
+                    <div
+                      key={index}
+                      className="flex flex-col sm:flex-row gap-2 items-start"
+                    >
                       <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-2">
                         <input
                           type="url"
                           placeholder="Resource link"
                           className="input input-bordered input-sm"
                           value={resource.link}
-                          onChange={(e) => updateResource(index, 'link', e.target.value)}
+                          onChange={(e) =>
+                            updateResource(index, "link", e.target.value)
+                          }
                         />
                         <input
                           type="text"
                           placeholder="Resource description"
                           className="input input-bordered input-sm"
                           value={resource.description}
-                          onChange={(e) => updateResource(index, 'description', e.target.value)}
+                          onChange={(e) =>
+                            updateResource(index, "description", e.target.value)
+                          }
                         />
                       </div>
                       <button
@@ -548,7 +643,13 @@ function AddBlogPage() {
                   className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
                   disabled={publishing}
                 >
-                  {publishing ? (blogId ? "Saving..." : "Publishing...") : (blogId ? "Save Changes" : "Publish Blog")}
+                  {publishing
+                    ? blogId
+                      ? "Saving..."
+                      : "Publishing..."
+                    : blogId
+                    ? "Save Changes"
+                    : "Publish Blog"}
                 </button>
               </div>
             </form>
@@ -559,4 +660,4 @@ function AddBlogPage() {
   );
 }
 
-export default AddBlogPage; 
+export default AddBlogPage;

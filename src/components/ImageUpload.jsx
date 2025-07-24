@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef} from "react";
 
-const ImageUpload = ({ onUploadSuccess }) => {
+const ImageUpload = ({ onUploadSuccess, compact = false }) => {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState('');
   const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -43,22 +44,49 @@ const ImageUpload = ({ onUploadSuccess }) => {
   };
 
   return (
-    <div className="form-control">
-      <label className="label">
-        <span className="label-text font-semibold">Upload Image</span>
-      </label>
-      <input type="file" onChange={handleFileChange} />
-      {preview && <img src={preview} alt="preview" width="200" />}
+  <div className={`form-control w-full`}>
+    <label className="label">
+      <span className="label-text font-semibold">Upload Image</span>
+    </label>
+
+    {/* Hidden native file input */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        className="hidden"
+        accept="image/*"
+      />
+
+      {/* Clickable placeholder or preview */}
+      <div
+        onClick={() => fileInputRef.current.click()}
+        className={`cursor-pointer border-2 border-dashed border-gray-400 rounded-lg flex items-center justify-center text-gray-500 hover:border-emerald-700 hover:text-emerald-700 transition-colors duration-200
+          ${compact ? "p-2 min-h-[80px]" : "p-8 min-h-[150px]"}
+        `}
+      >
+        {preview ? (
+          <img
+            src={preview}
+            alt="Preview"
+            className={`object-contain rounded ${compact ? "max-h-16" : "max-h-48"} w-full`}
+          />
+        ) : (
+         <span>{compact ? "Click to upload image" : "Click here to choose an image"}</span>
+        )}
+      </div>
+
       <button
         type="button"
         onClick={uploadImage}
         disabled={uploading}
-        className="btn btn-sm mt-2"
+        className={`btn btn-sm mt-2 w-full bg-emerald-800 hover:bg-emerald-700 text-white border-none ${compact ? "py-1" : "py-2"}`}
       >
         {uploading ? 'Uploading...' : 'Upload'}
       </button>
     </div>
   );
+
 };
 
 export default ImageUpload;
