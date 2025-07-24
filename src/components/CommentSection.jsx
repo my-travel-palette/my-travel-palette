@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../config/api";
 import { useAuth } from "../contexts/AuthContext";
@@ -17,11 +17,6 @@ function CommentSection({ blogId }) {
   const [submitting, setSubmitting] = useState(false);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
-  const contentRef = useRef(null);
-
-  useEffect(() => {
-    getComments();
-  }, [blogId]);
 
   const getComments = () => {
     setLoading(true);
@@ -36,18 +31,25 @@ function CommentSection({ blogId }) {
             .map(([key, comment]) => ({
               id: key,
               ...comment,
-            }));
+            }))
+            .sort((a, b) => new Date(b.date) - new Date(a.date)); // En yeni comment'ler en üstte
           setComments(blogComments);
+        } else {
+          setComments([]);
         }
       })
       .catch((error) => {
-        console.log("Error getting comments from the API...", error);
+        console.error("Error getting comments from the API:", error);
         setError("Failed to load comments. Please try again.");
       })
       .finally(() => {
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    getComments();
+  }, [blogId]);
 
   const addComment = () => {
     if (!newComment.trim()) {
@@ -66,18 +68,22 @@ function CommentSection({ blogId }) {
       blogId: blogId,
       author: currentUser.name,
       authorId: currentUser.uid,
-      content: newComment,
+      content: newComment.trim(),
       date: new Date().toISOString(),
     };
 
     axios
       .post(`${BASE_URL}/comments.json`, commentData)
-      .then(() => {
-        setNewComment("");
-        getComments();
+      .then((response) => {
+        if (response.data) {
+          setNewComment("");
+          getComments();
+        } else {
+          throw new Error("Failed to add comment");
+        }
       })
       .catch((error) => {
-        console.log("Error adding comment to the API...", error);
+        console.error("Error adding comment to the API:", error);
         alert("Failed to add comment. Please try again.");
       })
       .finally(() => {
@@ -86,17 +92,23 @@ function CommentSection({ blogId }) {
   };
 
   const deleteComment = (commentId) => {
-    if (window.confirm("Are you sure you want to delete this comment?")) {
-      axios
-        .delete(`${BASE_URL}/comments/${commentId}.json`)
-        .then(() => {
-          getComments();
-        })
-        .catch((error) => {
-          console.log("Error deleting comment from the API...", error);
-          alert("Failed to delete comment. Please try again.");
-        });
+    if (!window.confirm("Are you sure you want to delete this comment?")) {
+      return;
     }
+
+    axios
+      .delete(`${BASE_URL}/comments/${commentId}.json`)
+      .then((response) => {
+        if (response.status === 200) {
+          getComments();
+        } else {
+          throw new Error("Failed to delete comment");
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting comment from the API:", error);
+        alert("Failed to delete comment. Please try again.");
+      });
   };
 
   const startEdit = (comment) => {
@@ -116,57 +128,49 @@ function CommentSection({ blogId }) {
     }
 
     const updatedComment = {
-      content: editContent,
+      content: editContent.trim(),
       date: new Date().toISOString(),
-    };
-
-    const applyFormat = (command) => {
-      document.execCommand(command, false, null);
-      // Update state with current HTML content
-      setNewComment(contentRef.current.innerHTML);
-    };
-
-    const handleInput = () => {
-      setNewComment(contentRef.current.innerHTML);
     };
 
     axios
       .patch(`${BASE_URL}/comments/${commentId}.json`, updatedComment)
-      .then(() => {
-        setEditingComment(null);
-        setEditContent("");
-        getComments();
+      .then((response) => {
+        if (response.data) {
+          setEditingComment(null);
+          setEditContent("");
+          getComments();
+        } else {
+          throw new Error("Failed to update comment");
+        }
       })
       .catch((error) => {
-        console.log("Error updating comment in the API...", error);
+        console.error("Error updating comment in the API:", error);
         alert("Failed to update comment. Please try again.");
       });
   };
 
-  // ✅ FIXED: Moved out of saveEdit
-  const handleLike = (id) => {
-    setComments((prev) =>
-      prev.map((comment) =>
-        comment.id === id
-          ? { ...comment, likes: (comment.likes || 0) + 1 }
-          : comment
-      )
-    );
-  };
-
   return (
-    <div className="px-4 md:px-40 pt-8">
+    <>
       <div className="divider">
-        <h2 className="text-2xl font-bold text-emerald-800">Comments</h2>
+        <h2 className="text-2xl font-bold text-base-content">Comments</h2>
       </div>
 
       {/* Add Comment Form */}
-      <div className="card bg-base-100 shadow-xl mb-6">
+      <div className="card bg-base-100 shadow-xl mb-6 relative">
         <div className="card-body space-y-4">
-          <h3 className="card-title text-lg text-emerald-800">Add a Comment</h3>
+          <h3 className="card-title text-lg text-base-content">Add a Comment</h3>
 
           {currentUser ? (
             <>
+              {submitting && (
+                <div className="absolute inset-0 bg-base-100/80 rounded-lg flex items-center justify-center z-10">
+                  <div className="flex flex-col items-center">
+                    <span className="loading loading-spinner loading-lg text-primary mb-2"></span>
+                    <p className="text-base-content/70">Posting comment...</p>
+                  </div>
+                </div>
+              )}
+              
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Comment</span>
@@ -209,7 +213,7 @@ function CommentSection({ blogId }) {
 
               <div className="card-actions justify-end">
                 <button
-                  className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
+                  className="btn btn-outline border-[#5A7D1A] text-[#5A7D1A] hover:bg-[#5A7D1A] hover:text-white"
                   onClick={addComment}
                   disabled={submitting}
                 >
@@ -247,7 +251,7 @@ function CommentSection({ blogId }) {
                   Please log in to comment
                 </p>
                 <button
-                  className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
+                  className="btn btn-outline border-[#5A7D1A] text-[#5A7D1A] hover:bg-[#5A7D1A] hover:text-white"
                   onClick={() => navigate("/log-in")}
                 >
                   Log In
@@ -262,7 +266,7 @@ function CommentSection({ blogId }) {
       <div className="space-y-4">
         {loading ? (
           <div className="text-center py-8">
-            <span className="loading loading-spinner loading-md text-teal-700"></span>
+            <span className="loading loading-spinner loading-md text-primary"></span>
             <p className="mt-2 text-gray-600">Loading comments...</p>
           </div>
         ) : error ? (
@@ -284,29 +288,31 @@ function CommentSection({ blogId }) {
               <span>{error}</span>
             </div>
             <button
-              className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none mt-4"
+              className="btn btn-outline border-[#5A7D1A] text-[#5A7D1A] hover:bg-[#5A7D1A] hover:text-white mt-4"
               onClick={getComments}
             >
               Try Again
             </button>
           </div>
         ) : comments.length === 0 ? (
-          <div className="text-center text-gray-500 py-8">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-12 w-12 mx-auto text-gray-400 mb-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-              />
-            </svg>
-            <p>No comments yet. Be the first to comment!</p>
+          <div className="text-center py-8">
+            <div className="flex flex-col items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-16 w-16 mx-auto text-base-content/30 mb-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                />
+              </svg>
+              <p className="text-base-content/70">No comments yet. Be the first to comment!</p>
+            </div>
           </div>
         ) : (
           comments.map((comment) => (
@@ -324,14 +330,14 @@ function CommentSection({ blogId }) {
                         onClick={() => startEdit(comment)}
                         title="Edit comment"
                       >
-                        <i className="fa fa-edit text-emerald-600"></i>
+                        <i className="fa fa-edit text-[#5A7D1A]"></i>
                       </button>
                       <button
                         className="btn btn-ghost btn-xs"
                         onClick={() => deleteComment(comment.id)}
                         title="Delete comment"
                       >
-                        <i className="fa fa-trash text-red-600"></i>
+                        <i className="fa fa-trash text-[#b03a2e]"></i>
                       </button>
                     </div>
                   </div>
@@ -347,7 +353,7 @@ function CommentSection({ blogId }) {
                     ></textarea>
                     <div className="flex gap-2 mt-2">
                       <button
-                        className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none btn-xs"
+                        className="btn btn-outline border-[#5A7D1A] text-[#5A7D1A] hover:bg-[#5A7D1A] hover:text-white btn-xs"
                         onClick={() => saveEdit(comment.id)}
                       >
                         Save
@@ -368,7 +374,7 @@ function CommentSection({ blogId }) {
           ))
         )}
       </div>
-    </div>
+    </>
   );
 }
 
