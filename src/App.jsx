@@ -17,27 +17,29 @@ import BookmarksPage from "./pages/BookmarksPage";
 function App() {
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Header />
 
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/my-travels/" element={<TravelListPage />} />
-        <Route path="/my-travels/:travelId" element={<BlogListPage />} />
-        <Route path="/about-me" element={<AboutUsPage />} />
-        <Route path="/blogs/:blogId" element={<BlogDetailPage />} />
-        <Route path="/new-travel" element={<AddTravelPage />} />
-        <Route path="/add-blog" element={<AddBlogPage />} />
-        <Route path="/add-blog/:travelId" element={<AddBlogPage />} />
-        <Route path="/blog/edit/:blogId" element={<AddBlogPage />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/log-in" element={<LogIn />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/bookmarks" element={<BookmarksPage />} />
-      </Routes>
+      <main className="flex-1">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/my-travels/" element={<TravelListPage />} />
+          <Route path="/my-travels/:travelId" element={<BlogListPage />} />
+          <Route path="/about-me" element={<AboutUsPage />} />
+          <Route path="/blogs/:blogId" element={<BlogDetailPage />} />
+          <Route path="/new-travel" element={<AddTravelPage />} />
+          <Route path="/add-blog" element={<AddBlogPage />} />
+          <Route path="/add-blog/:travelId" element={<AddBlogPage />} />
+          <Route path="/blog/edit/:blogId" element={<AddBlogPage />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/log-in" element={<LogIn />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/bookmarks" element={<BookmarksPage />} />
+        </Routes>
+      </main>
 
       <Footer />
-    </>
+    </div>
   );
 }
 

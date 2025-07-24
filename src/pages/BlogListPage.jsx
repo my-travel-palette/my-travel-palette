@@ -115,24 +115,26 @@ function BlogListPage() {
 
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      <h1 className="text-3xl font-bold mb-6 text-center text-teal-700">
-        {title}
-      </h1>
+    <div className="container mx-auto px-8 py-6">
+      <div className="mb-8 mt-8">
+        <h1 className="text-3xl font-bold mb-6 text-center text-base-content">
+          {title}
+        </h1>
+      </div>
        {/* Navigation bar */}
-      <div className="flex justify-between items-center px-2 sm:px-0 mb-6">
+      <div className="flex justify-between items-center mb-6">
         <Link to={`/my-travels`} className="btn btn-ghost text-xl">
           <i className="fa fa-chevron-left p-2" aria-hidden="true"></i>Back
         </Link>
 
         {isAdmin && (
-          <Link to={`/add-blog/${travelId}`} className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none text-base px-4 py-2">
+          <Link to={`/add-blog/${travelId}`} className="px-4 py-2 text-sm font-medium text-white bg-[#d89d20] hover:bg-[#be6406] rounded-lg transition-colors">
             <i className="fa fa-plus mr-2" aria-hidden="true"></i>Add New Blog
           </Link>
         )}
       </div>
        {/* Grid for blog cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-2 sm:px-0">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {blogList.length === 0 ? (
           <div className="col-span-full flex items-center justify-center min-h-[400px]">
             <div className="text-center">
@@ -142,7 +144,7 @@ function BlogListPage() {
               <h3 className="text-lg font-semibold text-gray-600 mb-2">No blogs found</h3>
               <p className="text-gray-500 mb-4">Share your travel experiences by creating your first blog post.</p>
               {isAdmin && (
-                <Link to={`/add-blog/${travelId}`} className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none">
+                <Link to={`/add-blog/${travelId}`} className="btn bg-[#d89d20] hover:bg-[#be6406] text-white border-none">
                   <i className="fa fa-plus mr-2" aria-hidden="true"></i>Add New Blog
                 </Link>
               )}
@@ -151,7 +153,7 @@ function BlogListPage() {
         ) : (
           blogList.map((blog) => {
             return (
-              <div key={blog.id} className="card bg-base-300 max-w-sm w-full shadow-sm m-auto md:m-5">
+              <div key={blog.id} className="card bg-base-300 w-full shadow-sm relative overflow-hidden">
                 <div className="relative">
                   {isAdmin && (
                     <>
