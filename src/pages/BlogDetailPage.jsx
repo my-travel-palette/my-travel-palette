@@ -176,7 +176,7 @@ function BlogDetailPage() {
               <div className="space-y-2">
                 {blog.resources.map((resourcesObj, index) => (
                   <a href={resourcesObj.link} key={index} className="link link-primary block">
-                    {resourcesObj.title}
+                    {resourcesObj.title || resourcesObj.description}
                   </a>
                 ))}
               </div>

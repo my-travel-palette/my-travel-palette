@@ -32,6 +32,7 @@ import ImageUpload from "../components/ImageUpload";
 function AddBlogPage() {
   const { blogId, travelId } = useParams();
   const [title, setTitle] = useState("");
+  const [shortDescription, setShortDescription] = useState("");
   const [selectedTravel, setSelectedTravel] = useState(travelId || "");
   const [image, setImage] = useState("");
   const [author, setAuthor] = useState("");
@@ -53,28 +54,29 @@ function AddBlogPage() {
       StarterKit.configure({
         blockquote: {
           HTMLAttributes: {
-            class: 'border-l-4 border-[#5A7D1A] pl-4 py-2 bg-base-200/50 italic',
+            class:
+              "border-l-4 border-[#5A7D1A] pl-4 py-2 bg-base-200/50 italic",
           },
         },
         bulletList: {
           HTMLAttributes: {
-            class: 'list-disc list-inside space-y-1',
+            class: "list-disc list-inside space-y-1",
           },
         },
         orderedList: {
           HTMLAttributes: {
-            class: 'list-decimal list-inside space-y-1',
+            class: "list-decimal list-inside space-y-1",
           },
         },
         listItem: {
           HTMLAttributes: {
-            class: 'ml-4',
+            class: "ml-4",
           },
         },
       }),
       Image.configure({
         HTMLAttributes: {
-          class: 'max-w-full h-auto rounded-lg shadow-md',
+          class: "max-w-full h-auto rounded-lg shadow-md",
         },
         allowBase64: true,
       }),
@@ -132,6 +134,7 @@ function AddBlogPage() {
 
           if (blog) {
             setTitle(blog.title || "");
+            setShortDescription(blog.description);
             setSelectedTravel(blog.travelId || "");
             setImage(blog.imageUrl || "");
             setAuthor(
@@ -182,6 +185,7 @@ function AddBlogPage() {
       author: author.split("&").map((a) => a.trim()),
       date: date,
       content: editor.getHTML(),
+      description: shortDescription,
       resources: resources.filter((resource) => resource.link.trim() !== ""),
     };
     if (blogId) {
@@ -298,13 +302,15 @@ function AddBlogPage() {
         {/* Back Button */}
         <div className="mb-4">
           <button
-            onClick={() => navigate(`/my-travels/${selectedTravel || travelId}`)}
+            onClick={() =>
+              navigate(`/my-travels/${selectedTravel || travelId}`)
+            }
             className="btn btn-ghost text-base"
           >
             <i className="fa fa-chevron-left p-1" aria-hidden="true"></i>Back
           </button>
         </div>
-        
+
         <div className="card bg-base-100 shadow-xl w-full">
           <div className="card-body">
             <h2 className="card-title text-3xl font-bold text-center mb-8">
@@ -392,8 +398,27 @@ function AddBlogPage() {
                 </div>
               </div>
 
+              {/* Short Description */}
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text font-semibold">
+                    Short Description
+                  </span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter short description"
+                  className="input input-bordered w-full"
+                  value={shortDescription}
+                  onChange={(e) => setShortDescription(e.target.value)}
+                />
+              </div>
+
               {/* Image Upload */}
-              <ImageUpload onUploadSuccess={(url) => setImage(url)} compact={true} />
+              <ImageUpload
+                onUploadSuccess={(url) => setImage(url)}
+                compact={true}
+              />
 
               {/* Author and Date */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -434,184 +459,253 @@ function AddBlogPage() {
                   {/* Toolbar */}
                   <div className="bg-base-200 p-2 border-b border-base-300">
                     <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
-                                              <button
-                          type="button"
-                          onClick={() =>
-                            editor.chain().focus().toggleBold().run()
-                          }
-                          className={`btn btn-sm transition-all duration-200 ${
-                            editor.isActive("bold") ? "text-white border-none shadow-md" : "btn-ghost hover:bg-base-300"
-                          }`}
-                          style={editor.isActive("bold") ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
-                          title="Bold"
-                        >
-                          <Bold className="w-4 h-4" />
-                        </button>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          editor.chain().focus().toggleBold().run()
+                        }
+                        className={`btn btn-sm transition-all duration-200 ${
+                          editor.isActive("bold")
+                            ? "text-white border-none shadow-md"
+                            : "btn-ghost hover:bg-base-300"
+                        }`}
+                        style={
+                          editor.isActive("bold")
+                            ? {
+                                background:
+                                  "linear-gradient(135deg, #5A7D1A, #d89d20)",
+                              }
+                            : {}
+                        }
+                        title="Bold"
+                      >
+                        <Bold className="w-4 h-4" />
+                      </button>
 
+                      <button
+                        type="button"
+                        onClick={() =>
+                          editor.chain().focus().toggleItalic().run()
+                        }
+                        className={`btn btn-sm transition-all duration-200 ${
+                          editor.isActive("italic")
+                            ? "text-white border-none shadow-md"
+                            : "btn-ghost hover:bg-base-300"
+                        }`}
+                        style={
+                          editor.isActive("italic")
+                            ? {
+                                background:
+                                  "linear-gradient(135deg, #5A7D1A, #d89d20)",
+                              }
+                            : {}
+                        }
+                        title="Italic"
+                      >
+                        <Italic className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          editor.chain().focus().toggleBulletList().run()
+                        }
+                        className={`btn btn-sm transition-all duration-200 ${
+                          editor.isActive("bulletList")
+                            ? "text-white border-none shadow-md"
+                            : "btn-ghost hover:bg-base-300"
+                        }`}
+                        style={
+                          editor.isActive("bulletList")
+                            ? {
+                                background:
+                                  "linear-gradient(135deg, #5A7D1A, #d89d20)",
+                              }
+                            : {}
+                        }
+                        title="Bullet List"
+                      >
+                        <List className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          editor.chain().focus().toggleOrderedList().run()
+                        }
+                        className={`btn btn-sm transition-all duration-200 ${
+                          editor.isActive("orderedList")
+                            ? "text-white border-none shadow-md"
+                            : "btn-ghost hover:bg-base-300"
+                        }`}
+                        style={
+                          editor.isActive("orderedList")
+                            ? {
+                                background:
+                                  "linear-gradient(135deg, #5A7D1A, #d89d20)",
+                              }
+                            : {}
+                        }
+                        title="Numbered List"
+                      >
+                        <ListOrdered className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          editor.chain().focus().toggleBlockquote().run()
+                        }
+                        className={`btn btn-sm transition-all duration-200 ${
+                          editor.isActive("blockquote")
+                            ? "text-white border-none shadow-md"
+                            : "btn-ghost hover:bg-base-300"
+                        }`}
+                        style={
+                          editor.isActive("blockquote")
+                            ? {
+                                background:
+                                  "linear-gradient(135deg, #5A7D1A, #d89d20)",
+                              }
+                            : {}
+                        }
+                        title="Quote"
+                      >
+                        <Quote className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          editor.chain().focus().setTextAlign("left").run()
+                        }
+                        className={`btn btn-sm transition-all duration-200 ${
+                          editor.isActive("textAlign", { align: "left" })
+                            ? "text-white border-none shadow-md"
+                            : "btn-ghost hover:bg-base-300"
+                        }`}
+                        style={
+                          editor.isActive("textAlign", { align: "left" })
+                            ? {
+                                background:
+                                  "linear-gradient(135deg, #5A7D1A, #d89d20)",
+                              }
+                            : {}
+                        }
+                        title="Align Left"
+                      >
+                        <AlignLeft className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          editor.chain().focus().setTextAlign("center").run()
+                        }
+                        className={`btn btn-sm transition-all duration-200 ${
+                          editor.isActive("textAlign", { align: "center" })
+                            ? "text-white border-none shadow-md"
+                            : "btn-ghost hover:bg-base-300"
+                        }`}
+                        style={
+                          editor.isActive("textAlign", { align: "center" })
+                            ? {
+                                background:
+                                  "linear-gradient(135deg, #5A7D1A, #d89d20)",
+                              }
+                            : {}
+                        }
+                        title="Align Center"
+                      >
+                        <AlignCenter className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          editor.chain().focus().setTextAlign("right").run()
+                        }
+                        className={`btn btn-sm transition-all duration-200 ${
+                          editor.isActive("textAlign", { align: "right" })
+                            ? "text-white border-none shadow-md"
+                            : "btn-ghost hover:bg-base-300"
+                        }`}
+                        style={
+                          editor.isActive("textAlign", { align: "right" })
+                            ? {
+                                background:
+                                  "linear-gradient(135deg, #5A7D1A, #d89d20)",
+                              }
+                            : {}
+                        }
+                        title="Align Right"
+                      >
+                        <AlignRight className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={setLink}
+                        className={`btn btn-sm transition-all duration-200 ${
+                          editor.isActive("link")
+                            ? "text-white border-none shadow-md"
+                            : "btn-ghost hover:bg-base-300"
+                        }`}
+                        style={
+                          editor.isActive("link")
+                            ? {
+                                background:
+                                  "linear-gradient(135deg, #5A7D1A, #d89d20)",
+                              }
+                            : {}
+                        }
+                        title="Add Link"
+                      >
+                        <LinkIcon className="w-4 h-4" />
+                      </button>
+
+                      <div className="relative">
                         <button
                           type="button"
-                          onClick={() =>
-                            editor.chain().focus().toggleItalic().run()
-                          }
-                          className={`btn btn-sm transition-all duration-200 ${
-                            editor.isActive("italic")
-                              ? "text-white border-none shadow-md"
-                              : "btn-ghost hover:bg-base-300"
-                          }`}
-                          style={editor.isActive("italic") ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
-                          title="Italic"
+                          className="btn btn-sm btn-ghost"
+                          title="Upload Image"
+                          onClick={() => setShowImageUpload(!showImageUpload)}
                         >
-                          <Italic className="w-4 h-4" />
+                          <ImageIcon className="w-4 h-4" />
                         </button>
-
-                        <button
-                          type="button"
-                          onClick={() =>
-                            editor.chain().focus().toggleBulletList().run()
-                          }
-                          className={`btn btn-sm transition-all duration-200 ${
-                            editor.isActive("bulletList")
-                              ? "text-white border-none shadow-md"
-                              : "btn-ghost hover:bg-base-300"
-                          }`}
-                          style={editor.isActive("bulletList") ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
-                          title="Bullet List"
-                        >
-                          <List className="w-4 h-4" />
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() =>
-                            editor.chain().focus().toggleOrderedList().run()
-                          }
-                          className={`btn btn-sm transition-all duration-200 ${
-                            editor.isActive("orderedList")
-                              ? "text-white border-none shadow-md"
-                              : "btn-ghost hover:bg-base-300"
-                          }`}
-                          style={editor.isActive("orderedList") ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
-                          title="Numbered List"
-                        >
-                          <ListOrdered className="w-4 h-4" />
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() =>
-                            editor.chain().focus().toggleBlockquote().run()
-                          }
-                          className={`btn btn-sm transition-all duration-200 ${
-                            editor.isActive("blockquote")
-                              ? "text-white border-none shadow-md"
-                              : "btn-ghost hover:bg-base-300"
-                          }`}
-                          style={editor.isActive("blockquote") ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
-                          title="Quote"
-                        >
-                          <Quote className="w-4 h-4" />
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() =>
-                            editor.chain().focus().setTextAlign("left").run()
-                          }
-                          className={`btn btn-sm transition-all duration-200 ${
-                            editor.isActive("textAlign", { align: "left" })
-                              ? "text-white border-none shadow-md"
-                              : "btn-ghost hover:bg-base-300"
-                          }`}
-                          style={editor.isActive("textAlign", { align: "left" }) ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
-                          title="Align Left"
-                        >
-                          <AlignLeft className="w-4 h-4" />
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() =>
-                            editor.chain().focus().setTextAlign("center").run()
-                          }
-                          className={`btn btn-sm transition-all duration-200 ${
-                            editor.isActive("textAlign", { align: "center" })
-                              ? "text-white border-none shadow-md"
-                              : "btn-ghost hover:bg-base-300"
-                          }`}
-                          style={editor.isActive("textAlign", { align: "center" }) ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
-                          title="Align Center"
-                        >
-                          <AlignCenter className="w-4 h-4" />
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() =>
-                            editor.chain().focus().setTextAlign("right").run()
-                          }
-                          className={`btn btn-sm transition-all duration-200 ${
-                            editor.isActive("textAlign", { align: "right" })
-                              ? "text-white border-none shadow-md"
-                              : "btn-ghost hover:bg-base-300"
-                          }`}
-                          style={editor.isActive("textAlign", { align: "right" }) ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
-                          title="Align Right"
-                        >
-                          <AlignRight className="w-4 h-4" />
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={setLink}
-                          className={`btn btn-sm transition-all duration-200 ${
-                            editor.isActive("link") ? "text-white border-none shadow-md" : "btn-ghost hover:bg-base-300"
-                          }`}
-                          style={editor.isActive("link") ? { background: 'linear-gradient(135deg, #5A7D1A, #d89d20)' } : {}}
-                          title="Add Link"
-                        >
-                          <LinkIcon className="w-4 h-4" />
-                        </button>
-
-                        <div className="relative">
-                          <button
-                            type="button"
-                            className="btn btn-sm btn-ghost"
-                            title="Upload Image"
-                            onClick={() => setShowImageUpload(!showImageUpload)}
-                          >
-                            <ImageIcon className="w-4 h-4" />
-                          </button>
-                          {showImageUpload && (
-                            <div className="absolute top-full left-0 mt-2 z-50 bg-base-100 border border-base-300 rounded-lg shadow-lg p-4 min-w-[300px]">
-                              <div className="flex justify-between items-center mb-3">
-                                <h4 className="text-sm font-semibold">Upload Image</h4>
-                                <button
-                                  type="button"
-                                  className="btn btn-ghost btn-xs"
-                                  onClick={() => setShowImageUpload(false)}
-                                >
-                                  ✕
-                                </button>
-                              </div>
-                              <ImageUpload
-                                onUploadSuccess={(url) => {
-                                  if (editor) {
-                                    editor
-                                      .chain()
-                                      .focus()
-                                      .setImage({
-                                        src: url,
-                                        alt: "Uploaded image",
-                                      })
-                                      .run();
-                                  }
-                                  setShowImageUpload(false);
-                                }}
-                                compact={true}
-                              />
+                        {showImageUpload && (
+                          <div className="absolute top-full left-0 mt-2 z-50 bg-base-100 border border-base-300 rounded-lg shadow-lg p-4 min-w-[300px]">
+                            <div className="flex justify-between items-center mb-3">
+                              <h4 className="text-sm font-semibold">
+                                Upload Image
+                              </h4>
+                              <button
+                                type="button"
+                                className="btn btn-ghost btn-xs"
+                                onClick={() => setShowImageUpload(false)}
+                              >
+                                ✕
+                              </button>
                             </div>
-                          )}
-                        </div>
+                            <ImageUpload
+                              onUploadSuccess={(url) => {
+                                if (editor) {
+                                  editor
+                                    .chain()
+                                    .focus()
+                                    .setImage({
+                                      src: url,
+                                      alt: "Uploaded image",
+                                    })
+                                    .run();
+                                }
+                                setShowImageUpload(false);
+                              }}
+                              compact={true}
+                            />
+                          </div>
+                        )}
+                      </div>
 
                       <button
                         type="button"
