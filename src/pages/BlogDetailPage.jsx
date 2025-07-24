@@ -32,10 +32,14 @@ function BlogDetailPage() {
     axios
       .get(`${BASE_URL}/blogs/${blogId}.json?_embed=tasks`)
       .then((response) => {
-        setBlog(response.data);
+        if (response.data) {
+          setBlog(response.data);
+        } else {
+          setError("Blog not found");
+        }
       })
       .catch((error) => {
-        console.log("Error getting blog details from the API...", error);
+        console.error("Error getting blog details from the API:", error);
         setError("Failed to load blog. Please try again later.");
       })
       .finally(() => {
@@ -44,17 +48,19 @@ function BlogDetailPage() {
   };
 
   const deleteBlog = () => {
-    if (window.confirm("Are you sure you want to delete this blog?")) {
-      axios
-        .delete(`${BASE_URL}/blogs/${blogId}.json`)
-        .then(() => {
-          navigate("/blogs");
-        })
-        .catch((error) => {
-          console.log("Error deleting blog from the API...", error);
-          alert("Failed to delete blog. Please try again.");
-        });
+    if (!window.confirm("Are you sure you want to delete this blog?")) {
+      return;
     }
+
+    axios
+      .delete(`${BASE_URL}/blogs/${blogId}.json`)
+      .then(() => {
+        navigate("/blogs");
+      })
+      .catch((error) => {
+        console.error("Error deleting blog from the API:", error);
+        alert("Failed to delete blog. Please try again.");
+      });
   };
 
   if (loading) {
@@ -122,13 +128,28 @@ function BlogDetailPage() {
             <Link to={`/my-travels/${blog.travelId}`} className="btn btn-ghost text-base-content">
               <i className="fa fa-chevron-left mr-2" aria-hidden="true"></i>Back
             </Link>
-            <BookmarkButton 
-              blogId={blogId}
-              blogTitle={blog.title}
-              blogImageUrl={blog.imageUrl}
-              blogAuthor={blog.author}
-              blogDate={blog.date}
-            />
+            <div className="flex items-center gap-2">
+              {isAdmin && (
+                <>
+                  <button className="btn btn-outline border-[#b03a2e] text-[#b03a2e] hover:bg-[#b03a2e] hover:text-white btn-sm" onClick={deleteBlog}>
+                    <i className="fa fa-trash mr-1"></i>Delete
+                  </button>
+                  <button
+                    className="btn btn-outline border-[#5A7D1A] text-[#5A7D1A] hover:bg-[#5A7D1A] hover:text-white btn-sm"
+                    onClick={() => navigate(`/blog/edit/${blogId}`)}
+                  >
+                    <i className="fa fa-edit mr-1"></i>Edit
+                  </button>
+                </>
+              )}
+              <BookmarkButton 
+                blogId={blogId}
+                blogTitle={blog.title}
+                blogImageUrl={blog.imageUrl}
+                blogAuthor={blog.author}
+                blogDate={blog.date}
+              />
+            </div>
           </div>
 
           {/* Main Image */}
@@ -167,20 +188,7 @@ function BlogDetailPage() {
             <CommentSection blogId={blogId} />
           </div>
 
-          {/* Admin Buttons */}
-          {isAdmin && (
-            <div className="mt-8 flex flex-wrap justify-end gap-4">
-              <button className="btn btn-outline border-[#b03a2e] text-[#b03a2e] hover:bg-[#b03a2e] hover:text-white" onClick={deleteBlog}>
-                <i className="fa fa-trash mr-2"></i>Delete
-              </button>
-              <button
-                className="btn btn-outline border-[#5A7D1A] text-[#5A7D1A] hover:bg-[#5A7D1A] hover:text-white"
-                onClick={() => navigate(`/blog/edit/${blogId}`)}
-              >
-                <i className="fa fa-edit mr-2"></i>Edit
-              </button>
-            </div>
-          )}
+
         </div>
       </div>
     </div>
