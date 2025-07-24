@@ -50,7 +50,7 @@ function TravelListPage() {
     return (
       <div className="min-h-screen bg-base-200 flex items-center justify-center">
         <div className="text-center">
-          <span className="loading loading-spinner loading-lg text-teal-700"></span>
+          <span className="loading loading-spinner loading-lg text-primary"></span>
           <p className="mt-4 text-lg">Loading travels...</p>
         </div>
       </div>
@@ -66,7 +66,7 @@ function TravelListPage() {
             <span>{error}</span>
           </div>
           <button 
-            className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none mt-4"
+            className="btn btn-primary mt-4"
             onClick={() => window.location.reload()}
           >
             Try Again
@@ -77,21 +77,23 @@ function TravelListPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      <h1 className="text-3xl font-bold mb-6 text-center text-teal-700">
-        Visited countries
-      </h1>
-      <div className="flex justify-between items-center px-2 sm:px-0 mb-6">
+    <div className="container mx-auto px-8 py-6">
+      <div className="mb-8 mt-8">
+        <h1 className="text-3xl font-bold mb-6 text-center text-base-content">
+          Explore our destinations
+        </h1>
+      </div>
+      <div className="flex justify-between items-center mb-6">
         <Link to={`/`} className="btn btn-ghost text-xl">
           <i className="fa fa-chevron-left p-2" aria-hidden="true"></i>Back
         </Link>
         {isAdmin && (
-          <Link to={`/new-travel`} className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none text-base px-4 py-2">
+          <Link to={`/new-travel`} className="px-4 py-2 text-sm font-medium text-white bg-[#d89d20] hover:bg-[#be6406] rounded-lg transition-colors">
             <i className="fa fa-plus mr-2" aria-hidden="true"></i>Add New Country
           </Link>
         )}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-2 sm:px-0">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {travelList.length === 0 ? (
           <div className="col-span-full flex items-center justify-center min-h-[400px]">
             <div className="text-center">
@@ -112,7 +114,7 @@ function TravelListPage() {
             return (
               <div
                 key={travel.id}
-                className="card bg-base-300 max-w-sm w-full shadow-sm m-auto md:m-5 relative"
+                className="card bg-base-300 w-full shadow-sm relative overflow-hidden"
               >
                 {isAdmin && (
                   <button
