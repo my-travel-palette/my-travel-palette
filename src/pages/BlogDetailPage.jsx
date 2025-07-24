@@ -61,8 +61,8 @@ function BlogDetailPage() {
     return (
       <div className="min-h-screen bg-base-200 flex items-center justify-center">
         <div className="text-center">
-          <span className="loading loading-spinner loading-lg text-teal-700"></span>
-          <p className="mt-4 text-lg">Loading blog...</p>
+          <span className="loading loading-spinner loading-lg text-primary"></span>
+          <p className="mt-4 text-lg text-base-content">Loading blog...</p>
         </div>
       </div>
     );
@@ -77,7 +77,7 @@ function BlogDetailPage() {
             <span>{error}</span>
           </div>
           <button 
-            className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none mt-4"
+            className="btn btn-primary mt-4"
             onClick={() => window.location.reload()}
           >
             Try Again
@@ -95,7 +95,7 @@ function BlogDetailPage() {
             <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" /></svg>
             <span>Blog not found</span>
           </div>
-          <Link to="/my-travels" className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none mt-4">
+          <Link to="/my-travels" className="btn btn-primary mt-4">
             Go Back to Travels
           </Link>
         </div>
@@ -104,72 +104,85 @@ function BlogDetailPage() {
   }
 
   return (
-    <div className="p-3">
-      <div className="mb-4">
-        <h1 className="text-3xl mb-4 text-center text-teal-700">{blog.title}</h1>
-      </div>
-      
-      <div className="text-sm mb-4 text-center text-teal-700">
-        by {" " + blog.author.join(" & ") + " • "}
-        <span>{new Date(blog.date).toDateString()}</span>
-      </div>
+    <div className="min-h-screen bg-base-100">
+      <div className="container mx-auto px-4 py-6">
+        <div className="max-w-4xl mx-auto">
+          {/* Header Section */}
+          <div className="mb-12 mt-8">
+            <h1 className="text-4xl font-bold text-center text-base-content mb-4">{blog.title}</h1>
+            
+            <div className="text-sm text-center text-base-content/70 mb-6">
+              by {" " + blog.author.join(" & ") + " • "}
+              <span>{new Date(blog.date).toDateString()}</span>
+            </div>
+          </div>
 
-      <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 flex justify-between items-center">
-        <Link to={`/my-travels/${blog.travelId}`} className="text-xl link">
-          <i className="fa fa-chevron-left p-2" aria-hidden="true"></i>Back
-        </Link>
-        <BookmarkButton 
-          blogId={blogId}
-          blogTitle={blog.title}
-          blogImageUrl={blog.imageUrl}
-          blogAuthor={blog.author}
-          blogDate={blog.date}
-        />
-      </div>
+          {/* Navigation and Bookmark */}
+          <div className="flex justify-between items-center mb-6">
+            <Link to={`/my-travels/${blog.travelId}`} className="btn btn-ghost text-base-content">
+              <i className="fa fa-chevron-left mr-2" aria-hidden="true"></i>Back
+            </Link>
+            <BookmarkButton 
+              blogId={blogId}
+              blogTitle={blog.title}
+              blogImageUrl={blog.imageUrl}
+              blogAuthor={blog.author}
+              blogDate={blog.date}
+            />
+          </div>
 
-      <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40">
-        <img
-          className="h-80 w-full rounded-lg object-cover object-center"
-          src={blog.imageUrl}
-          alt={blog.title}
-          onError={(e) => {
-            e.target.src = "https://via.placeholder.com/800x400?text=Image+Not+Found";
-          }}
-        />
-      </div>
+          {/* Main Image */}
+          <div className="mb-8">
+            <img
+              className="w-full h-96 rounded-lg object-cover object-center shadow-lg"
+              src={blog.imageUrl}
+              alt={blog.title}
+              onError={(e) => {
+                e.target.src = "https://via.placeholder.com/800x400?text=Image+Not+Found";
+              }}
+            />
+          </div>
 
-      <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 pt-6 text-lg text-justify">
-        <HtmlRenderer content={blog.content} />
-      </div>
+          {/* Content */}
+          <div className="prose prose-lg max-w-none text-base-content">
+            <HtmlRenderer content={blog.content} />
+          </div>
 
-      {blog.resources && blog.resources.length > 0 && (
-        <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 pt-6 text-lg text-justify">
-          <h1 className="font-bold">Useful links:</h1>
-          {blog.resources.map((resourcesObj, index) => (
-            <a href={resourcesObj.link} key={index} className="link link-primary">
-              <p>{resourcesObj.title}</p>
-            </a>
-          ))}
+          {/* Resources */}
+          {blog.resources && blog.resources.length > 0 && (
+            <div className="mt-8 p-6 bg-base-200 rounded-lg">
+              <h2 className="text-2xl font-bold text-base-content mb-4">Useful links:</h2>
+              <div className="space-y-2">
+                {blog.resources.map((resourcesObj, index) => (
+                  <a href={resourcesObj.link} key={index} className="link link-primary block">
+                    {resourcesObj.title}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Comments Section */}
+          <div className="mt-8">
+            <CommentSection blogId={blogId} />
+          </div>
+
+          {/* Admin Buttons */}
+          {isAdmin && (
+            <div className="mt-8 flex flex-wrap justify-end gap-4">
+              <button className="btn btn-outline border-[#b03a2e] text-[#b03a2e] hover:bg-[#b03a2e] hover:text-white" onClick={deleteBlog}>
+                <i className="fa fa-trash mr-2"></i>Delete
+              </button>
+              <button
+                className="btn btn-outline border-[#5A7D1A] text-[#5A7D1A] hover:bg-[#5A7D1A] hover:text-white"
+                onClick={() => navigate(`/blog/edit/${blogId}`)}
+              >
+                <i className="fa fa-edit mr-2"></i>Edit
+              </button>
+            </div>
+          )}
         </div>
-      )}
-
-      {/* Comments Section */}
-      <CommentSection blogId={blogId} />
-
-      {/* Buttons */}
-      {isAdmin && (
-        <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-40 pt-6 flex flex-wrap justify-end gap-4">
-          <button className="btn bg-red-600 hover:bg-red-700 text-white border-none" onClick={deleteBlog}>
-            Delete
-          </button>
-          <button
-            className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
-            onClick={() => navigate(`/blog/edit/${blogId}`)}
-          >
-            Edit
-          </button>
-        </div>
-      )}
+      </div>
     </div>
   );
 }
