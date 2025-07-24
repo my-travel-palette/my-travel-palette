@@ -73,10 +73,10 @@ function ImageSlider() {
                 </svg>
               </div>
               <blockquote className="text-sm sm:text-lg md:text-xl lg:text-2xl font-light italic leading-relaxed mb-2 sm:mb-4 text-white drop-shadow-lg">
-                "These are the colors of my heart – the places I've traveled, the
-                skies I've memorized, and the moments that have stayed in my
+                "These are the colors of our heart – the places we've traveled, the
+                skies we've memorized, and the moments that have stayed in our
                 heart.<br />
-                With each trip I paint a little more of my world."
+                With each trip we paint a little more of our world."
               </blockquote>
               <div className="text-white text-xs sm:text-sm md:text-base font-medium drop-shadow-lg">
                 — Sevda & Kateryna
