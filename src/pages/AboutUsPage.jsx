@@ -6,13 +6,13 @@ function AboutUsPage() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-6xl">
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body">
-            <h1 className="text-4xl font-bold text-center mb-8 text-teal-700">
+            <h1 className="text-4xl font-bold text-center mb-8 text-[#5a7d1a]">
               About Us
             </h1>
 
             {/* Project Team */}
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4 text-teal-600">
+              <h2 className="text-2xl font-semibold mb-4 text-[#5a7d1a]">
                 Project Team
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -37,113 +37,157 @@ function AboutUsPage() {
 
             {/* Project Description */}
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4 text-teal-600">
+              <h2 className="text-2xl font-semibold mb-4 text-[#5a7d1a]">
                 About My Travel Palette
               </h2>
               <p className="text-lg leading-relaxed mb-4">
-                My Travel Palette is a personal travel blog platform where we
-                share our journeys, experiences, and memories from around the
-                world. It's more than just a blog - it's a digital canvas where
-                we paint the stories of our adventures, the colors of different
-                cultures, and the moments that have shaped our perspectives.
+                My Travel Palette is a full-stack web application developed as
+                part of our Web Development Bootcamp at Ironhack. Built with
+                modern technologies, it serves as a digital travel blog platform
+                where users can document, manage, and share their travel
+                experiences.
               </p>
               <p className="text-lg leading-relaxed">
-                Through this platform, we invite you to travel with us, see what
-                we see, feel what we feel, and perhaps be inspired to create
-                your own travel palette.
+                This project showcases our ability to architect scalable,
+                responsive web applications using cutting-edge frontend and
+                backend tools. While the theme is travel storytelling, our real
+                focus was on building a feature-rich, technically sound platform
+                using industry-standard tools and best practices.
               </p>
             </div>
 
             {/* Tech Stack */}
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4 text-teal-600">
-                Technology Stack
+              <h2 className="text-xl md:text-2xl font-semibold mb-4 text-[#5a7d1a] flex items-center gap-2">
+                <i className="fa fa-laptop text-base md:text-xl"></i>
+                Technologies Used
               </h2>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">Frontend</h3>
-                  <ul className="space-y-2">
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-teal-500 rounded-full mr-3"></span>
-                      React 19.1.0
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-teal-500 rounded-full mr-3"></span>
-                      React Router DOM 7.7.0
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-teal-500 rounded-full mr-3"></span>
-                      Tailwind CSS 4.1.11
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-teal-500 rounded-full mr-3"></span>
-                      DaisyUI 5.0.46
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-teal-500 rounded-full mr-3"></span>
-                      TipTap Rich Text Editor
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-teal-500 rounded-full mr-3"></span>
-                      Lucide React Icons
-                    </li>
-                  </ul>
+                <div className="space-y-4">
+                  <div className="card bg-base-200">
+                    <div className="card-body">
+                      <h3 className="text-lg font-semibold mb-2 flex items-center gap-2 text-neutral">
+                        <i className="fa fa-desktop text-base md:text-lg text-[#5a7d1a]"></i>
+                        Frontend
+                      </h3>
+                      <ul className="space-y-2">
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>
+                          React 19.1.0
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>
+                          Tailwind CSS 4.1.11
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>
+                          DaisyUI 5.0.46
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>
+                          TipTap Rich Text Editor
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>
+                          Lucide React Icons
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">
-                    Backend & Services
-                  </h3>
-                  <ul className="space-y-2">
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-teal-500 rounded-full mr-3"></span>
-                      Firebase Realtime Database
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-teal-500 rounded-full mr-3"></span>
-                      Firebase Authentication
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-teal-500 rounded-full mr-3"></span>
-                      Firebase Firestore
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-teal-500 rounded-full mr-3"></span>
-                      Axios for API calls
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-2 h-2 bg-teal-500 rounded-full mr-3"></span>
-                      Vite Build Tool
-                    </li>
-                  </ul>
+                <div className="space-y-4">
+                  <div className="card bg-base-200">
+                    <div className="card-body">
+                      <h3 className="text-lg font-semibold mb-2 flex items-center gap-2 text-neutral">
+                        <i className="fa fa-code text-base md:text-lg text-[#5a7d1a]"></i>
+                        Backend & Services
+                      </h3>
+                      <ul className="space-y-2">
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>
+                          Firebase Realtime Database
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>
+                          Firebase Authentication
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>
+                          Firebase Firestore
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>
+                          Axios for API calls
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>
+                          Vite Build Tool
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Features */}
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4 text-teal-600">
+              <h2 className="text-xl md:text-2xl font-semibold mb-4 text-[#5a7d1a] flex items-center gap-2">
+                <i className="fa fa-cogs text-base md:text-xl"></i>
                 Key Features
               </h2>
+
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div className="space-y-4">
                   <div className="card bg-base-200">
                     <div className="card-body">
-                      <h3 className="card-title text-lg">Travel Management</h3>
+                      <h3 className="card-title text-lg flex items-center gap-2">
+                        <i className="fa fa-globe text-base md:text-lg text-[#5a7d1a]"></i>
+                        Travel Management
+                      </h3>
                       <ul className="text-sm space-y-1">
-                        <li>• Add and manage travel destinations</li>
-                        <li>• Upload travel images</li>
-                        <li>• Organize travels by countries</li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>
+                          Add and manage travel destinations
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>{" "}
+                          Upload travel images
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>{" "}
+                          Organize travels by countries
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>{" "}
+                          Display favourite blogs
+                        </li>
                       </ul>
                     </div>
                   </div>
                   <div className="card bg-base-200">
                     <div className="card-body">
-                      <h3 className="card-title text-lg">Blog System</h3>
+                      <h3 className="card-title text-lg flex items-center gap-2">
+                        <i className="fa fa-pencil-square-o text-base md:text-lg text-[#5a7d1a]"></i>
+                        Blog System
+                      </h3>
                       <ul className="text-sm space-y-1">
-                        <li>• Rich text editor for blog posts</li>
-                        <li>• Image and link embedding</li>
-                        <li>• Resource links management</li>
-                        <li>• Edit and delete functionality</li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>{" "}
+                          Rich text editor for blog posts
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>{" "}
+                          Image and link embedding
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>{" "}
+                          Resource links management
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>{" "}
+                          Edit and delete functionality
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -151,22 +195,49 @@ function AboutUsPage() {
                 <div className="space-y-4">
                   <div className="card bg-base-200">
                     <div className="card-body">
-                      <h3 className="card-title text-lg">User Experience</h3>
+                      <h3 className="card-title text-lg flex items-center gap-2">
+                        <i className="fa fa-user text-base md:text-lg text-[#5a7d1a]"></i>
+                        User Experience
+                      </h3>
                       <ul className="text-sm space-y-1">
-                        <li>• Responsive design</li>
-                        <li>• Modern UI with DaisyUI</li>
-                        <li>• Image slider on homepage</li>
-                        <li>• Navigation between pages</li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>{" "}
+                          Responsive design
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>{" "}
+                          Modern UI with DaisyUI
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>{" "}
+                          Image slider on homepage
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>{" "}
+                          Navigation between pages
+                        </li>
                       </ul>
                     </div>
                   </div>
                   <div className="card bg-base-200">
                     <div className="card-body">
-                      <h3 className="card-title text-lg">Authentication</h3>
+                      <h3 className="card-title text-lg flex items-center gap-2">
+                        <i className="fa fa-lock text-base md:text-lg text-[#5a7d1a]"></i>
+                        Authentication
+                      </h3>
                       <ul className="text-sm space-y-1">
-                        <li>• User registration and login</li>
-                        <li>• Role-based access control</li>
-                        <li>• Secure authentication with Firebase</li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>{" "}
+                          User registration and login
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>{" "}
+                          Role-based access control
+                        </li>
+                        <li className="flex items-center">
+                          <span className="w-1.5 h-1.5 bg-neutral rounded-full mr-3"></span>{" "}
+                          Secure authentication with Firebase
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -176,7 +247,8 @@ function AboutUsPage() {
 
             {/* Project Goals */}
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4 text-teal-600">
+              <h2 className="text-xl md:text-2xl font-semibold mb-4 text-[#5a7d1a] flex items-center gap-2">
+                <i className="fa fa-bullseye text-base md:text-xl"></i>
                 Project Goals
               </h2>
               <div className="bg-base-200 p-6 rounded-lg">
