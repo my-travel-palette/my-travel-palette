@@ -146,7 +146,7 @@ function Header() {
                       <input
                         type="text"
                         placeholder="Search blogs..."
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5A7D1A] focus:border-transparent"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         onFocus={() => setShowResults(true)}
@@ -214,6 +214,7 @@ function Header() {
                 <span className="text-sm text-gray-600">
                   Welcome, <span className="font-medium">{currentUser.name}</span>
                 </span>
+                {/* Profile button - yellow */}
                 <button
                   className="px-4 py-2 text-sm font-medium text-white bg-[#d89d20] hover:bg-[#be6406] rounded-lg transition-colors"
                   onClick={() => navigate("/profile")}
@@ -317,7 +318,7 @@ function Header() {
                     <input
                       type="text"
                       placeholder="Search blogs..."
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5A7D1A] focus:border-transparent"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       onFocus={() => setShowResults(true)}
