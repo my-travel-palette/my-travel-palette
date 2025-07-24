@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import sevdaPhoto from "../assets/sevda.jpeg";
+import katerynaPhoto from "../assets/kateryna.jpeg";
 
 function AboutUsPage() {
   return (
@@ -9,26 +11,93 @@ function AboutUsPage() {
             <h1 className="text-3xl font-bold text-center mb-8">About Us</h1>
 
             {/* Project Team */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4 text-[#5a7d1a] flex items-center gap-2">
-                <i className="fa fa-users text-base md:text-xl"></i>
+            <div className="mb-12">
+              <h2 className="text-2xl font-semibold mb-6 text-[#5a7d1a] flex items-center gap-2">
+                <i className="fa fa-users text-xl"></i>
                 Project Team
               </h2>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="card bg-base-200">
-                  <div className="card-body">
-                    <h3 className="card-title text-lg">Sevda Kahraman</h3>
-                    <p className="text-sm text-gray-600">
-                      Full Stack Developer
-                    </p>
+                {/* Team Member 1 */}
+                <div className="card bg-base-200 shadow-md w-full">
+                  <div className="flex flex-col sm:flex-row items-center gap-6 p-4">
+                    <img
+                      src={sevdaPhoto}
+                      alt="Sevda Kahraman"
+                      className="w-full max-w-[160px] aspect-square object-cover rounded-md"
+                    />
+
+                    <div className="flex flex-col">
+                      <h3 className="text-lg font-semibold">Sevda Kahraman</h3>
+                      <p className="text-sm text-gray-600 mb-3">
+                        Full Stack Developer
+                      </p>
+                      <div className="flex flex-col max-w-xs">
+                        <span className="flex items-center cursor-default text-gray-700 mb-2 break-words w-full"
+                        style={{ wordBreak: 'break-word' }}>
+                          <i className="fa fa-envelope mr-2"></i>{" "}
+                          soloviova.kateryna@gmail.com
+                        </span>
+                        <a
+                          href="https://github.com/sevdakahraman"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-[#5a7d1a]"
+                        >
+                          <i className="fa fa-github mr-1"></i>GitHub
+                        </a>
+                        <a
+                          href="https://linkedin.com/in/sevda"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-[#5a7d1a]"
+                        >
+                          <i className="fa fa-linkedin mr-1"></i>LinkedIn
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="card bg-base-200">
-                  <div className="card-body">
-                    <h3 className="card-title text-lg">Kateryna Soloviova</h3>
-                    <p className="text-sm text-gray-600">
-                      Full Stack Developer
-                    </p>
+
+                {/* Team Member 2 */}
+                <div className="card bg-base-200 shadow-md w-full">
+                  <div className="flex flex-col sm:flex-row items-center gap-6 p-4">
+                    <img
+                      src={katerynaPhoto}
+                      alt="Kateryna Soloviova"
+                      className="w-full max-w-[160px] aspect-square object-cover rounded-md"
+                    />
+                    <div className="flex flex-col">
+                      <h3 className="text-lg font-semibold">
+                        Kateryna Soloviova
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-3">
+                        Full Stack Developer
+                      </p>
+                      <div className="flex flex-col max-w-xs">
+                        <span className="flex items-center cursor-default text-gray-700 mb-2 break-words w-full"
+                        style={{ wordBreak: 'break-word' }}>
+                          <i className="fa fa-envelope mr-2"></i>{" "}
+                          soloviova.kateryna@gmail.com
+                        </span>
+                        <a
+                          href="https://github.com/KaterynaSoloviova"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-[#5a7d1a]"
+                        >
+                          <i className="fa fa-github mr-1"></i>GitHub
+                        </a>
+                        <a
+                          href="https://www.linkedin.com/in/kateryna-soloviova-b4629b157/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-[#5a7d1a]"
+                        >
+                          <i className="fa fa-linkedin mr-1"></i>LinkedIn
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -41,11 +110,13 @@ function AboutUsPage() {
                 About My Travel Palette
               </h2>
               <p className="text-lg leading-relaxed mb-4">
-                <span className="text-[#d89d20] font-bold">My Travel Palette</span> is a full-stack web application developed as
-                part of our Web Development Bootcamp at Ironhack. Built with
-                modern technologies, it serves as a digital travel blog platform
-                where users can document, manage, and share their travel
-                experiences.
+                <span className="text-[#d89d20] font-bold">
+                  My Travel Palette
+                </span>{" "}
+                is a full-stack web application developed as part of our Web
+                Development Bootcamp at Ironhack. Built with modern
+                technologies, it serves as a digital travel blog platform where
+                users can document, manage, and share their travel experiences.
               </p>
               <p className="text-lg leading-relaxed">
                 This project showcases our ability to architect scalable,
@@ -253,11 +324,15 @@ function AboutUsPage() {
               </h2>
               <div className="bg-base-200 p-6 rounded-lg">
                 <p className="text-lg leading-relaxed mb-4">
-                  At <span className="text-[#d89d20] font-bold">My Travel Palette</span>, our goal was to create a learning
-                  project that would allow us to apply and showcase our growing
-                  skills as full-stack developers. We chose the theme of travel
-                  because it inspires us and provides a creative, meaningful way
-                  to design and build something from scratch.
+                  At{" "}
+                  <span className="text-[#d89d20] font-bold">
+                    My Travel Palette
+                  </span>
+                  , our goal was to create a learning project that would allow
+                  us to apply and showcase our growing skills as full-stack
+                  developers. We chose the theme of travel because it inspires
+                  us and provides a creative, meaningful way to design and build
+                  something from scratch.
                 </p>
                 <p className="text-lg leading-relaxed">
                   This project demonstrates our skills in modern web
