@@ -101,7 +101,10 @@ function AddTravelPage() {
                 </button>
                 <button
                   type="submit"
-                  className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none w-full sm:w-auto"
+                  className="btn text-white border-none w-full sm:w-auto"
+                  style={{ backgroundColor: '#5A7D1A' }}
+                  onMouseEnter={(e) => e.target.style.backgroundColor = '#4A6D0A'}
+                  onMouseLeave={(e) => e.target.style.backgroundColor = '#5A7D1A'}
                   disabled={adding}
                 >
                   {adding ? "Adding..." : "Add Travel"}
