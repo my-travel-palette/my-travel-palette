@@ -215,13 +215,13 @@ function Header() {
                   Welcome, <span className="font-medium">{currentUser.name}</span>
                 </span>
                 <button
-                  className="px-4 py-2 text-sm font-medium text-white bg-[#5a7d1a] hover:bg-[#4a6d15] rounded-lg transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-white bg-[#d89d20] hover:bg-[#be6406] rounded-lg transition-colors"
                   onClick={() => navigate("/profile")}
                 >
                   Profile
                 </button>
                 <button
-                  className="px-4 py-2 text-sm font-medium text-white bg-[#d89d20] hover:bg-[#be6406] rounded-lg transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-[#b03a2e] border border-[#b03a2e] hover:bg-[#b03a2e] hover:text-white rounded-lg transition-colors"
                   onClick={handleLogout}
                 >
                   Logout
@@ -383,7 +383,7 @@ function Header() {
                       Welcome, <span className="font-medium">{currentUser.name}</span>
                     </div>
                     <button
-                      className="w-full px-4 py-3 text-sm font-medium text-white bg-[#5a7d1a] hover:bg-[#4a6d15] rounded-lg transition-colors"
+                      className="w-full px-4 py-3 text-sm font-medium text-white bg-[#d89d20] hover:bg-[#be6406] rounded-lg transition-colors"
                       onClick={() => {
                         closeMobileMenu();
                         navigate("/profile");
@@ -392,7 +392,7 @@ function Header() {
                       Profile
                     </button>
                     <button
-                      className="w-full px-4 py-3 text-sm font-medium text-white bg-[#d89d20] hover:bg-[#be6406] rounded-lg transition-colors"
+                      className="w-full px-4 py-3 text-sm font-medium text-[#b03a2e] border border-[#b03a2e] hover:bg-[#b03a2e] hover:text-white rounded-lg transition-colors"
                       onClick={handleLogout}
                     >
                       Logout
