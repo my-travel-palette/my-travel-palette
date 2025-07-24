@@ -43,6 +43,7 @@ function AddBlogPage() {
   const [addingTravel, setAddingTravel] = useState(false);
   const [publishing, setPublishing] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [showImageUpload, setShowImageUpload] = useState(false);
 
   const navigate = useNavigate();
 
@@ -329,7 +330,7 @@ function AddBlogPage() {
                         />
                         <button
                           type="button"
-                          className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none btn-sm"
+                          className="px-4 py-2 text-sm font-medium text-white bg-[#d89d20] hover:bg-[#be6406] rounded-lg transition-colors"
                           disabled={addingTravel || !newTravelTitle.trim()}
                           onClick={handleAddTravel}
                         >
@@ -394,152 +395,177 @@ function AddBlogPage() {
                   {/* Toolbar */}
                   <div className="bg-base-200 p-2 border-b border-base-300">
                     <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          editor.chain().focus().toggleBold().run()
-                        }
-                        className={`btn btn-sm ${
-                          editor.isActive("bold") ? "btn-primary" : "btn-ghost"
-                        }`}
-                        title="Bold"
-                      >
-                        <Bold className="w-4 h-4" />
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          editor.chain().focus().toggleItalic().run()
-                        }
-                        className={`btn btn-sm ${
-                          editor.isActive("italic")
-                            ? "btn-primary"
-                            : "btn-ghost"
-                        }`}
-                        title="Italic"
-                      >
-                        <Italic className="w-4 h-4" />
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          editor.chain().focus().toggleBulletList().run()
-                        }
-                        className={`btn btn-sm ${
-                          editor.isActive("bulletList")
-                            ? "btn-primary"
-                            : "btn-ghost"
-                        }`}
-                        title="Bullet List"
-                      >
-                        <List className="w-4 h-4" />
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          editor.chain().focus().toggleOrderedList().run()
-                        }
-                        className={`btn btn-sm ${
-                          editor.isActive("orderedList")
-                            ? "btn-primary"
-                            : "btn-ghost"
-                        }`}
-                        title="Numbered List"
-                      >
-                        <ListOrdered className="w-4 h-4" />
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          editor.chain().focus().toggleBlockquote().run()
-                        }
-                        className={`btn btn-sm ${
-                          editor.isActive("blockquote")
-                            ? "btn-primary"
-                            : "btn-ghost"
-                        }`}
-                        title="Quote"
-                      >
-                        <Quote className="w-4 h-4" />
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          editor.chain().focus().setTextAlign("left").run()
-                        }
-                        className={`btn btn-sm ${
-                          editor.isActive("textAlign", { align: "left" })
-                            ? "btn-primary"
-                            : "btn-ghost"
-                        }`}
-                        title="Align Left"
-                      >
-                        <AlignLeft className="w-4 h-4" />
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          editor.chain().focus().setTextAlign("center").run()
-                        }
-                        className={`btn btn-sm ${
-                          editor.isActive("textAlign", { align: "center" })
-                            ? "btn-primary"
-                            : "btn-ghost"
-                        }`}
-                        title="Align Center"
-                      >
-                        <AlignCenter className="w-4 h-4" />
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          editor.chain().focus().setTextAlign("right").run()
-                        }
-                        className={`btn btn-sm ${
-                          editor.isActive("textAlign", { align: "right" })
-                            ? "btn-primary"
-                            : "btn-ghost"
-                        }`}
-                        title="Align Right"
-                      >
-                        <AlignRight className="w-4 h-4" />
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={setLink}
-                        className={`btn btn-sm ${
-                          editor.isActive("link") ? "btn-primary" : "btn-ghost"
-                        }`}
-                        title="Add Link"
-                      >
-                        <LinkIcon className="w-4 h-4" />
-                      </button>
-
-                      <ImageUpload
-                        onUploadSuccess={(url) => {
-                          if (editor) {
-                            editor
-                              .chain()
-                              .focus()
-                              .setImage({
-                                src: url,
-                                attributes: {
-                                  style: "width: 100%; height: auto;",
-                                },
-                              })
-                              .run();
+                                              <button
+                          type="button"
+                          onClick={() =>
+                            editor.chain().focus().toggleBold().run()
                           }
-                        }}
-                        compact={true} 
-                      />
+                          className={`btn btn-sm ${
+                            editor.isActive("bold") ? "btn-primary" : "btn-ghost"
+                          }`}
+                          title="Bold"
+                        >
+                          <Bold className="w-4 h-4" />
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            editor.chain().focus().toggleItalic().run()
+                          }
+                          className={`btn btn-sm ${
+                            editor.isActive("italic")
+                              ? "btn-primary"
+                              : "btn-ghost"
+                          }`}
+                          title="Italic"
+                        >
+                          <Italic className="w-4 h-4" />
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            editor.chain().focus().toggleBulletList().run()
+                          }
+                          className={`btn btn-sm ${
+                            editor.isActive("bulletList")
+                              ? "btn-primary"
+                              : "btn-ghost"
+                          }`}
+                          title="Bullet List"
+                        >
+                          <List className="w-4 h-4" />
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            editor.chain().focus().toggleOrderedList().run()
+                          }
+                          className={`btn btn-sm ${
+                            editor.isActive("orderedList")
+                              ? "btn-primary"
+                              : "btn-ghost"
+                          }`}
+                          title="Numbered List"
+                        >
+                          <ListOrdered className="w-4 h-4" />
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            editor.chain().focus().toggleBlockquote().run()
+                          }
+                          className={`btn btn-sm ${
+                            editor.isActive("blockquote")
+                              ? "btn-primary"
+                              : "btn-ghost"
+                          }`}
+                          title="Quote"
+                        >
+                          <Quote className="w-4 h-4" />
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            editor.chain().focus().setTextAlign("left").run()
+                          }
+                          className={`btn btn-sm ${
+                            editor.isActive("textAlign", { align: "left" })
+                              ? "btn-primary"
+                              : "btn-ghost"
+                          }`}
+                          title="Align Left"
+                        >
+                          <AlignLeft className="w-4 h-4" />
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            editor.chain().focus().setTextAlign("center").run()
+                          }
+                          className={`btn btn-sm ${
+                            editor.isActive("textAlign", { align: "center" })
+                              ? "btn-primary"
+                              : "btn-ghost"
+                          }`}
+                          title="Align Center"
+                        >
+                          <AlignCenter className="w-4 h-4" />
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            editor.chain().focus().setTextAlign("right").run()
+                          }
+                          className={`btn btn-sm ${
+                            editor.isActive("textAlign", { align: "right" })
+                              ? "btn-primary"
+                              : "btn-ghost"
+                          }`}
+                          title="Align Right"
+                        >
+                          <AlignRight className="w-4 h-4" />
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={setLink}
+                          className={`btn btn-sm ${
+                            editor.isActive("link") ? "btn-primary" : "btn-ghost"
+                          }`}
+                          title="Add Link"
+                        >
+                          <LinkIcon className="w-4 h-4" />
+                        </button>
+
+                        <div className="relative">
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-ghost"
+                            title="Upload Image"
+                            onClick={() => setShowImageUpload(!showImageUpload)}
+                          >
+                            <ImageIcon className="w-4 h-4" />
+                          </button>
+                          {showImageUpload && (
+                            <div className="absolute top-full left-0 mt-2 z-50 bg-base-100 border border-base-300 rounded-lg shadow-lg p-4 min-w-[300px]">
+                              <div className="flex justify-between items-center mb-3">
+                                <h4 className="text-sm font-semibold">Upload Image</h4>
+                                <button
+                                  type="button"
+                                  className="btn btn-ghost btn-xs"
+                                  onClick={() => setShowImageUpload(false)}
+                                >
+                                  ✕
+                                </button>
+                              </div>
+                              <ImageUpload
+                                onUploadSuccess={(url) => {
+                                  if (editor) {
+                                    editor
+                                      .chain()
+                                      .focus()
+                                      .setImage({
+                                        src: url,
+                                        attributes: {
+                                          style: "width: 100%; height: auto;",
+                                        },
+                                      })
+                                      .run();
+                                  }
+                                  setShowImageUpload(false);
+                                }}
+                                compact={true}
+                              />
+                            </div>
+                          )}
+                        </div>
 
                       <button
                         type="button"
@@ -603,16 +629,17 @@ function AddBlogPage() {
                       <button
                         type="button"
                         onClick={() => removeResource(index)}
-                        className="btn bg-red-600 hover:bg-red-700 text-white border-none btn-sm"
+                        className="btn btn-ghost btn-sm text-[#b03a2e] hover:bg-[#b03a2e] hover:text-white"
+                        title="Remove Resource"
                       >
-                        Remove
+                        <i className="fa fa-trash"></i>
                       </button>
                     </div>
                   ))}
                   <button
                     type="button"
                     onClick={addResource}
-                    className="btn btn-outline btn-sm border-emerald-800 text-emerald-800 hover:bg-emerald-800 hover:text-white"
+                    className="px-4 py-2 text-sm font-medium text-white bg-[#d89d20] hover:bg-[#be6406] rounded-lg transition-colors"
                   >
                     Add Resource
                   </button>
@@ -625,7 +652,7 @@ function AddBlogPage() {
                   <button
                     type="button"
                     onClick={handleDelete}
-                    className="btn bg-red-600 hover:bg-red-700 text-white border-none"
+                    className="btn btn-outline border-[#b03a2e] text-[#b03a2e] hover:bg-[#b03a2e] hover:text-white"
                     disabled={deleting}
                   >
                     {deleting ? "Deleting..." : "Delete Blog"}
@@ -640,7 +667,7 @@ function AddBlogPage() {
                 </button>
                 <button
                   type="submit"
-                  className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none"
+                  className="px-4 py-2 text-sm font-medium text-white bg-[#5a7d1a] hover:bg-[#4a6d15] rounded-lg transition-colors"
                   disabled={publishing}
                 >
                   {publishing
