@@ -88,7 +88,7 @@ function TravelListPage() {
           <i className="fa fa-chevron-left p-2" aria-hidden="true"></i>Back
         </Link>
         {isAdmin && (
-          <Link to={`/new-travel`} className="px-4 py-2 text-sm font-medium text-white bg-[#d89d20] hover:bg-[#be6406] rounded-lg transition-colors">
+          <Link to={`/new-travel`} className="px-4 py-2 text-sm font-medium text-[#5A7D1A] rounded-lg transition-all duration-300 hover:bg-[#d89d20] hover:text-white relative overflow-hidden" style={{ background: 'linear-gradient(white, white) padding-box, linear-gradient(to right, #5A7D1A, #d89d20) border-box', border: '2px solid transparent' }}>
             <i className="fa fa-plus mr-2" aria-hidden="true"></i>Add New Country
           </Link>
         )}
@@ -103,7 +103,7 @@ function TravelListPage() {
               <h3 className="text-lg font-semibold text-gray-600 mb-2">No travels found</h3>
               <p className="text-gray-500 mb-4">Start your journey by adding your first travel destination.</p>
               {isAdmin && (
-                <Link to="/new-travel" className="btn bg-emerald-800 hover:bg-emerald-700 text-white border-none">
+                <Link to="/new-travel" className="btn text-[#5A7D1A] hover:bg-[#d89d20] hover:text-white rounded-lg relative overflow-hidden" style={{ background: 'linear-gradient(white, white) padding-box, linear-gradient(to right, #5A7D1A, #d89d20) border-box', border: '2px solid transparent' }}>
                   <i className="fa fa-plus mr-2" aria-hidden="true"></i>Add New Country
                 </Link>
               )}
