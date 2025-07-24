@@ -266,6 +266,16 @@ function AddBlogPage() {
   return (
     <div className="min-h-screen bg-base-200 py-8">
       <div className="container mx-auto px-4 max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-4xl">
+        {/* Back Button */}
+        <div className="mb-4">
+          <button
+            onClick={() => navigate(`/my-travels/${selectedTravel || travelId}`)}
+            className="btn btn-ghost text-base"
+          >
+            <i className="fa fa-chevron-left p-1" aria-hidden="true"></i>Back
+          </button>
+        </div>
+        
         <div className="card bg-base-100 shadow-xl w-full">
           <div className="card-body">
             <h2 className="card-title text-3xl font-bold text-center mb-8">
