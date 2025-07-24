@@ -91,15 +91,29 @@ function ImageSlider() {
         <>
           <button
             onClick={prevSlide}
-            className="absolute top-1/2 left-2 sm:left-4 transform -translate-y-1/2 bg-white text-gray-700 rounded-full p-1 sm:p-2 text-xs sm:text-sm md:text-base shadow hover:bg-gray-200 z-10"
+            className="absolute top-1/2 left-6 transform -translate-y-1/2 w-10 h-10 bg-black/20 hover:bg-black/40 text-white rounded-lg flex items-center justify-center transition-all duration-200 z-10"
           >
-            ❮
+            <svg 
+              className="w-4 h-4" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
           </button>
           <button
             onClick={nextSlide}
-            className="absolute top-1/2 right-2 sm:right-4 transform -translate-y-1/2 bg-white text-gray-700 rounded-full p-1 sm:p-2 text-xs sm:text-sm md:text-base shadow hover:bg-gray-200 z-10"
+            className="absolute top-1/2 right-6 transform -translate-y-1/2 w-10 h-10 bg-black/20 hover:bg-black/40 text-white rounded-lg flex items-center justify-center transition-all duration-200 z-10"
           >
-            ❯
+            <svg 
+              className="w-4 h-4" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </button>
         </>
       )}
