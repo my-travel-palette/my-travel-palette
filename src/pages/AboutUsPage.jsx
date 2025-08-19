@@ -89,7 +89,7 @@ function AboutUsPage() {
                           <i className="fa fa-github mr-1"></i>GitHub
                         </a>
                         <a
-                          href="https://www.linkedin.com/in/kateryna-soloviova-b4629b157/"
+                          href="https://www.linkedin.com/in/kateryna-soloviova-webdeveloper/"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="hover:text-[#5a7d1a]"
